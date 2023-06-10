@@ -8,7 +8,7 @@
 	<div class="footertop">
 		<div class="footertopleft">
 			<a href="/">
-				<img src="logo.png" alt="Website Icon" />
+				<img src="/logo.png" alt="Website Icon" />
 				<h1>TourneyJam</h1>
 			</a>
 		</div>
@@ -16,6 +16,7 @@
 			<a href="/">Home</a>
 			<a href="/tournaments">Tournaments</a>
 			<a href="/leaderboard">Leaderboard</a>
+			<a href="/news">News</a>
 		</div>
 	</div>
 	<hr />

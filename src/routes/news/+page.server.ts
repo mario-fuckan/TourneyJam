@@ -1,6 +1,6 @@
 export async function load({ fetch, setHeaders }) {
     setHeaders({
-        "Cache-Control": "max-age=60"
+        "Cache-Control": "max-age=300"
     })
 
     const urlPath = "http://www.gamespot.com/api/articles/?api_key="

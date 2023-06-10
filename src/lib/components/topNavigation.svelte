@@ -14,7 +14,7 @@
 
 <nav>
 	<div class="navleft">
-		<a href="/"><img src="logo.svg" alt="Logo" draggable="false" /></a>
+		<a href="/"><img src="/logo.svg" alt="Logo" draggable="false" /></a>
 		<a href="/">Home</a>
 		<a href="/tournaments">Tournaments</a>
 		<a href="/leaderboard">Leaderboard</a>

@@ -642,6 +642,38 @@ footer a {
     background: linear-gradient(to right, #7ADBA1, #32CE71);
 }
 
+/* Error */
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 70vh;
+}
+
+.error h1 {
+    font-size: 150px;
+}
+
+.error button {
+    font-size: var(--button-font-size);
+    font-weight: bold;
+    margin-top: 40px;
+    padding: 20px 40px;
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+.error button:hover {
+    background-color: white;
+    color: #0B0C13;
+}
+
 /* Loading */
 
 .sk-chase {

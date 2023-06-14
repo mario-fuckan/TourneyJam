@@ -1,6 +1,11 @@
 import { error } from "@sveltejs/kit"
 
-export async function load({ fetch, params }) {
+export async function load({ fetch, params, setHeaders }) {
+
+    setHeaders({
+        "Cache-Control": "max-age=300"
+    })
+
     const { id } = params
 
     const url = "http://www.gamespot.com/api/articles/?api_key="

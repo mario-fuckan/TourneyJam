@@ -628,6 +628,67 @@ footer a {
     align-items: center;
 }
 
+.load {
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.newsarticle h2 {
+    font-size: 17px;
+    margin-bottom: 20px;
+}
+
+.newsarticle h1 {
+    margin-bottom: 10px;
+    font-size: var(--h1-size);
+}
+
+.newsarticle img {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.newscontent .js-click-tag {
+    display: none;
+}
+
+.newsarticle p {
+    font-size: 17px;
+    margin-bottom: 20px;
+}
+
+.newscontent a {
+    text-decoration: none;
+    color: white;
+    pointer-events: none;
+}
+
+.newscontent ul,
+.newscontent p strong,
+.newscontent iframe {
+    display: none;
+}
+
+.image-gallery__header {
+    display: none;
+}
+
+.image-gallery__main {
+    display: grid;
+    grid-template-rows: auto;
+    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.image-gallery__main img {
+    width: 100%;
+    height: 100%;
+}
+
 /* Button classes */
 
 .registration {

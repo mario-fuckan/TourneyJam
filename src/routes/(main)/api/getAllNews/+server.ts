@@ -1,4 +1,7 @@
-export async function load({ fetch, setHeaders }) {
+import type { RequestHandler } from "./$types"
+import { json } from "@sveltejs/kit"
+
+export const POST: RequestHandler = async ({ fetch, setHeaders }) => {
     setHeaders({
         "Cache-Control": "max-age=300"
     })
@@ -11,7 +14,5 @@ export async function load({ fetch, setHeaders }) {
 
     const data = await res.json()
 
-    return {
-        articles: data
-    }
+    return json(data)
 }

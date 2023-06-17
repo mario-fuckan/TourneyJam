@@ -1,45 +1,70 @@
 <script lang="ts">
-	import type { PageData } from "./$types"
 	import Icon from "@iconify/svelte"
 	import { onMount } from "svelte"
 	import { goto } from "$app/navigation"
-
-	export let data: PageData
-
-	$: articles = data.articles.results
+	import Loading from "$lib/components/others/loading.svelte"
+	import type { Articles } from "$lib/types/news"
 
 	let news: string
+	let loading: boolean = true
+	let articles: Articles[]
 
-	onMount(() => {
+	onMount(async () => {
 		if (localStorage.getItem("hide")) {
 			//@ts-ignore
 			news = JSON.parse(localStorage.getItem("hide")).options[0]
+
+			if (!news) {
+				const res = await fetch("/api/getHomeNews", {
+					method: "POST"
+				})
+
+				const data = await res.json()
+
+				articles = data.results
+			}
+
+			loading = false
+		} else {
+			const res = await fetch("/api/getHomeNews", {
+				method: "POST"
+			})
+
+			const data = await res.json()
+
+			articles = data.results
+
+			loading = false
 		}
 	})
 </script>
 
 {#if !news}
-	<div class="section">
-		<h1>General Gaming News</h1>
-		<hr />
-		<div class="news">
-			{#each articles as { title, image, id }}
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<article
-					on:click={() => goto("/news/" + id)}
-					style:background-image={"url(" + image.original + ")"}
-				>
-					<h2>{title}</h2>
-				</article>
-			{/each}
+	{#if loading}
+		<Loading />
+	{:else}
+		<div class="section">
+			<h1>General Gaming News</h1>
+			<hr />
+			<div class="news">
+				{#each articles as { title, image, id }}
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<article
+						on:click={() => goto("/news/" + id)}
+						style:background-image={"url(" + image.original + ")"}
+					>
+						<h2>{title}</h2>
+					</article>
+				{/each}
+			</div>
+			<button
+				class="more"
+				on:click={() => {
+					goto("/news")
+				}}>View More News</button
+			>
 		</div>
-		<button
-			class="more"
-			on:click={() => {
-				goto("/news")
-			}}>View More News</button
-		>
-	</div>
+	{/if}
 {/if}
 <div class="section">
 	<h1>Tournaments</h1>

@@ -689,6 +689,50 @@ footer a {
     height: 100%;
 }
 
+.loginc {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    height: 100vh;
+}
+
+.loginleft {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #111;
+}
+
+.loginleft img {
+    width: 50%;
+}
+
+.loginright {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.loginright h1 {
+    font-size: var(--h1-size);
+    margin-bottom: 10px;
+}
+
+.loginright p {
+    color: #7f879c;
+    margin-bottom: 30px;
+}
+
+.loginright input {
+    background-color: #292929;
+    outline: none;
+    border: 0px;
+    caret-color: white;
+    padding: 15px;
+}
+
 /* Button classes */
 
 .registration {

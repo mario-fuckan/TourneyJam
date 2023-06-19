@@ -689,6 +689,10 @@ footer a {
     height: 100%;
 }
 
+figure {
+    max-width: 100%;
+}
+
 .loginc {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -725,12 +729,119 @@ footer a {
     margin-bottom: 30px;
 }
 
+.loginright .loginwrap {
+    width: 50%;
+}
+
+.loginright form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.loginright .inputwrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #292929;
+    border-radius: 5px;
+}
+
+.loginright .inputwrapper svg {
+    background-color: #0B0C13;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 0px 0px 0px 10px;
+    font-size: 20px;
+}
+
+.loginright .inputwrapper button {
+    position: absolute;
+    right: 15px;
+    background-color: transparent;
+    border: 0px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.loginright .inputwrapper button:hover {
+    transform: translateY(-1px);
+}
+
+.loginright .inputwrapper button svg {
+    padding: 0px;
+    border-radius: 0px;
+    margin: 0px;
+    background-color: transparent;
+    color: white;
+}
+
 .loginright input {
     background-color: #292929;
     outline: none;
     border: 0px;
     caret-color: white;
     padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: white;
+}
+
+.loginright form a {
+    color: #297AE4;
+    align-self: flex-end;
+    text-decoration: none;
+    transition: filter 0.3s;
+}
+
+.loginright form a:hover {
+    filter: brightness(0.9)
+}
+
+.buttons {
+    width: 100%;
+    display: grid;
+    gap: 10px;
+    margin-bottom: 30px;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.buttons button {
+    color: white;
+    border: 0px;
+    cursor: pointer;
+    padding: 15px 0px;
+    font-weight: bold;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.buttons button:hover {
+    transform: translateY(-3px);
+}
+
+.loginwrap span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.loginwrap span a {
+    color: #297AE4;
+    text-decoration: none;
+    transition: filter 0.3s;
+}
+
+.loginwrap span a:hover {
+    filter: brightness(0.9)
 }
 
 /* Button classes */

@@ -1,9 +1,9 @@
 import type { RequestHandler } from "./$types"
-import { json, error } from "@sveltejs/kit"
+import { json } from "@sveltejs/kit"
 
 export const POST: RequestHandler = async ({ request, fetch, setHeaders }) => {
     setHeaders({
-        "Cache-Control": "max-age=300"
+        "Cache-Control": "s-maxage=300"
     })
 
     const id = await request.json()

@@ -3,7 +3,7 @@ import { json } from "@sveltejs/kit"
 
 export const POST: RequestHandler = async ({ fetch, setHeaders }) => {
     setHeaders({
-        "Cache-Control": "max-age=300"
+        "Cache-Control": "s-maxage=300"
     })
 
     const urlPath = "http://www.gamespot.com/api/articles/?api_key="

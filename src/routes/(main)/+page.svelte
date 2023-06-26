@@ -39,6 +39,10 @@
 	})
 </script>
 
+<svelte:head>
+	<title>TourneyJam - Host your own tournaments</title>
+</svelte:head>
+
 {#if !news}
 	{#if loading}
 		<Loading />
@@ -106,7 +110,7 @@
 					<div class="organizer">
 						<div class="orgimage">
 							<a href="/profile/myusername">
-								<img src="profile_pictures/picture_9.png" alt="User Profile" />
+								<img src="profile_pictures/picture_7.png" alt="User Profile" />
 							</a>
 						</div>
 						<div class="orgname">

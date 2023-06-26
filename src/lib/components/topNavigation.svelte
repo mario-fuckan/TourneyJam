@@ -2,15 +2,14 @@
 	import Icon from "@iconify/svelte"
 	import { goto } from "$app/navigation"
 	import { page } from "$app/stores"
+	import type { User } from "$lib/types/user"
+
+	let user: User
 
 	$: ({ hash } = $page.url)
 
-	let logged: boolean = false
+	$: ({ user } = $page.data)
 </script>
-
-<svelte:head>
-	<title>TourneyJam - Host your own tournaments</title>
-</svelte:head>
 
 <nav>
 	<div class="navleft">
@@ -27,12 +26,12 @@
 		</form>
 	</div>
 	<div class="navright">
-		{#if !logged}
+		{#if !user}
 			<a href="/login" class="login">Login</a>
 		{:else}
 			<div class="profile">
-				<a href="/profile/myusername">
-					<img class="profilepicture" src="profile_pictures/picture_9.png" alt="My Profile" />
+				<a href={"/profile/" + user.username}>
+					<img class="profilepicture" src={user.profile_picture} alt={user.username} />
 				</a>
 				<img src="logo.svg" alt="Rank" class="rank" />
 				<div class="xpbar">

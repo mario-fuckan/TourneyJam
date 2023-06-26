@@ -39,6 +39,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>TourneyJam - News</title>
+</svelte:head>
+
 <div class="section">
 	<h1>Discover News</h1>
 	<hr />

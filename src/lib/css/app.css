@@ -844,6 +844,56 @@ figure {
     filter: brightness(0.9)
 }
 
+.formerrors {
+    margin: 10px 0px;
+    width: 100%;
+}
+
+.formerrors p {
+    color: red;
+    margin: 0px;
+}
+
+.choosepicture {
+    margin: 10px 0px;
+    width: 100%;
+}
+
+.choosepicture .pictures {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    gap: 10px;
+}
+
+.choosepicture .pictures img {
+    width: 100%;
+    cursor: pointer;
+    border: 5px solid transparent;
+    filter: grayscale(1);
+    transition: 0.3s;
+    border-radius: 10px;
+}
+
+.selectedimage {
+    border: 5px solid white !important;
+    filter: grayscale(0) !important;
+    z-index: 1;
+}
+
+/* Loading button */
+
+.loadingbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loadingbutton .sk-chase {
+    width: 20px;
+    height: 20px;
+}
+
 /* Button classes */
 
 .registration {

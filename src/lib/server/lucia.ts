@@ -13,7 +13,9 @@ export const auth = lucia({
             username: userData.username,
             email: userData.email,
             profile_picture: userData.profile_picture,
-            role: userData.role
+            role: userData.role,
+            level: userData.level,
+            xp: userData.xp
         }
     },
     middleware: sveltekit()

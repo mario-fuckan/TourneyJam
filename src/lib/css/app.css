@@ -123,12 +123,16 @@ nav .navleft {
     padding-right: 30px;
 }
 
-.profilepicture {
-    height: 60px;
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
-.rank {
-    height: 40px;
+.profilepicture {
+    height: 50px;
+    border-radius: 50%;
 }
 
 nav hr {
@@ -879,6 +883,198 @@ figure {
     border: 5px solid white !important;
     filter: grayscale(0) !important;
     z-index: 1;
+}
+
+.rank {
+    font-size: 30px;
+}
+
+.xpbar {
+    position: relative;
+    width: 100px;
+    background-color: #292929;
+    height: 13px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.xppercentage {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    pointer-events: none;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.xp {
+    height: 100%;
+}
+
+/* Ranks XP Bar */
+
+.bronzebackground {
+    color: white;
+    background-color: #cd7f32;
+}
+
+.silverbackground {
+    color: #333;
+    background-color: #C0C0C0;
+}
+
+.goldbackground {
+    color: #333;
+    background-color: #FFD700;
+}
+
+.emeraldbackground {
+    color: #333;
+    background-color: #50C878;
+}
+
+.diamondbackground {
+    color: white;
+    animation-name: diamondbg;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes diamondbg {
+    0% {
+        background-color: rgba(0, 160, 255, 0.5);
+    }
+
+    50% {
+        background-color: rgba(0, 160, 255, 0.8);
+    }
+
+    100% {
+        background-color: rgba(0, 160, 255, 0.5);
+    }
+}
+
+.rainbowbackground {
+    color: white;
+    animation-name: rainbowbg;
+    animation-duration: 7s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes rainbowbg {
+    0% {
+        background-color: rgb(255, 0, 0);
+    }
+
+    14% {
+        background-color: rgb(255, 165, 0);
+    }
+
+    28% {
+        background-color: (255, 255, 0);
+    }
+
+    42% {
+        background-color: rgb(0, 128, 0);
+    }
+
+    56% {
+        background-color: rgb(0, 0, 255);
+    }
+
+    70% {
+        background-color: rgb(75, 0, 130);
+    }
+
+    86% {
+        background-color: rgb(238, 130, 238);
+    }
+
+    100% {
+        background-color: rgb(255, 0, 0);
+    }
+}
+
+/* Ranks */
+
+.bronze {
+    color: #cd7f32;
+}
+
+.silver {
+    color: #C0C0C0;
+}
+
+.gold {
+    color: #FFD700;
+}
+
+.emerald {
+    color: #50C878;
+}
+
+.diamond {
+    animation-name: diamond;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes diamond {
+    0% {
+        color: rgba(0, 160, 255, 0.5);
+    }
+
+    50% {
+        color: rgba(0, 160, 255, 0.8);
+    }
+
+    100% {
+        color: rgba(0, 160, 255, 0.5);
+    }
+}
+
+.rainbow {
+    animation-name: rainbow;
+    animation-duration: 7s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes rainbow {
+    0% {
+        color: rgb(255, 0, 0);
+    }
+
+    14% {
+        color: rgb(255, 165, 0);
+    }
+
+    28% {
+        color: (255, 255, 0);
+    }
+
+    42% {
+        color: rgb(0, 128, 0);
+    }
+
+    56% {
+        color: rgb(0, 0, 255);
+    }
+
+    70% {
+        color: rgb(75, 0, 130);
+    }
+
+    86% {
+        color: rgb(238, 130, 238);
+    }
+
+    100% {
+        color: rgb(255, 0, 0);
+    }
 }
 
 /* Loading button */

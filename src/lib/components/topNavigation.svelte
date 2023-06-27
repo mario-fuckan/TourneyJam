@@ -3,12 +3,24 @@
 	import { goto } from "$app/navigation"
 	import { page } from "$app/stores"
 	import type { User } from "$lib/types/user"
+	import { calculate } from "$lib/actions/calculateLevel"
+	import { onMount } from "svelte"
 
 	let user: User
+	let userRank: string
+	let levelPercentage: string | number = ""
 
 	$: ({ hash } = $page.url)
 
 	$: ({ user } = $page.data)
+
+	onMount(() => {
+		if (user?.level != 50) {
+			;({ userRank, levelPercentage } = calculate(user.level, user.xp))
+		} else {
+			levelPercentage = "MAX"
+		}
+	})
 </script>
 
 <nav>
@@ -33,9 +45,15 @@
 				<a href={"/profile/" + user.username}>
 					<img class="profilepicture" src={user.profile_picture} alt={user.username} />
 				</a>
-				<img src="logo.svg" alt="Rank" class="rank" />
+				<Icon icon="material-symbols:hexagon" class={"rank " + userRank} />
 				<div class="xpbar">
-					<div class="xp" />
+					<span class="xppercentage">
+						{levelPercentage}{levelPercentage != "MAX" ? "%" : ""}
+					</span>
+					<div
+						class={"xp " + userRank + "background"}
+						style:width={levelPercentage == "MAX" ? "100%" : levelPercentage + "%"}
+					/>
 				</div>
 			</div>
 		{/if}

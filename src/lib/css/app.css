@@ -905,6 +905,7 @@ figure {
     pointer-events: none;
     font-weight: bold;
     font-size: 10px;
+    color: white;
 }
 
 .xp {
@@ -914,27 +915,22 @@ figure {
 /* Ranks XP Bar */
 
 .bronzebackground {
-    color: white;
     background-color: #cd7f32;
 }
 
 .silverbackground {
-    color: #333;
     background-color: #C0C0C0;
 }
 
 .goldbackground {
-    color: #333;
     background-color: #FFD700;
 }
 
 .emeraldbackground {
-    color: #333;
     background-color: #50C878;
 }
 
 .diamondbackground {
-    color: white;
     animation-name: diamondbg;
     animation-duration: 2s;
     animation-iteration-count: infinite;

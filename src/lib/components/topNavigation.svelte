@@ -45,7 +45,10 @@
 				<a href={"/profile/" + user.username}>
 					<img class="profilepicture" src={user.profile_picture} alt={user.username} />
 				</a>
-				<Icon icon="material-symbols:hexagon" class={"rank " + userRank} />
+				<div class="pil">
+					<Icon icon="material-symbols:hexagon" class={"rank " + userRank} />
+					<span>{user.level}</span>
+				</div>
 				<div class="xpbar">
 					<span class="xppercentage">
 						{levelPercentage}{levelPercentage != "MAX" ? "%" : ""}

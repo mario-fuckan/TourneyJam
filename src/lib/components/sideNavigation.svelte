@@ -2,19 +2,48 @@
 	import Icon from "@iconify/svelte"
 	import { page } from "$app/stores"
 	import { goto } from "$app/navigation"
+	import { tooltip } from "svooltip"
 
 	$: ({ pathname } = $page.url)
 </script>
 
 <aside>
-	<a href="/" class:currentpage={pathname == "/"}><Icon icon="clarity:home-solid" /></a>
-	<a href="/tournaments" class:currentpage={pathname == "/tournaments"}
-		><Icon icon="mdi:trophy" /></a
+	<a
+		href="/"
+		class:currentpage={pathname == "/"}
+		use:tooltip={{
+			content: "Home",
+			placement: "right",
+			offset: 15
+		}}><Icon icon="clarity:home-solid" /></a
 	>
-	<a href="/leaderboard" class:currentpage={pathname == "/leaderboard"}
-		><Icon icon="material-symbols:leaderboard" /></a
+	<a
+		href="/tournaments"
+		class:currentpage={pathname == "/tournaments"}
+		use:tooltip={{
+			content: "Tournaments",
+			placement: "right",
+			offset: 15
+		}}><Icon icon="mdi:trophy" /></a
 	>
-	<a href="/news" class:currentpage={pathname == "/news"}>
+	<a
+		href="/leaderboard"
+		class:currentpage={pathname == "/leaderboard"}
+		use:tooltip={{
+			content: "Leaderboard",
+			placement: "right",
+			offset: 15
+		}}><Icon icon="material-symbols:leaderboard" /></a
+	>
+	<a
+		href="/news"
+		class:currentpage={pathname == "/news"}
+		use:tooltip={{
+			content: "News",
+			placement: "right",
+			offset: 15
+		}}
+	>
 		<Icon icon="fluent:news-20-filled" />
 	</a>
 	<hr />
@@ -23,6 +52,11 @@
 		class="addgame"
 		on:click={() => {
 			goto("#add-game")
+		}}
+		use:tooltip={{
+			content: "Add a Game",
+			placement: "right",
+			offset: 15
 		}}
 	>
 		<Icon icon="basil:add-solid" />

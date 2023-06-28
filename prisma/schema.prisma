@@ -18,10 +18,11 @@ model AuthUser {
   tournamentsPlayed Int      @default(0)
   prizeWon          Int      @default(0)
   role              Role     @default(user)
-  website           String?
+  socials           Json?
   join_date         DateTime @default(now())
   xp                Int      @default(0)
   level             Int      @default(0)
+  badges            Badge[]
 
   auth_session      AuthSession[]
   auth_key          AuthKey[]
@@ -35,6 +36,12 @@ enum Role {
   user
   admin
   organization
+}
+
+enum Badge {
+  verified
+  admin
+  company
 }
 
 model Game {

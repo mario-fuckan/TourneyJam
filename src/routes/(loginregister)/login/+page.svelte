@@ -3,7 +3,6 @@
 	import type { ActionData } from "./$types"
 	import { enhance } from "$app/forms"
 	import { goto } from "$app/navigation"
-	import { reset } from "__sveltekit/paths"
 
 	export let form: ActionData
 	let loading: boolean = false

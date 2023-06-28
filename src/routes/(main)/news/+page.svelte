@@ -44,11 +44,11 @@
 </svelte:head>
 
 <div class="section">
-	<h1>Discover News</h1>
-	<hr />
 	{#if loading}
 		<Loading />
 	{:else}
+		<h1>Discover News</h1>
+		<hr />
 		<div class="morenews">
 			{#each articles as { title, image, id, deck }}
 				<!-- svelte-ignore a11y-click-events-have-key-events -->

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import "$lib/css/app.css"
+	import "svooltip/styles.css"
 	import { page } from "$app/stores"
 
 	$: ({ hash } = $page.url)

@@ -912,6 +912,371 @@ figure {
     height: 100%;
 }
 
+.profileheader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.p1 {
+    display: flex;
+    align-items: center;
+}
+
+.ppicture {
+    margin-right: 25px;
+}
+
+.ppicture img {
+    max-width: 100%;
+    width: 200px;
+    border-radius: 20px;
+}
+
+.pnameandbadges {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pname {
+    font-size: 50px;
+}
+
+.pbadges {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 30px;
+}
+
+.pbadges .badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pbadges svg {
+    cursor: pointer;
+}
+
+.pnameandlink {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.plink button {
+    background-color: transparent;
+    border: 0px;
+    cursor: pointer;
+    color: #7f879c;
+    transition: 0.3s;
+    font-size: 15px;
+}
+
+.plink button:hover {
+    filter: brightness(1.2);
+}
+
+.pview {
+    display: flex;
+    gap: 10px;
+}
+
+.pview button {
+    border: 1px solid #444;
+    background-color: transparent;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.pview button:hover {
+    background-color: white;
+    color: black;
+}
+
+.profilepanels {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    gap: 40px;
+}
+
+.profilepanel {
+    padding: 25px;
+    min-height: 200px;
+    border: 1px solid #444;
+    border-radius: 15px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s;
+}
+
+.profilepanel:hover {
+    transform: translateY(-3px);
+}
+
+.profilepanel h2 {
+    user-select: none;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.socialprofilepanel a {
+    color: white;
+    text-decoration: none;
+}
+
+.socialprofilepanel a svg {
+    transition: 0.3s;
+}
+
+.socialprofilepanel a:hover svg {
+    filter: brightness(0.7);
+    transform: translateY(-3px);
+}
+
+.profilewrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 20px;
+}
+
+.pil {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pil svg {
+    font-size: 40px;
+}
+
+.pil span {
+    user-select: none;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    text-shadow:
+        0px 0px 10px #333,
+        0px 0px 10px #333;
+}
+
+.profileupdateheader {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.puh1 h1 {
+    font-size: var(--h1-size);
+    margin-bottom: 5px;
+}
+
+.puh1 p {
+    color: #7f879c;
+}
+
+.pesavebuttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.pesavebuttons button {
+    border: 1px solid #444;
+    background-color: transparent;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.pesavebuttons button:hover {
+    background-color: white;
+    color: black;
+}
+
+.pesavebuttons .savechanges {
+    background-color: white;
+    color: black;
+}
+
+.pesavebuttons .savechanges:hover {
+    transform: translateY(-3px);
+}
+
+.puh2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.puh2 button {
+    border: 1px solid #444;
+    background-color: transparent;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.puh2 button:hover {
+    background-color: white;
+    color: black;
+}
+
+.puh2 .savechanges {
+    background-color: white;
+    color: black;
+}
+
+.puh2 .savechanges:hover {
+    transform: translateY(-3px);
+}
+
+.profilewrapper hr {
+    border: 0px;
+    height: 1px;
+    background-color: #444;
+}
+
+.pmoduleleft h4 {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.pmoduleleft p {
+    color: #7f879c;
+}
+
+.profilemodule {
+    padding: 10px 0px;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 40% 40%;
+}
+
+.profilemodule input {
+    background-color: transparent;
+    color: white;
+    border: 1px solid #444;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.profilemodule input:focus {
+    border: 1px solid #999;
+}
+
+.pmodule1 {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pmodule1 span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 10px;
+}
+
+.pmodule2 {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.usernametaken {
+    color: red;
+}
+
+.usernamefree {
+    color: green;
+}
+
+.upload {
+    border: 1px solid #444;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.uploadin {
+    filter: brightness(0.7);
+}
+
+.upload svg {
+    font-size: 30px;
+    background-color: #444;
+    padding: 10px;
+    border-radius: 50%;
+    pointer-events: none;
+    user-select: none;
+}
+
+.upload p {
+    width: 70%;
+    text-align: center;
+    line-height: 30px;
+    pointer-events: none;
+    user-select: none;
+}
+
+.upload p span {
+    font-weight: bold;
+}
+
+.pmodule2 img {
+    width: 100px;
+    height: 100px;
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.errorUpload {
+    color: red;
+}
+
+.pmodule3 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 /* Ranks XP Bar */
 
 .bronzebackground {

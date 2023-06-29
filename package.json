@@ -15,6 +15,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.5.0",
+		"@types/uuid": "^9.0.2",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"eslint": "^8.28.0",
@@ -34,7 +35,9 @@
 		"@iconify/svelte": "^3.1.4",
 		"@lucia-auth/adapter-prisma": "^2.0.0",
 		"@prisma/client": "^4.15.0",
+		"@supabase/supabase-js": "^2.26.0",
 		"lucia-auth": "^1.7.1",
-		"prisma": "^4.15.0"
+		"prisma": "^4.15.0",
+		"uuid": "^9.0.0"
 	}
 }

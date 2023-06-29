@@ -1,12 +1,16 @@
 <script lang="ts">
 	import Icon from "@iconify/svelte"
 	import { createEventDispatcher } from "svelte"
+	import { supabase } from "$lib/utils/supabase"
+	import { v4 as uuidv4 } from "uuid"
 
 	let state: number = 0
 	let uploadError: string | undefined
+	let imageUploading: boolean = false
 	const dispatch = createEventDispatcher()
 
 	function handleDrop(e: DragEvent) {
+		imageUploading = true
 		state = 0
 		let files = e.dataTransfer?.files
 
@@ -16,6 +20,7 @@
 	}
 
 	function handleFileChange(e: any) {
+		imageUploading = true
 		let fileList = e.target.files
 		handleFiles(fileList)
 	}
@@ -32,7 +37,7 @@
 		) {
 			const image = new Image()
 
-			image.onload = () => {
+			image.onload = async () => {
 				const maxWidth: number = 800
 				const maxHeight: number = 800
 
@@ -40,15 +45,17 @@
 					uploadError = "Your image resolution is bigger than 800x800px."
 					return
 				} else {
-					let reader = new FileReader()
+					const { data } = await supabase.storage
+						.from("profile_pictures")
+						.upload(uuidv4() + ".png", file)
 
-					reader.onload = (e) => {
-						let fileContent = e.target?.result
+					dispatch(
+						"profilePicture",
+						"https://wxwkfcytvmlhhfacebbu.supabase.co/storage/v1/object/public/profile_pictures/" +
+							data?.path
+					)
 
-						dispatch("profilePicture", fileContent)
-					}
-
-					reader.readAsDataURL(file)
+					imageUploading = false
 				}
 			}
 
@@ -72,7 +79,7 @@
 		state = 1
 	}}
 >
-	<Icon icon="material-symbols:upload" />
+	<Icon icon={imageUploading ? "eos-icons:bubble-loading" : "material-symbols:upload"} />
 	<p><span>Click to upload</span> or drag and drop SVG, PNG, JPG or GIF (max. 800x800px)</p>
 	{#if uploadError}
 		<p><span class="errorUpload">Error:</span> {uploadError}</p>

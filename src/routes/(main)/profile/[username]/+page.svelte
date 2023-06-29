@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/stores"
-	import { onMount } from "svelte"
+	import { onMount, beforeUpdate } from "svelte"
 	import Icon from "@iconify/svelte"
 	import Loading from "$lib/components/others/loading.svelte"
 	import { badges } from "$lib/utils/badges"
@@ -55,6 +55,19 @@
 	}
 
 	onMount(async () => {
+		const res = await fetch("/api/getProfile", {
+			method: "POST",
+			body: JSON.stringify(username)
+		})
+
+		const data = await res.json()
+
+		userProfile = data.user
+
+		loading = false
+	})
+
+	beforeUpdate(async () => {
 		const res = await fetch("/api/getProfile", {
 			method: "POST",
 			body: JSON.stringify(username)

@@ -9,13 +9,15 @@
 	import { onMount } from "svelte"
 	import { enhance } from "$app/forms"
 	import DragAndDrop from "$lib/components/others/draganddrop.svelte"
+	import type { ActionData } from "./$types"
 
-	let user: UserFull
+	let user: UserFull = $page.data.user
 	let loading: boolean = true
 	let linkstate: string = "Share"
 	let social: string[] = []
 	let newUsername: string
 	let exists: boolean
+	export let form: ActionData
 
 	function capitalize(badge: any): string {
 		return badge.charAt(0).toUpperCase() + badge.slice(1)
@@ -32,7 +34,6 @@
 		}, 100)
 	}
 
-	$: ({ user } = $page.data)
 	$: copypaste = $page.url.origin + "/profile/" + user.username
 	$: url = $page.url.hostname + "/profile/" + user.username
 
@@ -75,6 +76,18 @@
 			exists = data.exists
 		}
 	}
+
+	$: if (form?.error) {
+		setTimeout(() => {
+			form = null
+		}, 400)
+	}
+
+	$: if (form?.updateFinished) {
+		setTimeout(() => {
+			form = null
+		}, 1000)
+	}
 </script>
 
 <svelte:head>
@@ -92,7 +105,7 @@
 				</div>
 				<div class="pnameandlink">
 					<div class="pnameandbadges">
-						<div class="pname">{user.username}</div>
+						<div class="pname">{user?.username}</div>
 						<div class="pbadges">
 							{#each user.badges as badge}
 								<div
@@ -121,11 +134,9 @@
 					</div>
 				</div>
 			</div>
-			{#if user?.username == user.username}
-				<div class="pview">
-					<button on:click={() => goto("/profile/" + user.username)}>View profile</button>
-				</div>
-			{/if}
+			<div class="pview">
+				<button on:click={() => goto("/profile/" + user.username)}>View profile</button>
+			</div>
 		</div>
 		<div class="profileupdateheader">
 			<div class="puh1">
@@ -134,8 +145,20 @@
 			</div>
 			<div class="puh2">
 				<button on:click={() => goto("/profile/" + user.username)}>Cancel</button>
-				<form use:enhance method="POST">
-					<button class="savechanges" type="submit">Save changes</button>
+				<form
+					use:enhance={() => {
+						return async ({ update }) => {
+							await update({ reset: false })
+						}
+					}}
+					method="POST"
+				>
+					<input type="text" name="username" bind:value={newUsername} hidden />
+					<input type="text" name="profilepicture" bind:value={user.profile_picture} hidden />
+					<input type="text" name="socialmedia" bind:value={social} hidden />
+					<button class="savechanges" type="submit"
+						>{!form?.updateFinished ? "Save changes" : "Changes saved!"}</button
+					>
 				</form>
 			</div>
 		</div>
@@ -163,6 +186,7 @@
 					}}
 				>
 					<Icon
+						class={form?.error ? "shake" : ""}
 						icon={exists == true && newUsername != user.username
 							? "ph:x"
 							: "carbon:checkmark-filled"}
@@ -196,8 +220,20 @@
 		<hr />
 		<div class="pesavebuttons">
 			<button on:click={() => goto("/profile/" + user.username)}>Cancel</button>
-			<form use:enhance method="POST">
-				<button class="savechanges" type="submit">Save changes</button>
+			<form
+				use:enhance={() => {
+					return async ({ update }) => {
+						await update({ reset: false })
+					}
+				}}
+				method="POST"
+			>
+				<input type="text" name="username" bind:value={newUsername} hidden />
+				<input type="text" name="profilepicture" bind:value={user.profile_picture} hidden />
+				<input type="text" name="socialmedia" bind:value={social} hidden />
+				<button class="savechanges" type="submit"
+					>{!form?.updateFinished ? "Save changes" : "Changes saved!"}</button
+				>
 			</form>
 		</div>
 	</div>

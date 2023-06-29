@@ -931,6 +931,7 @@ figure {
     max-width: 100%;
     width: 200px;
     border-radius: 20px;
+    height: 200px;
 }
 
 .pnameandbadges {
@@ -1275,6 +1276,32 @@ figure {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.shake {
+    animation: shake 0.3s 1;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0px);
+    }
+
+    25% {
+        transform: translateX(5px);
+    }
+
+    50% {
+        transform: translateX(0px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
 }
 
 /* Ranks XP Bar */

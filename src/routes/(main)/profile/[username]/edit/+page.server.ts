@@ -13,6 +13,6 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 
 export const actions: Actions = {
     default: async ({ request }) => {
-        // OVO SUTRA
+        // OVO SUTRAs
     }
 }

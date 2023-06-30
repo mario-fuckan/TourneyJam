@@ -61,6 +61,11 @@
 			</div>
 		{/if}
 		<hr />
+		{#if String(user?.role) == "admin"}
+			<button on:click={() => goto("/dashboard")} class="adminaccess"
+				><Icon icon="dashicons:admin-tools" /></button
+			>
+		{/if}
 		<button
 			id="settings"
 			class="settings"

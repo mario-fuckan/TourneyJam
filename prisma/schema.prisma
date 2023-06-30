@@ -45,7 +45,7 @@ enum Badge {
 }
 
 model Game {
-  id               String   @id @unique
+  id               Int      @id @unique @default(autoincrement())
   game_cover       String   @default("game.png")
   game_background  String?
   game_showcase    String?
@@ -56,7 +56,7 @@ model Game {
 }
 
 model Tournament {
-  id                String              @id @unique
+  id                Int                 @id @unique @default(autoincrement())
   cover_image       String              @default("tournament.png")
   background_image  String?
   tags              String[]
@@ -81,15 +81,15 @@ enum TournamentStatus {
 }
 
 model TournamentPlayers {
-  id           String     @id @unique
+  id           Int        @id @unique @default(autoincrement())
   Tournament   Tournament @relation(fields: [tournamentId], references: [id])
-  tournamentId String
+  tournamentId Int
   AuthUser     AuthUser   @relation(fields: [authUserId], references: [id])
   authUserId   String
 }
 
 model Tag {
-  id   String @id @unique
+  id   Int    @id @unique @default(autoincrement())
   tag  String
   slug String
 }

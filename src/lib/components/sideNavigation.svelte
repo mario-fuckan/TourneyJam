@@ -3,8 +3,13 @@
 	import { page } from "$app/stores"
 	import { goto } from "$app/navigation"
 	import { tooltip } from "svooltip"
+	import type { User } from "$lib/types/user"
+
+	let user: User
 
 	$: ({ pathname } = $page.url)
+
+	$: ({ user } = $page.data)
 </script>
 
 <aside>
@@ -46,6 +51,19 @@
 	>
 		<Icon icon="fluent:news-20-filled" />
 	</a>
+	{#if String(user?.role) == "admin"}
+		<a
+			href="/dashboard"
+			class:currentpage={pathname == "/dashboard"}
+			use:tooltip={{
+				content: "Dashboard",
+				placement: "right",
+				offset: 15
+			}}
+		>
+			<Icon icon="dashicons:admin-tools" />
+		</a>
+	{/if}
 	<hr />
 	<button
 		id="add-game"

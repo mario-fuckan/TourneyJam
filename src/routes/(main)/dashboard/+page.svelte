@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte"
 	import Icon from "@iconify/svelte"
-	import { badges } from "$lib/utils/badges"
+	import { badges as userbadges } from "$lib/utils/badges"
 	import type { Users, Games, Tournaments, Tags } from "$lib/types/dashboardTypes"
 
 	let displayOption: string = "All"
@@ -191,7 +191,10 @@
 											{username}
 											<div class="dashbadges">
 												{#each badges as badge}
-													{badge}
+													<Icon
+														icon={userbadges[badge].icon}
+														style="color: {userbadges[badge].color}"
+													/>
 												{/each}
 											</div>
 										</a>
@@ -269,10 +272,15 @@
 							<h2>No users found.</h2>
 						</div>
 					{:else}
-						{#each users as { username, profile_picture }}
+						{#each users as { username, profile_picture, badges }}
 							<a href="/profile/{username}">
 								<img src={profile_picture} alt={username} />
 								<p>{username}</p>
+								<div class="dashbadges">
+									{#each badges as badge}
+										<Icon icon={userbadges[badge].icon} style="color: {userbadges[badge].color}" />
+									{/each}
+								</div>
 							</a>
 						{/each}
 						<div class="viewmoredashboard">
@@ -361,10 +369,15 @@
 			<h1>Users</h1>
 			<hr />
 			<div class="allusers">
-				{#each users as { username, profile_picture }}
+				{#each users as { username, profile_picture, badges }}
 					<a href="/profile/{username}">
 						<img src={profile_picture} alt={username} />
 						<p>{username}</p>
+						<div class="dashbadges">
+							{#each badges as badge}
+								<Icon icon={userbadges[badge].icon} style="color: {userbadges[badge].color}" />
+							{/each}
+						</div>
 					</a>
 				{/each}
 			</div>

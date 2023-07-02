@@ -12,7 +12,8 @@ export const POST: RequestHandler = async ({ setHeaders }) => {
         },
         select: {
             username: true,
-            profile_picture: true
+            profile_picture: true,
+            badges: true
         }, take: 5
     })
 

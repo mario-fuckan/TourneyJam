@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/stores"
-	import { onMount, beforeUpdate } from "svelte"
+	import { onMount } from "svelte"
 	import Icon from "@iconify/svelte"
 	import Loading from "$lib/components/others/loading.svelte"
 	import { badges } from "$lib/utils/badges"
@@ -8,7 +8,7 @@
 	import type { User } from "$lib/types/user"
 	import { socials } from "$lib/utils/socials"
 	import { tooltip } from "svooltip"
-	import { goto } from "$app/navigation"
+	import { goto, afterNavigate } from "$app/navigation"
 	import { enhance } from "$app/forms"
 
 	let userProfile: UserFull
@@ -55,6 +55,14 @@
 	}
 
 	onMount(async () => {
+		getUser()
+	})
+
+	afterNavigate(async () => {
+		getUser()
+	})
+
+	async function getUser() {
 		const res = await fetch("/api/getProfile", {
 			method: "POST",
 			body: JSON.stringify(username)
@@ -65,20 +73,7 @@
 		userProfile = data.user
 
 		loading = false
-	})
-
-	beforeUpdate(async () => {
-		const res = await fetch("/api/getProfile", {
-			method: "POST",
-			body: JSON.stringify(username)
-		})
-
-		const data = await res.json()
-
-		userProfile = data.user
-
-		loading = false
-	})
+	}
 </script>
 
 <svelte:head>
@@ -125,12 +120,16 @@
 					</div>
 				</div>
 			</div>
-			{#if user?.username == userProfile.username}
+			{#if user?.username == userProfile.username || String(user?.role) == "admin"}
 				<div class="pview">
-					<button on:click={() => goto("/profile/" + user.username + "/edit")}>Edit profile</button>
-					<form use:enhance method="POST">
-						<button type="submit">Logout</button>
-					</form>
+					<button on:click={() => goto("/profile/" + userProfile.username + "/edit")}
+						>Edit profile</button
+					>
+					{#if user?.username == userProfile.username}
+						<form use:enhance method="POST">
+							<button type="submit">Logout</button>
+						</form>
+					{/if}
 				</div>
 			{/if}
 		</div>

@@ -7,14 +7,14 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 
     const paramUsername = params.username
 
-    if (!session || paramUsername != user.username) {
+    if (!session || paramUsername != user.username && user.role != "admin") {
         throw redirect(302, "/")
     }
 }
 
 export const actions: Actions = {
-    default: async ({ request, locals, fetch }) => {
-        const { user } = await locals.auth.validateUser()
+    default: async ({ request, fetch, params }) => {
+        const user = params.username
 
         const { username, profilepicture, socialmedia } = Object.fromEntries(await request.formData()) as {
             username: string,
@@ -22,7 +22,7 @@ export const actions: Actions = {
             socialmedia: string
         }
 
-        if (user?.username != username) {
+        if (user != username) {
             const res = await fetch("/api/checkUsername", {
                 method: "POST",
                 body: JSON.stringify(username)
@@ -60,10 +60,10 @@ export const actions: Actions = {
 
         await prisma.authUser.update({
             where: {
-                username: user?.username
+                username: user
             },
             data: {
-                username: username,
+                username: username.toLowerCase(),
                 profile_picture: profilepicture,
                 socials: socialJSON
             }

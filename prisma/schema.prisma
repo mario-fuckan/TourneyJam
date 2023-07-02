@@ -45,14 +45,15 @@ enum Badge {
 }
 
 model Game {
-  id               Int      @id @unique @default(autoincrement())
-  game_cover       String   @default("game.png")
+  id               Int          @id @unique @default(autoincrement())
+  game_cover       String       @default("game.png")
   game_background  String?
   game_showcase    String?
   game_name        String
   game_description String
   game_tags        String[]
   game_website     String?
+  Tournament       Tournament[]
 }
 
 model Tournament {
@@ -63,7 +64,7 @@ model Tournament {
   title             String
   startOn           DateTime
   description       String
-  game              String
+  game              Game                @relation(fields: [gameId], references: [id])
   prize             Int
   team_size         String
   max_slots         Int
@@ -72,6 +73,7 @@ model Tournament {
   status            TournamentStatus    @default(scheduled)
   TournamentPlayers TournamentPlayers[]
   authUserId        String
+  gameId            Int
 }
 
 enum TournamentStatus {

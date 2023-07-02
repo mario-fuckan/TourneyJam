@@ -11,7 +11,8 @@
 	import DragAndDrop from "$lib/components/others/draganddrop.svelte"
 	import type { ActionData } from "./$types"
 
-	let user: UserFull = $page.data.user
+	let user: string = $page.params.username
+	let userProfile: UserFull
 	let loading: boolean = true
 	let linkstate: string = "Share"
 	let social: string[] = []
@@ -34,37 +35,41 @@
 		}, 100)
 	}
 
-	$: copypaste = $page.url.origin + "/profile/" + user.username
-	$: url = $page.url.hostname + "/profile/" + user.username
+	$: copypaste = $page.url.origin + "/profile/" + user
+	$: url = $page.url.hostname + "/profile/" + user
 
 	onMount(async () => {
+		getProfile(user)
+	})
+
+	async function getProfile(user: string) {
 		const res = await fetch("/api/getProfile", {
 			method: "POST",
-			body: JSON.stringify(user.username)
+			body: JSON.stringify(user)
 		})
 
 		const data = await res.json()
 
-		user = data.user
+		userProfile = data.user
 
-		if (user.socials) {
-			for (let i = 0; i < user.socials.length; i++) {
-				social[i] = user.socials[i].url
+		if (userProfile.socials) {
+			for (let i = 0; i < userProfile.socials.length; i++) {
+				social[i] = userProfile.socials[i].url
 			}
 		}
 
-		newUsername = user.username
+		newUsername = userProfile.username
 
 		loading = false
-	})
+	}
 
 	function profilePicture(e: any) {
-		user.profile_picture = e.detail
+		userProfile.profile_picture = e.detail
 	}
 
 	async function verifyUsername() {
 		if (newUsername.length < 3 || newUsername.length > 15) {
-			newUsername = user.username
+			newUsername = userProfile.username
 		} else {
 			const res = await fetch("/api/checkUsername", {
 				method: "POST",
@@ -84,6 +89,9 @@
 	}
 
 	$: if (form?.updateFinished) {
+		getProfile(newUsername)
+		user = userProfile.username
+		goto("/profile/" + newUsername + "/edit")
 		setTimeout(() => {
 			form = null
 		}, 1000)
@@ -91,7 +99,7 @@
 </script>
 
 <svelte:head>
-	<title>TourneyJam - Editing {user.username}'s profile</title>
+	<title>TourneyJam - Editing {user}'s profile</title>
 </svelte:head>
 
 {#if loading}
@@ -101,13 +109,13 @@
 		<div class="profileheader">
 			<div class="p1">
 				<div class="ppicture">
-					<img src={user.profile_picture} alt={user.username} draggable="false" />
+					<img src={userProfile.profile_picture} alt={userProfile.username} draggable="false" />
 				</div>
 				<div class="pnameandlink">
 					<div class="pnameandbadges">
-						<div class="pname">{user?.username}</div>
+						<div class="pname">{userProfile?.username}</div>
 						<div class="pbadges">
-							{#each user.badges as badge}
+							{#each userProfile.badges as badge}
 								<div
 									class="badge"
 									use:tooltip={{
@@ -135,7 +143,7 @@
 				</div>
 			</div>
 			<div class="pview">
-				<button on:click={() => goto("/profile/" + user.username)}>View profile</button>
+				<button on:click={() => goto("/profile/" + userProfile.username)}>View profile</button>
 			</div>
 		</div>
 		<div class="profileupdateheader">
@@ -144,7 +152,7 @@
 				<p>Update your picture and details here.</p>
 			</div>
 			<div class="puh2">
-				<button on:click={() => goto("/profile/" + user.username)}>Cancel</button>
+				<button on:click={() => goto("/profile/" + userProfile.username)}>Cancel</button>
 				<form
 					use:enhance={() => {
 						return async ({ update }) => {
@@ -154,7 +162,12 @@
 					method="POST"
 				>
 					<input type="text" name="username" bind:value={newUsername} hidden />
-					<input type="text" name="profilepicture" bind:value={user.profile_picture} hidden />
+					<input
+						type="text"
+						name="profilepicture"
+						bind:value={userProfile.profile_picture}
+						hidden
+					/>
 					<input type="text" name="socialmedia" bind:value={social} hidden />
 					<button class="savechanges" type="submit"
 						>{!form?.updateFinished ? "Save changes" : "Changes saved!"}</button
@@ -170,15 +183,15 @@
 			</div>
 			<div class="pmoduleright pmodule1">
 				<input
-					on:keyup={verifyUsername}
+					on:submit={verifyUsername}
 					on:mouseleave={verifyUsername}
 					type="text"
 					minlength="3"
 					bind:value={newUsername}
 				/>
 				<span
-					class:usernametaken={exists == true && newUsername != user.username}
-					class:usernamefree={exists == false || newUsername == user.username}
+					class:usernametaken={exists == true && newUsername != userProfile.username}
+					class:usernamefree={exists == false || newUsername == userProfile.username}
 					use:tooltip={{
 						content: exists == true ? "Username is taken." : "Username is available.",
 						placement: "right",
@@ -187,7 +200,7 @@
 				>
 					<Icon
 						class={form?.error ? "shake" : ""}
-						icon={exists == true && newUsername != user.username
+						icon={exists == true && newUsername != userProfile.username
 							? "ph:x"
 							: "carbon:checkmark-filled"}
 					/>
@@ -201,7 +214,7 @@
 				<p>Update your profile picture.</p>
 			</div>
 			<div class="pmoduleright pmodule2">
-				<img src={user.profile_picture} alt={user.username} />
+				<img src={userProfile.profile_picture} alt={userProfile.username} />
 				<DragAndDrop on:profilePicture={profilePicture} />
 			</div>
 		</div>
@@ -219,7 +232,7 @@
 		</div>
 		<hr />
 		<div class="pesavebuttons">
-			<button on:click={() => goto("/profile/" + user.username)}>Cancel</button>
+			<button on:click={() => goto("/profile/" + userProfile.username)}>Cancel</button>
 			<form
 				use:enhance={() => {
 					return async ({ update }) => {
@@ -229,7 +242,7 @@
 				method="POST"
 			>
 				<input type="text" name="username" bind:value={newUsername} hidden />
-				<input type="text" name="profilepicture" bind:value={user.profile_picture} hidden />
+				<input type="text" name="profilepicture" bind:value={userProfile.profile_picture} hidden />
 				<input type="text" name="socialmedia" bind:value={social} hidden />
 				<button class="savechanges" type="submit"
 					>{!form?.updateFinished ? "Save changes" : "Changes saved!"}</button

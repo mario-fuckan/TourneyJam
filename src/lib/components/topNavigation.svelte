@@ -15,10 +15,13 @@
 	$: ({ user } = $page.data)
 
 	onMount(() => {
-		if (user?.level != 50) {
-			;({ userRank, levelPercentage } = calculate(user.level, user.xp))
-		} else {
-			levelPercentage = "MAX"
+		if (user) {
+			if (user.level != 50) {
+				;({ userRank, levelPercentage } = calculate(user.level, user.xp))
+			} else {
+				levelPercentage = "MAX"
+				userRank = "rainbow"
+			}
 		}
 	})
 </script>
@@ -27,6 +30,7 @@
 	<div class="navleft">
 		<a href="/"><img src="/logo.svg" alt="Logo" draggable="false" /></a>
 		<a href="/">Home</a>
+		<a href="/games">Games</a>
 		<a href="/tournaments">Tournaments</a>
 		<a href="/leaderboard">Leaderboard</a>
 		<a href="/news">News</a>

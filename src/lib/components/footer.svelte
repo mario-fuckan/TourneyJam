@@ -1,5 +1,11 @@
 <script lang="ts">
 	import Icon from "@iconify/svelte"
+	import { page } from "$app/stores"
+	import type { User } from "$lib/types/user"
+
+	let user: User
+
+	$: ({ user } = $page.data)
 
 	let currentyear: number = new Date().getFullYear()
 </script>
@@ -14,9 +20,18 @@
 		</div>
 		<div class="footertopright">
 			<a href="/">Home</a>
+			<hr />
+			<a href="/games">Games</a>
+			<hr />
 			<a href="/tournaments">Tournaments</a>
+			<hr />
 			<a href="/leaderboard">Leaderboard</a>
+			<hr />
 			<a href="/news">News</a>
+			<hr />
+			{#if String(user?.role) == "admin"}
+				<a href="/dashboard">Dashboard</a>
+			{/if}
 		</div>
 	</div>
 	<hr />

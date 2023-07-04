@@ -23,6 +23,15 @@
 		}}><Icon icon="clarity:home-solid" /></a
 	>
 	<a
+		href="/games"
+		class:currentpage={pathname == "/games"}
+		use:tooltip={{
+			content: "Games",
+			placement: "right",
+			offset: 15
+		}}><Icon icon="fluent:games-16-filled" /></a
+	>
+	<a
 		href="/tournaments"
 		class:currentpage={pathname == "/tournaments"}
 		use:tooltip={{

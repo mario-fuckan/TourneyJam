@@ -210,7 +210,7 @@
 							<div class="searchresults">
 								{#if searchGames.length != 0}
 									{#each searchGames as { game_cover, id, game_name }}
-										<a href="/game/{id}">
+										<a href="/games/{id}">
 											<img src={game_cover} alt={game_name} />
 											{game_name}
 										</a>
@@ -226,7 +226,7 @@
 							<div class="searchresults">
 								{#if searchTournaments.length != 0}
 									{#each searchTournaments as { title, id, cover_image }}
-										<a href="/tournament/{id}">
+										<a href="/tournaments/{id}">
 											<img src={cover_image} alt={title} />
 											{title}
 										</a>
@@ -242,7 +242,7 @@
 							<div class="searchresults">
 								{#if searchTags.length != 0}
 									{#each searchTags as { tag, slug }}
-										<a href="/tag/{slug}">
+										<a href="/tags/{slug}">
 											{tag}
 										</a>
 									{/each}
@@ -303,7 +303,7 @@
 						</div>
 					{:else}
 						{#each games as { game_name, game_cover, id }}
-							<a href="/game/{id}">
+							<a href="/games/{id}">
 								<img src={game_cover} alt={game_name} />
 								<p>{game_name}</p>
 							</a>
@@ -328,7 +328,7 @@
 						</div>
 					{:else}
 						{#each tournaments as { title, cover_image, id }}
-							<a href="/tournament/{id}">
+							<a href="/tournaments/{id}">
 								<img src={cover_image} alt={title} />
 								<p>{title}</p>
 							</a>
@@ -353,7 +353,7 @@
 						</div>
 					{:else}
 						{#each tags as { tag, slug }}
-							<a href="/tag/{slug}">
+							<a href="/tags/{slug}">
 								<p>{tag}</p>
 							</a>
 						{/each}
@@ -393,7 +393,7 @@
 			{:else}
 				<div class="allusers">
 					{#each games as { game_name, game_cover, id }}
-						<a href="/game/{id}">
+						<a href="/games/{id}">
 							<img src={game_cover} alt={game_name} />
 							<p>{game_name}</p>
 						</a>
@@ -412,7 +412,7 @@
 			{:else}
 				<div class="allusers">
 					{#each tournaments as { title, cover_image, id }}
-						<a href="/tournament/{id}">
+						<a href="/tournaments/{id}">
 							<img src={cover_image} alt={title} />
 							<p>{title}</p>
 						</a>
@@ -431,7 +431,7 @@
 			{:else}
 				<div class="allusers">
 					{#each tags as { tag, slug }}
-						<a href="/tag/{slug}">
+						<a href="/tags/{slug}">
 							<p>{tag}</p>
 						</a>
 					{/each}

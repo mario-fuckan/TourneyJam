@@ -44,7 +44,7 @@ body {
 nav {
     display: grid;
     grid-template-rows: auto;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 40% 25% 35%;
     align-items: center;
     background-color: #111111;
     height: 100px;
@@ -554,7 +554,12 @@ footer a {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 40px;
+    gap: 20px;
+}
+
+.footertopright hr {
+    width: 1px;
+    height: 15px;
 }
 
 .footertopright a {
@@ -1626,6 +1631,91 @@ figure {
 
 .searchw hr {
     margin: 10px 0px;
+}
+
+.gamesheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gamesheader h1 {
+    font-size: var(--h1-size);
+    margin-bottom: 5px;
+}
+
+.gamesheader p {
+    color: #7f879c;
+}
+
+.gameswrapper hr {
+    background-color: #444;
+    border: 0px;
+    height: 1px;
+    margin: 10px 0px 20px 0px;
+}
+
+.games {
+    display: grid;
+    grid-template-rows: auto;
+    gap: 20px;
+    grid-template-columns: repeat(8, 1fr);
+}
+
+.games .gameitem {
+    text-decoration: none;
+    padding: 10px;
+    border: 1px solid #444;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: #7f879c;
+    transition: 0.3s;
+}
+
+.games .gameitem:hover {
+    transform: translateY(-3px);
+}
+
+.games .gameitem img {
+    border-radius: 10px;
+    max-width: 100%;
+    margin-bottom: 10px;
+    transition: filter 0.3s;
+}
+
+.games .gameitem:hover img {
+    filter: hue-rotate(90deg);
+}
+
+.games .gameitem h1 {
+    margin-bottom: 5px;
+    color: white;
+    font-size: 16px;
+}
+
+.games .gameitem p {
+    margin-bottom: 10px;
+}
+
+.games .gameitem .gametags {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.games .gameitem .gametags button {
+    background-color: transparent;
+    padding: 4px 0px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 1px solid #444;
+    border-radius: 2px;
+    color: #7f879c;
+}
+
+.games .gameitem .gametags button:hover {
+    transform: translateY(-2px);
 }
 
 /* Ranks XP Bar */

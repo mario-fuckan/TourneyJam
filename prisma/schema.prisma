@@ -64,7 +64,7 @@ model Tournament {
   title             String
   startOn           DateTime
   description       String
-  game              Game                @relation(fields: [gameId], references: [id])
+  game              Game?               @relation(fields: [gameId], references: [id])
   prize             Int
   team_size         String
   max_slots         Int
@@ -92,8 +92,8 @@ model TournamentPlayers {
 
 model Tag {
   id   Int    @id @unique @default(autoincrement())
-  tag  String
-  slug String
+  tag  String @unique
+  slug String @unique
 }
 
 model AuthSession {

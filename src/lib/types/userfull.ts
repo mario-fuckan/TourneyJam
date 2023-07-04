@@ -9,7 +9,7 @@ export interface UserFull {
     role: Role,
     tournamentsPlayed: number,
     username: string,
-    socials: null | Array<any>,
+    socials: Array<any>,
     xp: number
 }
 

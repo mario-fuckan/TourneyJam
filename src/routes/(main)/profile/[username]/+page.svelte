@@ -148,7 +148,7 @@
 				</h2>
 				<h1>{userProfile.prizeWon}$</h1>
 			</div>
-			{#if userProfile.socials}
+			{#if userProfile.socials?.length > 0}
 				<div class="profilepanel socialprofilepanel">
 					<h2>
 						<Icon icon="material-symbols:star" />

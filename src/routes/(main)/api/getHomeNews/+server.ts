@@ -1,9 +1,5 @@
 import type { RequestHandler } from "./$types"
-import { json, type Config } from "@sveltejs/kit"
-
-export const config: Config = {
-    runtime: "edge"
-}
+import { json } from "@sveltejs/kit"
 
 export const POST: RequestHandler = async ({ fetch, setHeaders }) => {
     setHeaders({

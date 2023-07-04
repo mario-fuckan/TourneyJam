@@ -32,19 +32,19 @@
 	}
 
 	$: if (displayOption == "All") {
-		if (users?.length > 5) {
+		while (users?.length > 5) {
 			users.pop()
 		}
 
-		if (games?.length > 5) {
+		while (games?.length > 5) {
 			games.pop()
 		}
 
-		if (tournaments?.length > 5) {
+		while (tournaments?.length > 5) {
 			tournaments.pop()
 		}
 
-		if (tags?.length > 5) {
+		while (tags?.length > 5) {
 			tags.pop()
 		}
 	}

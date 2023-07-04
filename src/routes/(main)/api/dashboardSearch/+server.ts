@@ -1,5 +1,9 @@
-import { json, type RequestHandler } from "@sveltejs/kit"
+import { json, type RequestHandler, type Config } from "@sveltejs/kit"
 import { prisma } from "$lib/server/prisma"
+
+export const config: Config = {
+    runtime: "edge"
+}
 
 export const POST: RequestHandler = async ({ request }) => {
     const search = await request.json()

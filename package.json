@@ -14,6 +14,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/adapter-vercel": "^0.0.3",
 		"@sveltejs/kit": "^1.5.0",
 		"@types/uuid": "^9.0.2",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
@@ -32,10 +33,12 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"-": "^0.0.1",
 		"@iconify/svelte": "^3.1.4",
 		"@lucia-auth/adapter-prisma": "^2.0.0",
 		"@prisma/client": "^4.15.0",
 		"@supabase/supabase-js": "^2.26.0",
+		"D": "^1.0.0",
 		"lucia-auth": "^1.7.1",
 		"prisma": "^4.15.0",
 		"uuid": "^9.0.0"

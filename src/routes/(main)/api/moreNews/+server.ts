@@ -1,5 +1,9 @@
 import type { RequestHandler } from "./$types"
-import { json } from "@sveltejs/kit"
+import { json, type Config } from "@sveltejs/kit"
+
+export const config: Config = {
+    runtime: "edge"
+}
 
 export const POST: RequestHandler = async ({ request, fetch }) => {
     const userData = await request.json()

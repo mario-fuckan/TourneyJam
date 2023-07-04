@@ -35,7 +35,7 @@ model AuthUser {
 enum Role {
   user
   admin
-  organization
+  company
 }
 
 enum Badge {
@@ -68,7 +68,7 @@ model Tournament {
   prize             Int
   team_size         String
   max_slots         Int
-  type              String
+  type              Type
   host              AuthUser            @relation(fields: [authUserId], references: [id])
   status            TournamentStatus    @default(scheduled)
   TournamentPlayers TournamentPlayers[]
@@ -80,6 +80,11 @@ enum TournamentStatus {
   active
   ended
   scheduled
+}
+
+enum Type {
+  open
+  passwordProtected
 }
 
 model TournamentPlayers {

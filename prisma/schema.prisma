@@ -28,6 +28,7 @@ model AuthUser {
   auth_key          AuthKey[]
   TournamentPlayers TournamentPlayers[]
   Tournament        Tournament[]
+  Game              Game[]
 
   @@map("auth_user")
 }
@@ -54,6 +55,8 @@ model Game {
   game_tags        String[]
   game_website     String?
   Tournament       Tournament[]
+  authUser         AuthUser?    @relation(fields: [authUserId], references: [id])
+  authUserId       String?
 }
 
 model Tournament {

@@ -7,7 +7,8 @@ export const POST: RequestHandler = async ({ request }) => {
     const searchUsers = await prisma.authUser.findMany({
         where: {
             username: {
-                contains: search
+                contains: search,
+                mode: "insensitive"
             }
         }, select: {
             username: true,
@@ -19,7 +20,8 @@ export const POST: RequestHandler = async ({ request }) => {
     const searchGames = await prisma.game.findMany({
         where: {
             game_name: {
-                contains: search
+                contains: search,
+                mode: "insensitive"
             }
         }, select: {
             game_name: true,
@@ -31,7 +33,8 @@ export const POST: RequestHandler = async ({ request }) => {
     const searchTournaments = await prisma.tournament.findMany({
         where: {
             title: {
-                contains: search
+                contains: search,
+                mode: "insensitive"
             }
         },
         select: {
@@ -44,7 +47,8 @@ export const POST: RequestHandler = async ({ request }) => {
     const searchTags = await prisma.tag.findMany({
         where: {
             tag: {
-                contains: search
+                contains: search,
+                mode: "insensitive"
             }
         },
         select: {

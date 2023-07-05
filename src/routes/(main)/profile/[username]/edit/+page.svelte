@@ -73,7 +73,10 @@
 		} else {
 			const res = await fetch("/api/checkUsername", {
 				method: "POST",
-				body: JSON.stringify(newUsername)
+				body: JSON.stringify({
+					username: newUsername,
+					user: user
+				})
 			})
 
 			const data = await res.json()

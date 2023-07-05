@@ -1,10 +1,9 @@
 import { json, type RequestHandler } from "@sveltejs/kit"
 import { prisma } from "$lib/server/prisma"
 
-export const POST: RequestHandler = async ({ request, locals }) => {
-    const { user } = await locals.auth.validateUser()
+export const POST: RequestHandler = async ({ request }) => {
+    const { username, user } = await request.json()
 
-    const username = await request.json()
     let exists: boolean
 
     const getUserProfile = await prisma.authUser.findUnique({
@@ -16,7 +15,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     if (!getUserProfile) {
         exists = false
     } else {
-        if (user?.username == username) {
+        if (user == username) {
             exists = false
         } else {
             exists = true

@@ -61,7 +61,7 @@
 			</div>
 			<div class="gamesheaderright">
 				<div class="dashboardsearch">
-					{#if String(user.role) == "admin" || String(user.role) == "company"}
+					{#if String(user?.role) == "admin" || String(user?.role) == "company"}
 						<a href="/games/add">Add a game</a>
 					{/if}
 					<input

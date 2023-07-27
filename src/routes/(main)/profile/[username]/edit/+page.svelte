@@ -10,12 +10,15 @@
 	import { enhance } from "$app/forms"
 	import DragAndDrop from "$lib/components/others/draganddrop.svelte"
 	import type { ActionData } from "./$types"
+	import type { Role } from "$lib/types/roles"
 
 	let user: string = $page.params.username
 	let userProfile: UserFull
 	let loading: boolean = true
 	let linkstate: string = "Share"
 	let social: string[] = []
+	let role: Role
+	let verified: boolean
 	let newUsername: string
 	let exists: boolean
 	export let form: ActionData
@@ -56,6 +59,12 @@
 			for (let i = 0; i < userProfile.socials.length; i++) {
 				social[i] = userProfile.socials[i].url
 			}
+		}
+
+		role = userProfile.role
+
+		if (String(userProfile.badges).includes("verified")) {
+			verified = true
 		}
 
 		newUsername = userProfile.username
@@ -211,6 +220,36 @@
 			</div>
 		</div>
 		<hr />
+		{#if $page.data.user.role == "admin"}
+			<div class="profilemodule">
+				<div class="pmoduleleft">
+					<h4>User role</h4>
+					<p>Update your privileges.</p>
+				</div>
+				<div class="pmoduleright moduleadmin">
+					<select name="userroles" bind:value={role}>
+						<!-- ADD ADMIN ROLE SELECT -->
+						<option value="user">User</option>
+						<option value="admin">Admin</option>
+						<option value="company">Company</option>
+					</select>
+				</div>
+			</div>
+			<hr />
+		{/if}
+		{#if $page.data.user.role == "admin"}
+			<div class="profilemodule">
+				<div class="pmoduleleft">
+					<h4>Verification</h4>
+					<p>Update your verification status.</p>
+				</div>
+				<div class="pmoduleright moduleverified">
+					<input type="checkbox" name="isVerified" bind:checked={verified} />
+					<p>Verified?</p>
+				</div>
+			</div>
+			<hr />
+		{/if}
 		<div class="profilemodule">
 			<div class="pmoduleleft">
 				<h4>Profile picture</h4>

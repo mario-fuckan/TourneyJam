@@ -162,6 +162,13 @@
 		</div>
 		<div class="dashboardsearchwrapper">
 			<div class="dashboardsearch">
+				{#if displayOption == "Games"}
+					<a href="/games/add">Add a game</a>
+				{:else if displayOption == "Tournaments"}
+					<a href="/tournaments/create">Create a tournament</a>
+				{:else if displayOption == "Tags"}
+					<a href="/tags/add">Add a tag</a>
+				{/if}
 				<input
 					type="text"
 					placeholder="Search..."

@@ -129,7 +129,7 @@
 			</div>
 			{#if user?.username == userProfile.username || String(user?.role) == "admin"}
 				<div class="pview">
-					{#if String(user?.role) == "company" || String(user?.role) == "admin"}
+					{#if (String(user?.role) == "company" || String(user?.role) == "admin") && user?.username == userProfile.username}
 						<button on:click={() => goto("/games/add")}>Add a game</button>
 					{/if}
 					<button on:click={() => goto("/profile/" + userProfile.username + "/edit")}

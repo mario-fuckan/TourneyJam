@@ -18,11 +18,11 @@ model AuthUser {
   tournamentsPlayed Int      @default(0)
   prizeWon          Int      @default(0)
   role              Role     @default(user)
-  socials           Json?
+  socials           Json?    @default("[]")
   join_date         DateTime @default(now())
   xp                Int      @default(0)
   level             Int      @default(0)
-  badges            Badge[]
+  badges            Badge[]  @default([])
 
   auth_session      AuthSession[]
   auth_key          AuthKey[]
@@ -99,9 +99,8 @@ model TournamentPlayers {
 }
 
 model Tag {
-  id   Int    @id @unique @default(autoincrement())
-  tag  String @unique
-  slug String @unique
+  id  Int    @id @unique @default(autoincrement())
+  tag String @unique
 }
 
 model AuthSession {

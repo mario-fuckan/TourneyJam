@@ -20,6 +20,9 @@ export const socials: Socials = {
     kick: {
         icon: "ri:kick-fill"
     },
+    twitter: {
+        icon: "carbon:logo-twitter"
+    },
     globe: {
         icon: "ph:globe"
     }

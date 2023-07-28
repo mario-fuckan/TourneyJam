@@ -44,6 +44,12 @@
 				if (image.width > maxWidth || image.height > maxHeight) {
 					uploadError = "Your image resolution is bigger than 800x800px."
 					return
+				} else if (file.size / 1000000 > 2) {
+					uploadError =
+						"Your image is too large. Maximum allowed image size is 2MB. Your image is " +
+						(file.size / 1000000).toFixed(2) +
+						"MB."
+					return
 				} else {
 					const { data } = await supabase.storage
 						.from("profile_pictures")
@@ -80,7 +86,7 @@
 	}}
 >
 	<Icon icon={imageUploading ? "eos-icons:bubble-loading" : "material-symbols:upload"} />
-	<p><span>Click to upload</span> or drag and drop SVG, PNG, JPG or GIF (max. 800x800px)</p>
+	<p><span>Click to upload</span> or drag and drop SVG, PNG, JPG or GIF (max. 800x800px).</p>
 	{#if uploadError}
 		<p><span class="errorUpload">Error:</span> {uploadError}</p>
 	{/if}

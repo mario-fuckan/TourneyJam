@@ -52,8 +52,7 @@ export const POST: RequestHandler = async ({ request }) => {
             }
         },
         select: {
-            tag: true,
-            slug: true
+            tag: true
         }, take: 3
     })
 

@@ -11,8 +11,7 @@ export const POST: RequestHandler = async ({ setHeaders }) => {
             id: "desc"
         },
         select: {
-            tag: true,
-            slug: true
+            tag: true
         }
     })
 

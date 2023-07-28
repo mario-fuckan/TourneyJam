@@ -16,8 +16,7 @@ declare global {
 			profile_picture: string,
 			role: string,
 			level: number,
-			xp: number,
-			rank: string
+			xp: number
 		}
 	}
 }

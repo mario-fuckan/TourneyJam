@@ -14,13 +14,13 @@ export interface UserFull {
 }
 
 enum Badges {
-    registered,
     verified,
-    admin
+    admin,
+    company
 }
 
 enum Role {
     user,
     admin,
-    organization
+    company
 }

@@ -1,6 +1,7 @@
 import type { PageServerLoad, Actions } from "./$types"
 import { redirect, fail } from "@sveltejs/kit"
 import { prisma } from "$lib/server/prisma"
+import type { Role } from "$lib/types/roles"
 
 export const load: PageServerLoad = async ({ params, locals }) => {
     const { session, user } = await locals.auth.validateUser()
@@ -16,10 +17,12 @@ export const actions: Actions = {
     default: async ({ request, fetch, params }) => {
         const user = params.username
 
-        const { username, profilepicture, socialmedia } = Object.fromEntries(await request.formData()) as {
+        const { username, profilepicture, socialmedia, role, verified } = Object.fromEntries(await request.formData()) as {
             username: string,
             profilepicture: string,
-            socialmedia: string
+            socialmedia: string,
+            role: keyof typeof Role,
+            verified: string
         }
 
         if (user != username) {
@@ -58,6 +61,16 @@ export const actions: Actions = {
 
         platforms()
 
+        let badges: string[] = []
+
+        if (role != "user") {
+            badges.push(role)
+        }
+
+        if (verified == "on") {
+            badges.push("verified")
+        }
+
         await prisma.authUser.update({
             where: {
                 username: user
@@ -65,7 +78,10 @@ export const actions: Actions = {
             data: {
                 username: username.toLowerCase(),
                 profile_picture: profilepicture,
-                socials: socialJSON
+                socials: socialJSON,
+                role,
+                //@ts-ignore
+                badges
             }
         })
 

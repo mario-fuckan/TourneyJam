@@ -167,7 +167,7 @@
 				{:else if displayOption == "Tournaments"}
 					<a href="/tournaments/create">Create a tournament</a>
 				{:else if displayOption == "Tags"}
-					<a href="/tags/add">Add a tag</a>
+					<a href="/tag/add">Add a tag</a>
 				{/if}
 				<input
 					type="text"
@@ -248,8 +248,8 @@
 							<hr />
 							<div class="searchresults">
 								{#if searchTags.length != 0}
-									{#each searchTags as { tag, slug }}
-										<a href="/tags/{slug}">
+									{#each searchTags as { tag }}
+										<a href="/tag/{tag}">
 											{tag}
 										</a>
 									{/each}
@@ -359,8 +359,8 @@
 							<h2>No tags found.</h2>
 						</div>
 					{:else}
-						{#each tags as { tag, slug }}
-							<a href="/tags/{slug}">
+						{#each tags as { tag }}
+							<a href="/tag/{tag}">
 								<p>{tag}</p>
 							</a>
 						{/each}
@@ -437,8 +437,8 @@
 				</div>
 			{:else}
 				<div class="allusers">
-					{#each tags as { tag, slug }}
-						<a href="/tags/{slug}">
+					{#each tags as { tag }}
+						<a href="/tag/{tag}">
 							<p>{tag}</p>
 						</a>
 					{/each}

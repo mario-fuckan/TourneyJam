@@ -143,6 +143,7 @@ nav .navleft {
 }
 
 .profilepicture {
+    width: 50px;
     height: 50px;
     border-radius: 50%;
 }
@@ -1672,7 +1673,7 @@ figure {
     display: grid;
     grid-template-rows: auto;
     gap: 20px;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(5, 1fr);
 }
 
 .games .gameitem {
@@ -1687,6 +1688,29 @@ figure {
 
 .games .gameitem:hover {
     transform: translateY(-3px);
+}
+
+.games .tagitem {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #444;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: #7f879c;
+    transition: 0.3s;
+    min-height: 200px;
+}
+
+.games .tagitem:hover {
+    transform: translateY(-3px);
+}
+
+.games .tagitem span {
+    font-size: 30px;
+    font-weight: bold;
 }
 
 .games .gameitem img {
@@ -1719,7 +1743,7 @@ figure {
 
 .games .gameitem .gametags button {
     background-color: transparent;
-    padding: 4px 0px;
+    padding: 4px;
     cursor: pointer;
     transition: 0.3s;
     border: 1px solid #444;
@@ -1840,11 +1864,7 @@ figure {
     color: white;
     padding: 10px;
     background-color: #444;
-}
-
-.moduleadmin select option::after {
-    content: "";
-    padding: 10px;
+    font-size: 15px;
 }
 
 .moduleadmin select option:checked {
@@ -1857,6 +1877,90 @@ figure {
     align-items: center;
     gap: 10px;
     width: fit-content;
+}
+
+.tagheader h1 {
+    font-size: var(--h1-size);
+    margin-bottom: 5px;
+}
+
+.tagheader p {
+    color: #7f879c;
+}
+
+.tagwrapper hr {
+    background-color: #444;
+    border: 0px;
+    height: 1px;
+    margin: 10px 0px 20px 0px;
+}
+
+.addpageheading h1 {
+    font-size: var(--h1-size);
+    margin-bottom: 5px;
+}
+
+.addpageheading p {
+    color: #7f879c;
+}
+
+.addpagewrapper hr {
+    border: 0px;
+    height: 1px;
+    background-color: #444;
+    margin: 10px 0px 20px 0px;
+}
+
+.addpagemodule {
+    padding: 10px 0px;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 40% 40%;
+}
+
+.addmoduleleft h4 {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.addmoduleleft p {
+    color: #7f879c;
+}
+
+.addmoduleright input {
+    background-color: transparent;
+    color: white;
+    border: 1px solid #444;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.addmoduleright input:focus {
+    border: 1px solid #999;
+}
+
+.tagmodule {
+    position: relative;
+}
+
+.tagmodule span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+button:disabled {
+    opacity: 0.5;
+}
+
+button:disabled:hover {
+    transform: none !important;
 }
 
 /* Ranks XP Bar */

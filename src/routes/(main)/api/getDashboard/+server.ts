@@ -45,7 +45,6 @@ export const POST: RequestHandler = async ({ setHeaders }) => {
         },
         select: {
             tag: true,
-            slug: true
         }, take: 5
     })
 

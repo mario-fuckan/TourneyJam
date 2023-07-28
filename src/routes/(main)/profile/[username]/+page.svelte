@@ -76,7 +76,6 @@
 
 		if (String(userProfile.role) == "company") {
 			userGames = data.userGames
-			console.log(userGames)
 		}
 
 		loading = false

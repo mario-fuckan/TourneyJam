@@ -52,7 +52,9 @@ export const actions: Actions = {
                     username,
                     email,
                     profile_picture: "/profile_pictures/" + profile_picture + ".png",
-                    role: "user"
+                    role: "user",
+                    xp: 0,
+                    level: 0
                 }
             })
 

@@ -1,9 +1,12 @@
 import type { RequestHandler } from "./$types"
 import { json } from "@sveltejs/kit"
 import { prisma } from "$lib/server/prisma"
+import type { Tag } from "$lib/types/tags"
 
 export const POST: RequestHandler = async ({ request }) => {
     const search = await request.json()
+
+    let tags: Tag[] = []
 
     const getGames = await prisma.game.findMany({
         where: {
@@ -18,6 +21,20 @@ export const POST: RequestHandler = async ({ request }) => {
             id: true
         }
     })
+
+    if (search != "") {
+        tags = await prisma.tag.findMany({
+            where: {
+                tag: {
+                    contains: search,
+                    mode: "insensitive"
+                }
+            },
+            select: {
+                tag: true
+            }
+        })
+    }
 
     const allGames = await Promise.all(getGames.map(async (game) => {
         const getGameTournamentCount = await prisma.tournament.count({
@@ -36,6 +53,7 @@ export const POST: RequestHandler = async ({ request }) => {
     }))
 
     return json({
-        games: allGames
+        games: allGames,
+        tags
     })
 }

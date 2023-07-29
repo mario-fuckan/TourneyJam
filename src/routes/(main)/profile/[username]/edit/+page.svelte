@@ -258,7 +258,7 @@
 			</div>
 			<div class="pmoduleright pmodule2">
 				<img src={userProfile.profile_picture} alt={userProfile.username} />
-				<DragAndDrop on:profilePicture={profilePicture} />
+				<DragAndDrop on:profilePicture={profilePicture} mode="profile" />
 			</div>
 		</div>
 		<hr />

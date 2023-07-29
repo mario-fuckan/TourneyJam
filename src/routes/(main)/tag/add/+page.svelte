@@ -29,6 +29,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>TourneyJam - Add a tag</title>
+</svelte:head>
+
 <div class="addpagewrapper">
 	<div class="addpageheading">
 		<h1>Add a tag</h1>

@@ -1963,6 +1963,83 @@ button:disabled:hover {
     transform: none !important;
 }
 
+.mandatory {
+    color: red;
+}
+
+.descriptionmodule textarea {
+    width: 100%;
+    outline: none;
+    border: 1px solid #444;
+    border-radius: 10px;
+    resize: none;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: white;
+    height: 300px;
+}
+
+.descriptionmodule textarea:focus {
+    border: 1px solid #999;
+}
+
+.gameimagemodule {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.gameimagemodule img {
+    width: 320px;
+    height: 180px;
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.selectmodule select {
+    width: 100%;
+    outline: none;
+    border: 1px solid #444;
+    background-color: transparent;
+    color: white;
+    box-sizing: border-box;
+    height: 200px;
+}
+
+.selectmodule select option {
+    padding: 5px;
+}
+
+.searchmodule {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.searchmodule select {
+    min-width: 250px;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid #444;
+    background-color: transparent;
+    color: white;
+    padding: 0px 10px;
+    outline: none;
+}
+
+.searchmodule select:focus {
+    border: 1px solid #999;
+}
+
+.searchmodule option {
+    font-size: 15px;
+    background-color: #0B0C13;
+}
+
 /* Ranks XP Bar */
 
 .bronzebackground {

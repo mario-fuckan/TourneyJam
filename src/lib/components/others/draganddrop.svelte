@@ -8,6 +8,8 @@
 	let uploadError: string | undefined
 	let imageUploading: boolean = false
 	const dispatch = createEventDispatcher()
+	export let mode: string
+	export let text: string = "max. 800x800px"
 
 	function handleDrop(e: DragEvent) {
 		imageUploading = true
@@ -38,30 +40,97 @@
 			const image = new Image()
 
 			image.onload = async () => {
-				const maxWidth: number = 800
-				const maxHeight: number = 800
+				if (mode == "profile") {
+					const maxWidth: number = 800
+					const maxHeight: number = 800
 
-				if (image.width > maxWidth || image.height > maxHeight) {
-					uploadError = "Your image resolution is bigger than 800x800px."
-					return
-				} else if (file.size / 1000000 > 2) {
-					uploadError =
-						"Your image is too large. Maximum allowed image size is 2MB. Your image is " +
-						(file.size / 1000000).toFixed(2) +
-						"MB."
-					return
-				} else {
-					const { data } = await supabase.storage
-						.from("profile_pictures")
-						.upload(uuidv4() + ".png", file)
+					if (image.width > maxWidth || image.height > maxHeight) {
+						uploadError = "Your image resolution is bigger than 800x800px."
+						imageUploading = false
+						return
+					} else if (file.size / 1000000 > 2) {
+						uploadError =
+							"Your image is too large. Maximum allowed image size is 2MB. Your image is " +
+							(file.size / 1000000).toFixed(2) +
+							"MB."
+						imageUploading = false
+						return
+					} else {
+						uploadError = ""
+						const { data } = await supabase.storage
+							.from("profile_pictures")
+							.upload(uuidv4() + ".png", file)
 
-					dispatch(
-						"profilePicture",
-						"https://wxwkfcytvmlhhfacebbu.supabase.co/storage/v1/object/public/profile_pictures/" +
-							data?.path
-					)
+						dispatch(
+							"profilePicture",
+							"https://wxwkfcytvmlhhfacebbu.supabase.co/storage/v1/object/public/profile_pictures/" +
+								data?.path
+						)
 
-					imageUploading = false
+						imageUploading = false
+					}
+				}
+
+				if (mode == "game_background") {
+					const maxWidth: number = 1920
+					const maxHeight: number = 1080
+
+					if (image.width > maxWidth || image.height > maxHeight) {
+						uploadError = "Your image resolution is bigger than 1920x1080px."
+						imageUploading = false
+						return
+					} else if (file.size / 1000000 > 3) {
+						uploadError =
+							"Your image is too large. Maximum allowed image size is 3MB. Your image is " +
+							(file.size / 1000000).toFixed(2) +
+							"MB."
+						imageUploading = false
+						return
+					} else {
+						uploadError = ""
+						const { data } = await supabase.storage
+							.from("game_backgrounds")
+							.upload(uuidv4() + ".png", file)
+
+						dispatch(
+							"gameBackground",
+							"https://wxwkfcytvmlhhfacebbu.supabase.co/storage/v1/object/public/game_backgrounds/" +
+								data?.path
+						)
+
+						imageUploading = false
+					}
+				}
+
+				if (mode == "game_cover") {
+					const maxWidth: number = 1920
+					const maxHeight: number = 1080
+
+					if (image.width > maxWidth || image.height > maxHeight) {
+						uploadError = "Your image resolution is bigger than 1920x1080px."
+						imageUploading = false
+						return
+					} else if (file.size / 1000000 > 3) {
+						uploadError =
+							"Your image is too large. Maximum allowed image size is 3MB. Your image is " +
+							(file.size / 1000000).toFixed(2) +
+							"MB."
+						imageUploading = false
+						return
+					} else {
+						uploadError = ""
+						const { data } = await supabase.storage
+							.from("game_covers")
+							.upload(uuidv4() + ".png", file)
+
+						dispatch(
+							"gameCover",
+							"https://wxwkfcytvmlhhfacebbu.supabase.co/storage/v1/object/public/game_covers/" +
+								data?.path
+						)
+
+						imageUploading = false
+					}
 				}
 			}
 
@@ -86,7 +155,7 @@
 	}}
 >
 	<Icon icon={imageUploading ? "eos-icons:bubble-loading" : "material-symbols:upload"} />
-	<p><span>Click to upload</span> or drag and drop SVG, PNG, JPG or GIF (max. 800x800px).</p>
+	<p><span>Click to upload</span> or drag and drop SVG, PNG, JPG or GIF ({text}).</p>
 	{#if uploadError}
 		<p><span class="errorUpload">Error:</span> {uploadError}</p>
 	{/if}

@@ -15,7 +15,6 @@
 	let gamesCount: number
 	let loading: boolean = true
 	let user: User
-	let gamesLoading: boolean = false
 
 	$: ({ user } = $page.data)
 
@@ -32,7 +31,6 @@
 	})
 
 	async function loadMoreGames() {
-		gamesLoading = true
 		const res = await fetch("/api/searchGames", {
 			method: "POST",
 			body: JSON.stringify(games.length)
@@ -41,11 +39,9 @@
 		const { moreGames } = await res.json()
 
 		games = [...games, ...moreGames]
-		gamesLoading = false
 	}
 
 	async function searchAllGames() {
-		gamesLoading = true
 		const res = await fetch("/api/gamesSearchGames", {
 			method: "POST",
 			body: JSON.stringify(search)
@@ -55,7 +51,6 @@
 
 		games = data.games
 		tags = data.tags
-		gamesLoading = false
 	}
 </script>
 
@@ -113,14 +108,6 @@
 					<h1>{tag}</h1>
 				</a>
 			{/each}
-			{#if gamesLoading}
-				<!-- svelte-ignore a11y-invalid-attribute -->
-				<a href="javascript:void(0)" class="gameitem">
-					<div class="aloading">
-						<Icon icon="eos-icons:bubble-loading" />
-					</div>
-				</a>
-			{/if}
 		</div>
 		{#if games.length < gamesCount}
 			<button class="more" on:click={loadMoreGames}>Load More Games</button>

@@ -1673,7 +1673,7 @@ figure {
     display: grid;
     grid-template-rows: auto;
     gap: 20px;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
 }
 
 .games .gameitem {
@@ -1701,7 +1701,7 @@ figure {
     border-radius: 10px;
     color: #7f879c;
     transition: 0.3s;
-    min-height: 200px;
+    min-height: 350px;
 }
 
 .games .tagitem:hover {
@@ -1714,8 +1714,10 @@ figure {
 }
 
 .games .gameitem img {
+    height: 350px;
     border-radius: 10px;
     max-width: 100%;
+    width: 100%;
     margin-bottom: 10px;
     transition: filter 0.3s;
 }
@@ -2038,6 +2040,10 @@ button:disabled:hover {
 .searchmodule option {
     font-size: 15px;
     background-color: #0B0C13;
+}
+
+.inputmissing {
+    border: 1px solid red !important;
 }
 
 /* Ranks XP Bar */

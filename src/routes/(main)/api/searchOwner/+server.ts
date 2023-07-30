@@ -9,7 +9,11 @@ export const POST: RequestHandler = async ({ request }) => {
             username: {
                 contains: search,
                 mode: "insensitive"
-            }
+            },
+            OR: [
+                { role: "admin" },
+                { role: "company" }
+            ]
         }, select: {
             username: true,
             id: true

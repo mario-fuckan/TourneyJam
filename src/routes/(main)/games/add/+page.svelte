@@ -5,6 +5,7 @@
 	import { goto } from "$app/navigation"
 	import DragAndDrop from "$lib/components/others/draganddrop.svelte"
 	import type { OwnerList } from "$lib/types/owner"
+	import { page } from "$app/stores"
 	import { onMount } from "svelte"
 
 	let exists: boolean = false
@@ -17,7 +18,7 @@
 	let game_showcase: string
 	let game_tags: string[] = []
 	let game_website: string
-	let owner: string
+	let owner: string = $page.data.user.role == "admin" ? "" : $page.data.user.userId
 	let ownerSearch: string
 
 	let allTags: string[] = []
@@ -38,12 +39,10 @@
 
 	function gameCover(e: any) {
 		game_cover = e.detail
-		console.log("GAME COVER")
 	}
 
 	function gameBackground(e: any) {
 		game_background = e.detail
-		console.log("GAME BACKGROUND")
 	}
 
 	$: if (form?.done) {
@@ -82,6 +81,10 @@
 		allUsers = data.allUsers
 		allUsers = allUsers
 	}
+
+	$: if (form?.where) {
+		createState = ""
+	}
 </script>
 
 <svelte:head>
@@ -105,10 +108,13 @@
 				placeholder="Enter game name..."
 				on:keyup={checkGameName}
 				bind:value={game_name}
+				class:shake={form?.where?.includes("game_name")}
+				class:inputmissing={form?.where?.includes("game_name")}
 			/>
 			<span
 				class:usernametaken={exists == true}
 				class:usernamefree={exists == false}
+				class:shake={form?.where?.includes("game_name")}
 				use:tooltip={{
 					content: exists == true ? "Game name is taken." : "Game name is available.",
 					placement: "right",
@@ -131,6 +137,8 @@
 				placeholder="Tell us something about your awesome game... (Max. 1500 letters)"
 				maxlength="1500"
 				bind:value={game_description}
+				class:shake={form?.where?.includes("game_description")}
+				class:inputmissing={form?.where?.includes("game_description")}
 			/>
 		</div>
 	</div>
@@ -141,7 +149,12 @@
 			<p>Upload your cover image. This image will be displayed as a thumbnail.</p>
 		</div>
 		<div class="addmoduleright gameimagemodule">
-			<img src={game_cover ? game_cover : "/tournament.png"} alt="Game Cover" />
+			<img
+				src={game_cover ? game_cover : "/tournament.png"}
+				alt="Game Cover"
+				class:shake={form?.where?.includes("game_cover")}
+				class:inputmissing={form?.where?.includes("game_cover")}
+			/>
 			<DragAndDrop mode="game_cover" text="max. 1920x1080px" on:gameCover={gameCover} />
 		</div>
 	</div>
@@ -195,29 +208,31 @@
 		</div>
 	</div>
 	<hr />
-	<div class="addpagemodule">
-		<div class="addmoduleleft">
-			<h4>Who owns this game?</h4>
-			<p>Who owns this game? Leave empty if user does not exist.</p>
+	{#if $page.data.user.role == "admin"}
+		<div class="addpagemodule">
+			<div class="addmoduleleft">
+				<h4>Who owns this game?</h4>
+				<p>Who owns this game? Leave empty if user does not exist.</p>
+			</div>
+			<div class="addmoduleright searchmodule">
+				<input
+					type="text"
+					placeholder="Enter owner's username"
+					bind:value={ownerSearch}
+					on:keyup={searchOwner}
+				/>
+				<select name="owner" bind:value={owner}>
+					<option value="" disabled selected>Select the owner</option>
+					{#if allUsers}
+						{#each allUsers as { username, id }}
+							<option value={id}>{username}</option>
+						{/each}
+					{/if}
+				</select>
+			</div>
 		</div>
-		<div class="addmoduleright searchmodule">
-			<input
-				type="text"
-				placeholder="Enter owner's username"
-				bind:value={ownerSearch}
-				on:keyup={searchOwner}
-			/>
-			<select name="owner" bind:value={owner}>
-				<option value="" disabled selected>Select the owner</option>
-				{#if allUsers}
-					{#each allUsers as { username, id }}
-						<option value={id}>{username}</option>
-					{/each}
-				{/if}
-			</select>
-		</div>
-	</div>
-	<hr />
+		<hr />
+	{/if}
 	<div class="pesavebuttons">
 		<button on:click={() => goto("/games")}>Cancel</button>
 		<form
@@ -225,18 +240,26 @@
 			use:enhance={() => {
 				return async ({ update }) => {
 					await update()
-					// SVE RESET + TREBA FIXAT UPLOAD
+					game_name = ""
+					game_description = ""
+					game_cover = ""
+					game_background = ""
+					game_showcase = ""
+					game_tags = []
+					game_website = ""
+					owner = ""
+					ownerSearch = ""
 				}
 			}}
 		>
-			<input type="text" name="game_name" bind:value={game_name} />
-			<input type="text" name="game_description" bind:value={game_description} />
-			<input type="text" name="game_cover" bind:value={game_cover} />
-			<input type="text" name="game_background" bind:value={game_background} />
-			<input type="text" name="game_showcase" bind:value={game_showcase} />
-			<input type="text" name="game_tags" bind:value={game_tags} />
-			<input type="text" name="game_website" bind:value={game_website} />
-			<input type="text" name="owner" bind:value={owner} />
+			<input type="text" name="game_name" bind:value={game_name} hidden />
+			<input type="text" name="game_description" bind:value={game_description} hidden />
+			<input type="text" name="game_cover" bind:value={game_cover} hidden />
+			<input type="text" name="game_background" bind:value={game_background} hidden />
+			<input type="text" name="game_showcase" bind:value={game_showcase} hidden />
+			<input type="text" name="game_tags" bind:value={game_tags} hidden />
+			<input type="text" name="game_website" bind:value={game_website} hidden />
+			<input type="text" name="owner" bind:value={owner} hidden />
 			<button
 				class="savechanges"
 				type="submit"
@@ -245,10 +268,10 @@
 					createState = "adding"
 				}}
 				>{createState == "done"
-					? "Tag added!"
+					? "Game added!"
 					: createState == "adding"
-					? "Creating tag..."
-					: "Save changes"}</button
+					? "Adding game..."
+					: "Add a game"}</button
 			>
 		</form>
 	</div>

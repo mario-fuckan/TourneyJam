@@ -17,7 +17,7 @@
 		const data = await res.json()
 
 		if (data == "FAIL") {
-			goto("/error")
+			goto("/")
 		}
 
 		article = data.results[0]

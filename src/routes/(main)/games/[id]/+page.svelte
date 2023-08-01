@@ -25,7 +25,7 @@
 		game = data.game
 
 		if (!game) {
-			goto("/error")
+			goto("/")
 		}
 
 		loading = false

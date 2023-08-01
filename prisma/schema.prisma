@@ -47,7 +47,7 @@ enum Badge {
 
 model Game {
   id               Int          @id @unique @default(autoincrement())
-  game_cover       String       @default("game.png")
+  game_cover       String
   game_background  String?
   game_showcase    String?
   game_name        String

@@ -2185,6 +2185,32 @@ button:disabled:hover {
     height: 700px;
 }
 
+.tournamentlist {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+}
+
+.tournamentlist a,
+.tournamentitemheader {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: auto;
+    background-color: #11141C;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #7f879c;
+}
+
+.tournamentlist a:nth-of-type(odd) {
+    background-color: #111111;
+}
+
+.tournamentlist hr {
+    margin: 0px;
+}
+
 /* Ranks XP Bar */
 
 .bronzebackground {

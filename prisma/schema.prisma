@@ -63,13 +63,12 @@ model Tournament {
   id                Int                 @id @unique @default(autoincrement())
   cover_image       String              @default("tournament.png")
   background_image  String?
-  tags              String[]
   title             String
   startOn           DateTime
   description       String
   game              Game?               @relation(fields: [gameId], references: [id])
   prize             Int
-  team_size         String
+  team_size         Int
   max_slots         Int
   type              Type
   host              AuthUser            @relation(fields: [authUserId], references: [id])

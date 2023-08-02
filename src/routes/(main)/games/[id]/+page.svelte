@@ -5,12 +5,16 @@
 	import type { User } from "$lib/types/user"
 	import { goto } from "$app/navigation"
 	import type { Game } from "$lib/types/game"
+	import type { Tournament } from "$lib/types/tournament"
 	import Icon from "@iconify/svelte"
+	import Nocontent from "$lib/components/others/nocontent.svelte"
+	import { tooltip } from "svooltip"
 
 	let user: User
 	let loading: boolean = true
 	let game: Game
 	let buttonClicked: string = "Showcase"
+	let tournamentsList: Tournament[] = []
 
 	$: ({ user } = $page.data)
 
@@ -35,8 +39,47 @@
 		buttonClicked = "Showcase"
 	}
 
-	function tournaments() {
+	async function tournaments() {
+		const res = await fetch("/api/getGameTournaments", {
+			method: "POST",
+			body: JSON.stringify($page.params.id)
+		})
+
+		const data = await res.json()
+
+		tournamentsList = data.tournaments
 		buttonClicked = "Tournaments"
+	}
+
+	function convertToDate(date: Date) {
+		let currentTime: number = Date.now()
+		let unixTime = new Date(date).getTime()
+
+		let timeDifference: number = unixTime - currentTime
+
+		const millisecondsPerMinute: number = 60000
+		const millisecondsPerHour: number = 3600000
+		const millisecondsPerDay: number = 86400000
+
+		const days = Math.floor(timeDifference / millisecondsPerDay)
+		const hours = Math.floor((timeDifference % millisecondsPerDay) / millisecondsPerHour)
+		const minutes = Math.floor((timeDifference % millisecondsPerHour) / millisecondsPerMinute)
+
+		let returnString: string[] = []
+
+		if (days > 0) {
+			returnString.push(days + " days")
+		}
+
+		if (hours > 0) {
+			returnString.push(hours + " hours")
+		}
+
+		if (minutes > 0) {
+			returnString.push(minutes + " minutes")
+		}
+
+		return returnString.join(", ")
 	}
 </script>
 
@@ -88,7 +131,33 @@
 				</div>
 			{/if}
 			{#if buttonClicked == "Tournaments"}
-				<div class="gametournaments">Tournaments</div>
+				{#if tournamentsList.length > 0}
+					<div class="tournamentlist">
+						<div class="tournamentitemheader">
+							<div class="aitem">Title</div>
+							<div class="aitem">Prize</div>
+							<div class="aitem">Mode</div>
+							<div class="aitem">Max. participants</div>
+							<div class="aitem">Starts in</div>
+							<div class="aitem">Status</div>
+							<div class="aitem">Tournament Type</div>
+						</div>
+						{#each tournamentsList as { authUserId, id, max_slots, team_size, prize, startOn, status, title, type }}
+							<a href={`/tournaments/${id}`}>
+								<div class="aitem">{title}</div>
+								<div class="aitem">${prize}</div>
+								<div class="aitem">{team_size + "v" + team_size}</div>
+								<div class="aitem">{max_slots}</div>
+								<div class="aitem">{convertToDate(startOn)}</div>
+								<div class="aitem">{status}</div>
+								<div class="aitem">{type}</div>
+							</a>
+							<hr />
+						{/each}
+					</div>
+				{:else}
+					<Nocontent missing="active tournaments" />
+				{/if}
 			{/if}
 		</div>
 	{/if}

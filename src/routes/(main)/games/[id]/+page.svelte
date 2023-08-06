@@ -9,6 +9,7 @@
 	import Icon from "@iconify/svelte"
 	import Nocontent from "$lib/components/others/nocontent.svelte"
 	import { tooltip } from "svooltip"
+	import { badges as userbadges } from "$lib/utils/badges"
 
 	let user: User
 	let loading: boolean = true
@@ -135,22 +136,48 @@
 					<div class="tournamentlist">
 						<div class="tournamentitemheader">
 							<div class="aitem">Title</div>
+							<div class="aitem">Hosted by</div>
 							<div class="aitem">Prize</div>
 							<div class="aitem">Mode</div>
 							<div class="aitem">Max. participants</div>
 							<div class="aitem">Starts in</div>
-							<div class="aitem">Status</div>
-							<div class="aitem">Tournament Type</div>
+							<div class="aitem">Tournament type</div>
 						</div>
-						{#each tournamentsList as { authUserId, id, max_slots, team_size, prize, startOn, status, title, type }}
+						<hr />
+						{#each tournamentsList as { host, id, max_slots, team_size, prize, startOn, title, type }}
 							<a href={`/tournaments/${id}`}>
 								<div class="aitem">{title}</div>
+								<div class="aitem">
+									<img src={host.profile_picture} alt={host.username} />
+									{host.username}
+									{#if host.badges.length != 0}
+										{#each host.badges as badge}
+											<Icon
+												icon={userbadges[badge].icon}
+												style="color: {userbadges[badge].color}"
+											/>
+										{/each}
+									{/if}
+								</div>
 								<div class="aitem">${prize}</div>
 								<div class="aitem">{team_size + "v" + team_size}</div>
 								<div class="aitem">{max_slots}</div>
 								<div class="aitem">{convertToDate(startOn)}</div>
-								<div class="aitem">{status}</div>
-								<div class="aitem">{type}</div>
+								<div class={`aitem aitemicon aitem${type}`}>
+									<span
+										use:tooltip={{
+											content: type == "open" ? "Open" : "Password protected",
+											placement: "top",
+											offset: 15
+										}}
+									>
+										{#if type == "open"}
+											<Icon icon="material-symbols:lock-open" />
+										{:else}
+											<Icon icon="material-symbols:lock" />
+										{/if}
+									</span>
+								</div>
 							</a>
 							<hr />
 						{/each}

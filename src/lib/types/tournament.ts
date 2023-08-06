@@ -4,7 +4,7 @@ export interface Tournament {
     description: string,
     gameId: number,
     id: number,
-    authUserId: string,
+    host: host,
     max_slots: number,
     prize: number,
     startOn: Date,
@@ -12,4 +12,16 @@ export interface Tournament {
     team_size: number,
     title: string,
     type: string
+}
+
+interface host {
+    username: string,
+    profile_picture: string,
+    badges: Badges[]
+}
+
+enum Badges {
+    verified,
+    admin,
+    company
 }

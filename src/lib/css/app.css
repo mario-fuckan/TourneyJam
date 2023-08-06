@@ -2201,6 +2201,11 @@ button:disabled:hover {
     text-align: center;
     text-decoration: none;
     color: #7f879c;
+    transition: 0.3s;
+}
+
+.tournamentlist a:hover {
+    filter: brightness(0.9);
 }
 
 .tournamentlist a:nth-of-type(odd) {
@@ -2209,6 +2214,18 @@ button:disabled:hover {
 
 .tournamentlist hr {
     margin: 0px;
+}
+
+.aitemicon {
+    font-size: 22px;
+}
+
+.aitemopen {
+    color: green;
+}
+
+.aitempasswordProtected {
+    color: red;
 }
 
 /* Ranks XP Bar */

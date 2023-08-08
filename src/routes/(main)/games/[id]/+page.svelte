@@ -9,7 +9,6 @@
 	import Icon from "@iconify/svelte"
 	import Nocontent from "$lib/components/others/nocontent.svelte"
 	import { tooltip } from "svooltip"
-	import { badges as userbadges } from "$lib/utils/badges"
 
 	let user: User
 	let loading: boolean = true
@@ -110,6 +109,9 @@
 						<a href={`/tag/${tag}`}>{tag}</a>
 					{/each}
 				</div>
+				{#if String(user?.role) == "admin" || user?.userId == game.authUserId}
+					<a class="editgame" href={`/games/${game.id}/edit`}>Edit the page</a>
+				{/if}
 			</div>
 		</div>
 		<div class="gamecontentwrapper">
@@ -147,17 +149,18 @@
 						{#each tournamentsList as { host, id, max_slots, team_size, prize, startOn, title, type }}
 							<a href={`/tournaments/${id}`}>
 								<div class="aitem">{title}</div>
-								<div class="aitem">
-									<img src={host.profile_picture} alt={host.username} />
-									{host.username}
-									{#if host.badges.length != 0}
-										{#each host.badges as badge}
-											<Icon
-												icon={userbadges[badge].icon}
-												style="color: {userbadges[badge].color}"
-											/>
-										{/each}
-									{/if}
+								<div class="aitem aitemhost">
+									<!-- svelte-ignore a11y-click-events-have-key-events -->
+									<img
+										on:click|preventDefault={() => goto(`/profile/${host.username}`)}
+										src={host.profile_picture}
+										alt={host.username}
+										use:tooltip={{
+											content: host.username,
+											placement: "top",
+											offset: 15
+										}}
+									/>
 								</div>
 								<div class="aitem">${prize}</div>
 								<div class="aitem">{team_size + "v" + team_size}</div>

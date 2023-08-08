@@ -2216,6 +2216,12 @@ button:disabled:hover {
     margin: 0px;
 }
 
+.aitem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .aitemicon {
     font-size: 22px;
 }
@@ -2226,6 +2232,37 @@ button:disabled:hover {
 
 .aitempasswordProtected {
     color: red;
+}
+
+.aitemhost {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.aitemhost img {
+    border-radius: 50%;
+    max-width: 50px;
+    height: 50px;
+}
+
+.editgame {
+    width: fit-content;
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.editgame:hover {
+    transform: translateY(-4px);
+    background-color: black;
 }
 
 /* Ranks XP Bar */

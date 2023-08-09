@@ -32,6 +32,10 @@
 			goto("/")
 		}
 
+		if (!game.game_showcase) {
+			buttonClicked = "Tournaments"
+		}
+
 		loading = false
 	})
 
@@ -98,17 +102,23 @@
 					<h1>{game.game_name}</h1>
 					<p>{game.game_description}</p>
 					<div class="gamelinks">
-						<a href={game.game_website} target="_blank"><Icon icon="uil:link" />Official website</a>
+						{#if game.game_website}
+							<a href={game.game_website} target="_blank"
+								><Icon icon="uil:link" />Official website</a
+							>
+						{/if}
 						{#if game.authUser}
 							<a href={"/profile/" + game.authUser.username}><Icon icon="uil:link" />Publisher</a>
 						{/if}
 					</div>
 				</div>
-				<div class="gameheadertags">
-					{#each game.game_tags as tag}
-						<a href={`/tag/${tag}`}>{tag}</a>
-					{/each}
-				</div>
+				{#if game.game_tags.length > 0}
+					<div class="gameheadertags">
+						{#each game.game_tags as tag}
+							<a href={`/tag/${tag}`}>{tag}</a>
+						{/each}
+					</div>
+				{/if}
 				{#if String(user?.role) == "admin" || user?.userId == game.authUserId}
 					<a class="editgame" href={`/games/${game.id}/edit`}>Edit the page</a>
 				{/if}
@@ -116,7 +126,9 @@
 		</div>
 		<div class="gamecontentwrapper">
 			<div class="gameoptions">
-				<button class:clicked={buttonClicked == "Showcase"} on:click={showcase}>Showcase</button>
+				{#if game.game_showcase}
+					<button class:clicked={buttonClicked == "Showcase"} on:click={showcase}>Showcase</button>
+				{/if}
 				<button class:clicked={buttonClicked == "Tournaments"} on:click={tournaments}
 					>Tournaments</button
 				>

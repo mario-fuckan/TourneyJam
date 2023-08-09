@@ -49,6 +49,9 @@
 		createState = "done"
 		setTimeout(() => {
 			createState = ""
+			setTimeout(() => {
+				goto("/games/" + form?.createdGameId?.id)
+			}, 500)
 		}, 1000)
 	}
 

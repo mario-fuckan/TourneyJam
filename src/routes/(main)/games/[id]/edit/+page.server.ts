@@ -2,16 +2,29 @@ import type { Actions } from "./$types"
 import { prisma } from "$lib/server/prisma"
 import { redirect, fail } from "@sveltejs/kit"
 
-export async function load({ locals }) {
+export async function load({ locals, params }) {
     const { session, user } = await locals.auth.validateUser()
 
-    if (!session || (user.role != "admin" && user.role != "company")) {
+    if (!session) {
         throw redirect(302, "/")
+    } else {
+        const checkOwner = await prisma.game.findFirst({
+            where: {
+                id: Number(params.id),
+                authUserId: user?.userId
+            }, select: {
+                authUserId: true
+            }
+        })
+
+        if (user.role != "admin" && user.userId != checkOwner?.authUserId) {
+            throw redirect(302, "/")
+        }
     }
 }
 
 export const actions: Actions = {
-    default: async ({ request }) => {
+    default: async ({ request, params }) => {
         const { game_name, game_background, game_description, game_cover, game_showcase, game_tags, game_website, owner } = Object.fromEntries(await request.formData()) as {
             game_name: string,
             game_description: string,
@@ -45,14 +58,17 @@ export const actions: Actions = {
 
         if (owner) {
             try {
-                await prisma.game.create({
+                await prisma.game.update({
+                    where: {
+                        id: Number(params.id)
+                    },
                     data: {
                         game_name,
                         game_description,
                         game_cover,
                         game_background,
                         game_showcase,
-                        game_tags: game_tags.length != 0 ? game_tags.split(",") : [],
+                        game_tags: game_tags.split(","),
                         game_website,
                         authUser: {
                             connect: {
@@ -66,14 +82,17 @@ export const actions: Actions = {
             }
         } else {
             try {
-                await prisma.game.create({
+                await prisma.game.update({
+                    where: {
+                        id: Number(params.id)
+                    },
                     data: {
                         game_name,
                         game_description,
                         game_cover,
                         game_background,
                         game_showcase,
-                        game_tags: game_tags.length != 0 ? game_tags.split(",") : [],
+                        game_tags: game_tags.split(","),
                         game_website
                     }
                 })
@@ -82,18 +101,8 @@ export const actions: Actions = {
             }
         }
 
-        const getGameId = await prisma.game.findFirst({
-            where: {
-                game_name: game_name
-            },
-            select: {
-                id: true
-            }
-        })
-
         return {
-            done: true,
-            createdGameId: getGameId
+            done: true
         }
     }
 }

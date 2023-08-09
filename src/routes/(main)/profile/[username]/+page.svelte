@@ -242,7 +242,7 @@
 						<div class="panelgames">
 							{#each userGames as { id, game_name, game_cover }}
 								<a href="/games/{id}">
-									<img src="/{game_cover}" alt={game_name} />
+									<img src={game_cover} alt={game_name} />
 									<p>{game_name}</p>
 								</a>
 							{/each}

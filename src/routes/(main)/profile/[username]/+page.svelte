@@ -17,11 +17,16 @@
 	let user: User
 	let loading: boolean = true
 	let linkstate: string = "Share"
+	let oldURL: string = $page.url.pathname
 
 	$: ({ username } = $page.params)
 	$: ({ user } = $page.data)
 	$: copypaste = $page.url.origin + $page.url.pathname
 	$: url = $page.url.hostname + $page.url.pathname
+
+	$: if ($page.url.pathname != oldURL) {
+		window.location.href = $page.url.href
+	}
 
 	function capitalize(badge: any): string {
 		return badge.charAt(0).toUpperCase() + badge.slice(1)
@@ -57,10 +62,6 @@
 	}
 
 	onMount(async () => {
-		getUser()
-	})
-
-	afterNavigate(async () => {
 		getUser()
 	})
 

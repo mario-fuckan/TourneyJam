@@ -15,6 +15,7 @@
 	let game: Game
 	let buttonClicked: string = "Showcase"
 	let tournamentsList: Tournament[] = []
+	let oldURL: string = $page.url.pathname
 
 	$: ({ user } = $page.data)
 
@@ -38,6 +39,10 @@
 
 		loading = false
 	})
+
+	$: if ($page.url.pathname != oldURL) {
+		window.location.href = $page.url.href
+	}
 
 	function showcase() {
 		buttonClicked = "Showcase"

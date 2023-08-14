@@ -4,12 +4,29 @@
 	import { goto } from "$app/navigation"
 	import { tooltip } from "svooltip"
 	import type { User } from "$lib/types/user"
+	import { onMount } from "svelte"
+	import type { Favorite } from "$lib/types/favorite"
+	import fetchLocalStorage from "$lib/stores/getLocalStorage"
 
 	let user: User
+	let favoriteGames: Favorite[] = []
 
 	$: ({ pathname } = $page.url)
 
 	$: ({ user } = $page.data)
+
+	onMount(() => {
+		if (localStorage.getItem("favorites")) {
+			//@ts-ignore
+			favoriteGames = JSON.parse(localStorage.getItem("favorites"))
+		}
+	})
+
+	$: if ($fetchLocalStorage) {
+		//@ts-ignore
+		favoriteGames = JSON.parse(localStorage.getItem("favorites"))
+		$fetchLocalStorage = false
+	}
 </script>
 
 <aside>
@@ -88,4 +105,23 @@
 	>
 		<Icon icon="basil:add-solid" />
 	</button>
+	{#if favoriteGames.length > 0}
+		<div class="favoritegames">
+			{#each favoriteGames as { id, name, initials }}
+				<button
+					class="addgame"
+					on:click={() => {
+						goto(`/games/${id}`)
+					}}
+					use:tooltip={{
+						content: name,
+						placement: "right",
+						offset: 15
+					}}
+				>
+					{initials}
+				</button>
+			{/each}
+		</div>
+	{/if}
 </aside>

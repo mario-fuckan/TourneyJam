@@ -1,11 +1,10 @@
 <script lang="ts">
 	import Icon from "@iconify/svelte"
 	import type { Tournament } from "$lib/types/tournament"
-	import type { User } from "$lib/types/user"
-	import type { Tag } from "$lib/types/tags"
+	import { goto } from "$app/navigation"
 	import { onMount } from "svelte"
 	import Loading from "$lib/components/others/loading.svelte"
-	import { goto } from "$app/navigation"
+	import { badges as UserBadges } from "$lib/utils/badges"
 	import NoContent from "$lib/components/others/nocontent.svelte"
 
 	let search: string = ""
@@ -22,21 +21,24 @@
 
 		tournaments = data.tournaments
 		tournamentCount = data.tournamentCount
+
 		loading = false
 	})
 
-	async function loadMoreGames() {
-		const res = await fetch("/api/searchGames", {
+	async function loadMoreTournaments() {
+		const res = await fetch("/api/loadMoreTournaments", {
 			method: "POST",
-			body: JSON.stringify(games.length)
+			body: JSON.stringify(tournaments.length)
 		})
 
-		const { moreGames } = await res.json()
+		const { moreTournaments } = await res.json()
 
-		games = [...games, ...moreGames]
+		tournaments = [...tournaments, ...moreTournaments]
 	}
 
-	async function searchAllGames() {
+	// DO THIS LATER
+
+	async function searchAllTournaments() {
 		const res = await fetch("/api/gamesSearchGames", {
 			method: "POST",
 			body: JSON.stringify(search)
@@ -121,37 +123,55 @@
 							<div class="gameinfo">
 								<h3>Tournament Type</h3>
 								<div class="gameinfo2">
-									<Icon icon="material-symbols:lock" />
-									{type == "open" ? "Open" : "Private"}
+									{#if type == "open"}
+										<Icon icon="material-symbols:lock-open" style="color: green;" />
+										Open
+									{:else}
+										<Icon icon="material-symbols:lock" style="color: red;" />
+										Private
+									{/if}
 								</div>
 							</div>
 							<div class="gameinfo">
 								<h3>Patricipants</h3>
-								<div class="gameinfo2"><Icon icon="mdi:stopwatch" /> 3/{max_slots}</div>
+								<div class="gameinfo2">
+									<Icon icon="mdi:stopwatch" />
+									{players.length}/{max_slots}
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="tournamentactions">
 						<div class="organizer">
 							<div class="orgimage">
-								<a href="/profile/myusername">
-									<img src="profile_pictures/picture_7.png" alt="User Profile" />
+								<a href="/profile/{authUser.username}">
+									<img src={authUser.profile_picture} alt={authUser.username} />
 								</a>
 							</div>
 							<div class="orgname">
 								<p>Organized by</p>
-								<a href="/profile/myusername"> Username </a>
+								<a href="/profile/myusername">
+									{authUser.username}
+									{#if authUser.badges.length != 0}
+										{#each authUser.badges as badge}
+											<Icon
+												icon={UserBadges[badge].icon}
+												style={`color: ${UserBadges[badge].color};`}
+											/>
+										{/each}
+									{/if}
+								</a>
 							</div>
 						</div>
 						<div class="tbutton">
-							<button>Registration</button>
+							<button on:click={() => goto(`/tournaments/${id}`)}>Open tournament</button>
 						</div>
 					</div>
 				</div>
 			{/each}
 		</div>
 		{#if tournaments.length < tournamentCount}
-			<button class="more" on:click={loadMoreGames}>Load More Tournaments</button>
+			<button class="more" on:click={loadMoreTournaments}>Load More Tournaments</button>
 		{/if}
 	{/if}
 </div>

@@ -2447,23 +2447,23 @@ button:disabled:hover {
     height: 250px;
 }
 
-.tournamentswrapper .twrapper {
+.twrapper {
     transition: 0.3s;
     border-radius: 10px;
     border: 2px solid transparent;
 }
 
-.tournamentswrapper .twrapper:hover {
+.twrapper:hover {
     border: 2px solid #888;
     transform: translateY(-3px);
 }
 
-.startdate .active {
+.active {
     color: green;
     font-weight: bold;
 }
 
-.startdate .scheduled {
+.scheduled {
     color: rgb(207, 207, 0);
     font-weight: bold;
 }

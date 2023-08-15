@@ -65,6 +65,7 @@ model Tournament {
   background_image  String?
   title             String
   startOn           DateTime
+  password          String?
   description       String
   game              Game?               @relation(fields: [gameId], references: [id])
   prize             Int

@@ -11,7 +11,9 @@ export interface Tournament {
     status: string,
     title: string,
     type: string,
-    tags: string[]
+    tags: string[],
+    password: string,
+    players: authUser[]
 }
 
 interface authUser {

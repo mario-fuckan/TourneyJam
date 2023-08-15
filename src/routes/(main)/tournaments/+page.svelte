@@ -150,7 +150,7 @@
 							</div>
 							<div class="orgname">
 								<p>Organized by</p>
-								<a href="/profile/myusername">
+								<a href="/profile/{authUser.username}">
 									{authUser.username}
 									{#if authUser.badges.length != 0}
 										{#each authUser.badges as badge}

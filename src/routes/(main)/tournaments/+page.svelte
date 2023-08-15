@@ -69,7 +69,7 @@
 					type="text"
 					placeholder="Search by name, game or tag..."
 					maxlength="15"
-					on:keyup={searchAllGames}
+					on:keyup={searchAllTournaments}
 					bind:value={search}
 				/>
 				<Icon icon="material-symbols:search" />

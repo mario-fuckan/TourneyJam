@@ -8,6 +8,9 @@ export const POST: RequestHandler = async ({ setHeaders }) => {
     })
 
     const getAllGames = await prisma.game.findMany({
+        orderBy: {
+            id: "desc"
+        },
         select: {
             id: true,
             game_name: true,

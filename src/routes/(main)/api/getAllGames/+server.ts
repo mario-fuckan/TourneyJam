@@ -3,13 +3,16 @@ import { prisma } from "$lib/server/prisma"
 
 export const POST: RequestHandler = async () => {
     const getAllGames = await prisma.game.findMany({
+        orderBy: {
+            id: "desc"
+        },
         select: {
             id: true,
             game_cover: true,
             game_name: true,
             game_tags: true,
         },
-        take: 16
+        take: 18
     })
 
     const gamesCount = await prisma.game.count()

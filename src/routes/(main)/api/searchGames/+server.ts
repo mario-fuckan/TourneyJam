@@ -5,6 +5,9 @@ export const POST: RequestHandler = async ({ request }) => {
     const toSkip: number = await request.json()
 
     const getMoreGames = await prisma.game.findMany({
+        orderBy: {
+            id: "desc"
+        },
         select: {
             id: true,
             game_cover: true,

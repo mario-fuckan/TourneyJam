@@ -4,17 +4,17 @@ export interface Tournament {
     description: string,
     gameId: number,
     id: number,
-    host: host,
+    authUser: authUser,
     max_slots: number,
     prize: number,
     startOn: Date,
     status: string,
-    team_size: number,
     title: string,
-    type: string
+    type: string,
+    tags: string[]
 }
 
-interface host {
+interface authUser {
     username: string,
     profile_picture: string,
     badges: Badges[]

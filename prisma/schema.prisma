@@ -68,10 +68,10 @@ model Tournament {
   description       String
   game              Game?               @relation(fields: [gameId], references: [id])
   prize             Int
-  team_size         Int
   max_slots         Int
+  tags              String[]            @default([])
   type              Type
-  host              AuthUser            @relation(fields: [authUserId], references: [id])
+  authUser          AuthUser            @relation(fields: [authUserId], references: [id])
   status            TournamentStatus    @default(scheduled)
   TournamentPlayers TournamentPlayers[]
   authUserId        String

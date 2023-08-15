@@ -13,7 +13,7 @@ export const POST: RequestHandler = async ({ request }) => {
             }
         },
         include: {
-            host: {
+            authUser: {
                 select: {
                     username: true,
                     profile_picture: true,

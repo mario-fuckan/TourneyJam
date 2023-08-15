@@ -157,30 +157,28 @@
 							<div class="aitem">Title</div>
 							<div class="aitem">Hosted by</div>
 							<div class="aitem">Prize</div>
-							<div class="aitem">Mode</div>
 							<div class="aitem">Max. participants</div>
 							<div class="aitem">Starts in</div>
 							<div class="aitem">Tournament type</div>
 						</div>
 						<hr />
-						{#each tournamentsList as { host, id, max_slots, team_size, prize, startOn, title, type }}
+						{#each tournamentsList as { authUser, id, max_slots, prize, startOn, title, type }}
 							<a href={`/tournaments/${id}`}>
 								<div class="aitem">{title}</div>
 								<div class="aitem aitemhost">
 									<!-- svelte-ignore a11y-click-events-have-key-events -->
 									<img
-										on:click|preventDefault={() => goto(`/profile/${host.username}`)}
-										src={host.profile_picture}
-										alt={host.username}
+										on:click|preventDefault={() => goto(`/profile/${authUser.username}`)}
+										src={authUser.profile_picture}
+										alt={authUser.username}
 										use:tooltip={{
-											content: host.username,
+											content: authUser.username,
 											placement: "top",
 											offset: 15
 										}}
 									/>
 								</div>
 								<div class="aitem">${prize}</div>
-								<div class="aitem">{team_size + "v" + team_size}</div>
 								<div class="aitem">{max_slots}</div>
 								<div class="aitem">{convertToDate(startOn)}</div>
 								<div class={`aitem aitemicon aitem${type}`}>

@@ -2191,7 +2191,7 @@ button:disabled:hover {
 .tournamentlist a,
 .tournamentitemheader {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-template-rows: auto;
     background-color: #11141C;
     padding: 20px;
@@ -2433,6 +2433,39 @@ button:disabled:hover {
 
 .favoritegames button:last-of-type {
     margin-bottom: 40px;
+}
+
+.tournamentsearch::placeholder {
+    font-size: 90%;
+}
+
+.tournamentswrapper .games {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.tournamentswrapper .games .gameitem img {
+    height: 250px;
+}
+
+.tournamentswrapper .twrapper {
+    transition: 0.3s;
+    border-radius: 10px;
+    border: 2px solid transparent;
+}
+
+.tournamentswrapper .twrapper:hover {
+    border: 2px solid #888;
+    transform: translateY(-3px);
+}
+
+.startdate .active {
+    color: green;
+    font-weight: bold;
+}
+
+.startdate .scheduled {
+    color: rgb(207, 207, 0);
+    font-weight: bold;
 }
 
 /* Ranks XP Bar */

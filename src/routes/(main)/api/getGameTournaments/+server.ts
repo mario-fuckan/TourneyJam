@@ -7,7 +7,14 @@ export const POST: RequestHandler = async ({ request }) => {
     const getTournaments = await prisma.tournament.findMany({
         where: {
             gameId: gameId,
-            status: "scheduled" || "active",
+            OR: [
+                {
+                    status: "active"
+                },
+                {
+                    status: "scheduled"
+                }
+            ],
             startOn: {
                 gte: new Date()
             }

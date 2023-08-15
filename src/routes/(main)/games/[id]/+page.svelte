@@ -57,6 +57,7 @@
 		const data = await res.json()
 
 		tournamentsList = data.tournaments
+		console.log(tournamentsList)
 		buttonClicked = "Tournaments"
 	}
 

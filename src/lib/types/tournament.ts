@@ -13,7 +13,13 @@ export interface Tournament {
     type: string,
     tags: string[],
     password: string,
-    players: authUser[]
+    players: authUser[],
+    game: Game
+}
+
+interface Game {
+    game_name: string,
+    id: number
 }
 
 interface authUser {

@@ -29,6 +29,12 @@ export const POST: RequestHandler = async ({ request }) => {
                     profile_picture: true,
                     badges: true
                 }
+            },
+            game: {
+                select: {
+                    game_name: true,
+                    id: true
+                }
             }
         },
         take: 12, skip: toSkip

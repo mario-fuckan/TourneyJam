@@ -36,18 +36,15 @@
 		tournaments = [...tournaments, ...moreTournaments]
 	}
 
-	// DO THIS LATER
-
 	async function searchAllTournaments() {
-		const res = await fetch("/api/gamesSearchGames", {
+		const res = await fetch("/api/tournamentsSearch", {
 			method: "POST",
 			body: JSON.stringify(search)
 		})
 
 		const data = await res.json()
 
-		games = data.games
-		tags = data.tags
+		tournaments = data.tournaments
 	}
 </script>
 
@@ -80,10 +77,10 @@
 	{#if loading}
 		<Loading />
 	{:else if tournaments.length == 0}
-		<NoContent missing="games or tags" />
+		<NoContent missing="tournaments" />
 	{:else}
 		<div class="games">
-			{#each tournaments as { id, cover_image, title, tags, type, status, authUser, prize, startOn, max_slots, players }}
+			{#each tournaments as { id, cover_image, title, tags, type, status, authUser, prize, startOn, max_slots, players, game }}
 				{@const firstDate = new Date(startOn).toLocaleDateString("en-US", {
 					month: "long",
 					day: "numeric"
@@ -109,6 +106,9 @@
 							{/if}
 						</p>
 						<h2>{title}</h2>
+						<div class="tags">
+							<button on:click={() => goto(`/games/${game.id}`)}>{game.game_name}</button>
+						</div>
 						<div class="tags">
 							{#each tags as tag}
 								<button>{tag}</button>

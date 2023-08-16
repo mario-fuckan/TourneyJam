@@ -378,6 +378,7 @@ aside hr {
     display: flex;
     align-items: center;
     color: #7f879c;
+    font-size: 14px;
 }
 
 .startdate svg {
@@ -385,7 +386,7 @@ aside hr {
 }
 
 .tournament h2 {
-    font-size: var(--h1-size);
+    font-size: 18px;
 }
 
 .tags {

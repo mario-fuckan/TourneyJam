@@ -1,15 +1,39 @@
-import { json, type RequestHandler } from "@sveltejs/kit"
+import type { RequestHandler } from "./$types"
+import { json } from "@sveltejs/kit"
 import { prisma } from "$lib/server/prisma"
 
-export const POST: RequestHandler = async () => {
-    const getAllTournaments = await prisma.tournament.findMany({
+export const POST: RequestHandler = async ({ request }) => {
+    const search = await request.json()
+
+    const getTournaments = await prisma.tournament.findMany({
+        orderBy: {
+            id: "desc"
+        },
         where: {
             status: {
                 not: "ended"
-            }
-        },
-        orderBy: {
-            id: "desc"
+            },
+            OR: [
+                {
+                    title: {
+                        contains: search,
+                        mode: "insensitive"
+                    }
+                },
+                {
+                    game: {
+                        game_name: {
+                            contains: search,
+                            mode: "insensitive"
+                        }
+                    }
+                },
+                {
+                    tags: {
+                        hasSome: search
+                    }
+                }
+            ]
         },
         select: {
             id: true,
@@ -34,19 +58,10 @@ export const POST: RequestHandler = async () => {
                     id: true
                 }
             }
-        },
-        take: 12
-    })
-
-    const tournamentCount = await prisma.tournament.count({
-        where: {
-            status: {
-                not: "ended"
-            }
         }
     })
 
-    const newAllTournaments = await Promise.all(getAllTournaments.map(async (tournament) => {
+    const getMoreTournamentsTotal = await Promise.all(getTournaments.map(async (tournament) => {
         const tournamentPlayers = await prisma.tournamentPlayers.findMany({
             where: {
                 tournamentId: tournament.id
@@ -79,7 +94,6 @@ export const POST: RequestHandler = async () => {
     }))
 
     return json({
-        tournaments: newAllTournaments,
-        tournamentCount: tournamentCount
+        tournaments: getMoreTournamentsTotal
     })
 }

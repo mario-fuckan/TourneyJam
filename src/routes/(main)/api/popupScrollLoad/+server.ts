@@ -2,27 +2,26 @@ import { json } from "@sveltejs/kit"
 import type { RequestHandler } from "@sveltejs/kit"
 import { prisma } from "$lib/server/prisma"
 
-export const POST: RequestHandler = async ({ setHeaders }) => {
+export const POST: RequestHandler = async ({ request, setHeaders }) => {
     setHeaders({
         "Cache-Control": "max-age=36000"
     })
 
-    const gamesCount = await prisma.game.count()
+    const toSkip = await request.json()
 
-    const getAllGames = await prisma.game.findMany({
+    const getGames = await prisma.game.findMany({
         orderBy: {
             id: "desc"
         },
         select: {
-            id: true,
+            game_cover: true,
             game_name: true,
-            game_cover: true
+            id: true
         },
-        take: 16
+        take: 12, skip: toSkip
     })
 
     return json({
-        games: getAllGames,
-        gamesCount
+        games: getGames
     })
 }

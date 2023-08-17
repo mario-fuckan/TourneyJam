@@ -11,8 +11,11 @@
 
 	let loading: boolean = true
 	let games: Game[]
+	let gamesCount: number
 	let buttonStates: buttonState[] = []
 	let search: string = ""
+	let popupWindow: HTMLDivElement
+	let scrollLoading: boolean = false
 
 	interface buttonState {
 		id: number
@@ -27,6 +30,7 @@
 		const data = await res.json()
 
 		games = data.games
+		gamesCount = data.gamesCount
 
 		games.map((e: Game) => {
 			buttonStates.push({
@@ -155,6 +159,36 @@
 			}
 		})
 	}
+
+	async function scrollLoad() {
+		const currentScrollHeight: number = popupWindow.scrollTop + popupWindow.offsetHeight
+		const maxScrollHeight: number = popupWindow.scrollHeight
+
+		if (currentScrollHeight == maxScrollHeight && search == "" && gamesCount != games.length) {
+			scrollLoading = true
+			const res = await fetch("/api/popupScrollLoad", {
+				method: "POST",
+				body: JSON.stringify(games.length)
+			})
+
+			const data = await res.json()
+
+			games = [...games, ...data.games]
+
+			games.map((e: Game) => {
+				const gameObject = buttonStates.find((ex) => ex.id == e.id)
+
+				if (!gameObject) {
+					buttonStates.push({
+						id: e.id,
+						status: !checkFavorites(e.id) ? "Add to favorites" : "Remove from favorites"
+					})
+				}
+			})
+
+			scrollLoading = false
+		}
+	}
 </script>
 
 <div class="popup">
@@ -167,7 +201,7 @@
 				<Loading />
 			</div>
 		{:else}
-			<div class="popupcontent">
+			<div class="popupcontent" on:scroll={scrollLoad} bind:this={popupWindow}>
 				<div class="popheader">
 					<h1>Mark a game as your favorite</h1>
 					<div class="headersearch">
@@ -199,6 +233,11 @@
 						</div>
 					{/each}
 				</div>
+				{#if scrollLoading}
+					<div class="poupscrollloading">
+						<Loading />
+					</div>
+				{/if}
 			</div>
 		{/if}
 	</div>

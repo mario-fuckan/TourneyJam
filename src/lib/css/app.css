@@ -2469,6 +2469,10 @@ button:disabled:hover {
     font-weight: bold;
 }
 
+.poupscrollloading .load {
+    height: 200px;
+}
+
 /* Ranks XP Bar */
 
 .bronzebackground {

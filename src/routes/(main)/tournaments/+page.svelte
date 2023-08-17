@@ -111,7 +111,7 @@
 						</div>
 						<div class="tags">
 							{#each tags as tag}
-								<button on:click={() => goto(`/tournaments/tag/${tag}`)}>{tag}</button>
+								<button>{tag}</button>
 							{/each}
 						</div>
 						<hr />

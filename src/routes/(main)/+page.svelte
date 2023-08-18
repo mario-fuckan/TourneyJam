@@ -21,6 +21,7 @@
 
 		const data = await res.json()
 		tournaments = data.tournaments
+		tournamentCount = data.tournamentCount
 
 		if (localStorage.getItem("hide")) {
 			//@ts-ignore
@@ -67,7 +68,7 @@
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<article
 						on:click={() => goto("/news/" + id)}
-						style:background-image={"url(" + image.original + ")"}
+						style:background-image={`url(${JSON.stringify(image.original)})`}
 					>
 						<h2>{title}</h2>
 					</article>
@@ -121,9 +122,13 @@
 									<button on:click={() => goto(`/games/${game.id}`)}>{game.game_name}</button>
 								</div>
 								<div class="tags">
-									{#each tags as tag}
-										<button>{tag}</button>
-									{/each}
+									{#if tags.length != 0}
+										{#each tags as tag}
+											<button>{tag}</button>
+										{/each}
+									{:else}
+										<button class="hiddenb">PLACEHOLDER</button>
+									{/if}
 								</div>
 								<hr />
 								<div class="gamestats">

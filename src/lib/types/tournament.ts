@@ -1,5 +1,4 @@
 export interface Tournament {
-    background_image: string,
     cover_image: string,
     description: string,
     gameId: number,

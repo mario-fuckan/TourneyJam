@@ -62,7 +62,6 @@ model Game {
 model Tournament {
   id                Int                 @id @unique @default(autoincrement())
   cover_image       String              @default("tournament.png")
-  background_image  String?
   title             String
   startOn           DateTime
   password          String?

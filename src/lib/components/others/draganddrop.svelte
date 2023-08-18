@@ -134,6 +134,37 @@
 							imageUploading = false
 						}
 					}
+
+					if (mode == "tournament_cover") {
+						const maxWidth: number = 1920
+						const maxHeight: number = 1080
+
+						if (image.width > maxWidth || image.height > maxHeight) {
+							uploadError = "Your image resolution is bigger than 1920x1080px."
+							imageUploading = false
+							return
+						} else if (file.size / 1000000 > 3) {
+							uploadError =
+								"Your image is too large. Maximum allowed image size is 3MB. Your image is " +
+								(file.size / 1000000).toFixed(2) +
+								"MB."
+							imageUploading = false
+							return
+						} else {
+							uploadError = ""
+							const { data } = await supabase.storage
+								.from("tournament_covers")
+								.upload(uuidv4() + ".png", file)
+
+							dispatch(
+								"tournamentCover",
+								"https://wxwkfcytvmlhhfacebbu.supabase.co/storage/v1/object/public/tournament_covers/" +
+									data?.path
+							)
+
+							imageUploading = false
+						}
+					}
 				}
 
 				image.src = URL.createObjectURL(file)

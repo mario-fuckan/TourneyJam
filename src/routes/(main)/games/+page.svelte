@@ -42,15 +42,28 @@
 	}
 
 	async function searchAllGames() {
-		const res = await fetch("/api/gamesSearchGames", {
-			method: "POST",
-			body: JSON.stringify(search)
-		})
+		if (search != "") {
+			const res = await fetch("/api/gamesSearchGames", {
+				method: "POST",
+				body: JSON.stringify(search)
+			})
 
-		const data = await res.json()
+			const data = await res.json()
 
-		games = data.games
-		tags = data.tags
+			games = data.games
+			tags = data.tags
+		} else {
+			loading = true
+			const res = await fetch("/api/getAllGames", {
+				method: "POST"
+			})
+
+			const data = await res.json()
+
+			games = data.games
+			gamesCount = data.gamesCount
+			loading = false
+		}
 	}
 </script>
 
@@ -109,7 +122,7 @@
 				</a>
 			{/each}
 		</div>
-		{#if games.length < gamesCount}
+		{#if games.length < gamesCount && search == ""}
 			<button class="more" on:click={loadMoreGames}>Load More Games</button>
 		{/if}
 	{/if}

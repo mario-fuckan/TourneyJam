@@ -389,11 +389,19 @@ aside hr {
     font-size: 18px;
 }
 
+.tags:first-of-type button {
+    cursor: pointer;
+}
+
 .tags {
     display: flex;
     align-items: center;
     gap: 5px;
     margin: 15px 0px;
+}
+
+.hiddenb {
+    opacity: 0;
 }
 
 .tags button {
@@ -2470,6 +2478,106 @@ button:disabled:hover {
 
 .poupscrollloading .load {
     height: 200px;
+}
+
+.prizemodule p:first-of-type {
+    margin-bottom: 5px;
+}
+
+.prizemodule p span {
+    font-weight: bold;
+}
+
+.prizemodule .addmoduleright {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addpagemodule .datemodule {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: 20px;
+}
+
+.addpagemodule .datemodule input {
+    color-scheme: dark;
+}
+
+.typemodule {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: 20px;
+}
+
+.typemodule select {
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid #444;
+    background-color: transparent;
+    color: white;
+    padding: 0px 10px;
+    outline: none;
+}
+
+.typemodule select option {
+    font-size: 15px;
+    background-color: #0B0C13;
+}
+
+.addtagsmodule {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.addtagsmodule button {
+    background-color: transparent;
+    border: 1px solid #444;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    font-weight: bold;
+    padding: 15px 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.addtagsmodule button:hover {
+    background-color: #222;
+    transform: translateY(-3px);
+}
+
+.moduletags {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.moduletags button {
+    background-color: transparent;
+    border: 1px solid #444;
+    border-radius: 10px;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.moduletags button:hover {
+    transform: translateY(-3px);
+    background-color: #222;
+}
+
+.addtags span {
+    font-weight: bold;
+}
+
+.addtags p:first-of-type {
+    margin-bottom: 5px;
 }
 
 /* Ranks XP Bar */

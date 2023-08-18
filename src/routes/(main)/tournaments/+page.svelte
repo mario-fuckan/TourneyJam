@@ -3,14 +3,19 @@
 	import type { Tournament } from "$lib/types/tournament"
 	import { goto } from "$app/navigation"
 	import { onMount } from "svelte"
+	import { page } from "$app/stores"
 	import Loading from "$lib/components/others/loading.svelte"
 	import { badges as UserBadges } from "$lib/utils/badges"
 	import NoContent from "$lib/components/others/nocontent.svelte"
+	import type { User } from "$lib/types/user"
 
 	let search: string = ""
 	let tournaments: Tournament[] = []
 	let tournamentCount: number
 	let loading: boolean = true
+	let user: User
+
+	$: ({ user } = $page.data)
 
 	onMount(async () => {
 		const res = await fetch("/api/getAllTournaments", {
@@ -37,14 +42,27 @@
 	}
 
 	async function searchAllTournaments() {
-		const res = await fetch("/api/tournamentsSearch", {
-			method: "POST",
-			body: JSON.stringify(search)
-		})
+		if (search != "") {
+			const res = await fetch("/api/tournamentsSearch", {
+				method: "POST",
+				body: JSON.stringify(search)
+			})
 
-		const data = await res.json()
+			const data = await res.json()
 
-		tournaments = data.tournaments
+			tournaments = data.tournaments
+		} else {
+			loading = true
+			const res = await fetch("/api/getAllTournaments", {
+				method: "POST"
+			})
+
+			const data = await res.json()
+
+			tournaments = data.tournaments
+			tournamentCount = data.tournamentCount
+			loading = false
+		}
 	}
 </script>
 
@@ -60,7 +78,9 @@
 		</div>
 		<div class="gamesheaderright">
 			<div class="dashboardsearch">
-				<a href="/tournaments/create">Create a tournament</a>
+				{#if user}
+					<a href="/tournaments/create">Create a tournament</a>
+				{/if}
 				<input
 					class="tournamentsearch"
 					type="text"
@@ -110,9 +130,13 @@
 							<button on:click={() => goto(`/games/${game.id}`)}>{game.game_name}</button>
 						</div>
 						<div class="tags">
-							{#each tags as tag}
-								<button>{tag}</button>
-							{/each}
+							{#if tags.length != 0}
+								{#each tags as tag}
+									<button>{tag}</button>
+								{/each}
+							{:else}
+								<button class="hiddenb">PLACEHOLDER</button>
+							{/if}
 						</div>
 						<hr />
 						<div class="gamestats">
@@ -170,7 +194,7 @@
 				</div>
 			{/each}
 		</div>
-		{#if tournaments.length < tournamentCount}
+		{#if tournaments.length < tournamentCount && search == ""}
 			<button class="more" on:click={loadMoreTournaments}>Load More Tournaments</button>
 		{/if}
 	{/if}

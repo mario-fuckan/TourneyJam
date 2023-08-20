@@ -13,7 +13,8 @@ export interface Tournament {
     tags: string[],
     password: string,
     players: authUser[],
-    game: Game
+    game: Game,
+    creatorStream: string
 }
 
 interface Game {

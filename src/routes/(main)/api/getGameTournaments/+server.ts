@@ -14,10 +14,7 @@ export const POST: RequestHandler = async ({ request }) => {
                 {
                     status: "scheduled"
                 }
-            ],
-            startOn: {
-                gte: new Date()
-            }
+            ]
         },
         include: {
             authUser: {

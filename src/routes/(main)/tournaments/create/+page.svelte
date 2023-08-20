@@ -23,6 +23,7 @@
 	let startOn: string
 	let type: string
 	let password: string = ""
+	let creatorStream: string = ""
 
 	let owner: string = $page.data.user.userId
 
@@ -290,6 +291,16 @@
 			</div>
 		</div>
 		<hr />
+		<div class="addpagemodule prizemodule">
+			<div class="addmoduleleft">
+				<h4>Your Twitch.tv username</h4>
+				<p>Enter your username to display your stream on the tournament page.</p>
+			</div>
+			<div class="addmoduleright tagmodule">
+				<input type="text" placeholder="myusername" bind:value={creatorStream} />
+			</div>
+		</div>
+		<hr />
 	{/if}
 	<div class="pesavebuttons">
 		<button on:click={() => goto("/tournaments")}>Cancel</button>
@@ -310,6 +321,7 @@
 						type = ""
 						tags = []
 						password = ""
+						creatorStream = ""
 					}
 				}}
 			>
@@ -324,6 +336,7 @@
 				<input type="text" name="type" bind:value={type} hidden />
 				<input type="text" name="password" bind:value={password} hidden />
 				<input type="text" name="tags" bind:value={tags} hidden />
+				<input type="text" name="creatorString" bind:value={creatorStream} hidden />
 				<button
 					class="savechanges"
 					type="submit"

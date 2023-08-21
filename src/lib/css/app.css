@@ -2732,6 +2732,23 @@ button:disabled:hover {
     grid-template-columns: 80% 20%;
 }
 
+.tournamentplayers {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: auto;
+    gap: 20px;
+}
+
+.tournamentplayers a {
+    border-radius: 10px;
+    width: 100%;
+    border: 1px solid #444;
+}
+
+.tournamentplayers a svg:first-of-type {
+    margin-left: 5px;
+}
+
 /* Ranks XP Bar */
 
 .bronzebackground {

@@ -11,7 +11,7 @@
 
 	let tournament: Tournament
 	let loading: boolean = true
-	let activeButton: string = "Participants"
+	let activeButton: string = "About"
 	let players: Player[] = []
 
 	const socket = io("https://socketserver-yq5m.onrender.com")
@@ -58,7 +58,7 @@
 
 		const data = await res.json()
 
-		players = data.members
+		players = data.players
 	}
 </script>
 
@@ -88,7 +88,7 @@
 				>
 			{/if}
 			<button class:tournamentselected={activeButton == "Participants"} on:click={getParticipants}
-				><Icon icon="ic:baseline-people" /> Participants</button
+				><Icon icon="ic:baseline-people" /> Participants ({players.length})</button
 			>
 		</div>
 		{#if activeButton == "About"}
@@ -176,9 +176,15 @@
 			<div class="tournamentcontent">
 				{#if players.length > 0}
 					<div class="tournamentplayers">
-						{#each players as { id, username, profile_picture, badges }}
+						{#each players as { username, profile_picture, badges }}
 							<a href="/profile/{username}">
 								<img src={profile_picture} alt={username} />
+								{username}
+								{#if badges.length > 0}
+									{#each badges as badge}
+										<Icon icon={userbadges[badge].icon} style="color: {userbadges[badge].color}" />
+									{/each}
+								{/if}
 							</a>
 						{/each}
 					</div>

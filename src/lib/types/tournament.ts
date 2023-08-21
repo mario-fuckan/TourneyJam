@@ -14,7 +14,8 @@ export interface Tournament {
     password: string,
     players: authUser[],
     game: Game,
-    creatorStream: string
+    creatorStream: string,
+    authUserId: string,
 }
 
 interface Game {

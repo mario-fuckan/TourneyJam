@@ -8,15 +8,28 @@
 	import type { Player } from "$lib/types/player"
 	import { io } from "socket.io-client"
 	import NoContent from "$lib/components/others/nocontent.svelte"
+	import type { User } from "$lib/types/user"
+	import { goto } from "$app/navigation"
+	import { fly } from "svelte/transition"
 
 	let tournament: Tournament
 	let loading: boolean = true
 	let activeButton: string = "About"
 	let players: Player[] = []
+	let user: User
+	let passwordWindow: boolean = false
+	let password: string = ""
+	let error: string = ""
 
 	const socket = io("https://socketserver-yq5m.onrender.com")
 
 	socket.emit("tournamentId", $page.params.id)
+	socket.on("updatePlayers", (message) => {
+		players = message
+		players = players
+	})
+
+	$: ({ user } = $page.data)
 
 	onMount(async () => {
 		const res = await fetch("/api/getTournamentById", {
@@ -49,8 +62,6 @@
 	}
 
 	async function getParticipants() {
-		activeButton = "Participants"
-
 		const res = await fetch("/api/getMembersByTournamentId", {
 			method: "POST",
 			body: JSON.stringify($page.params.id)
@@ -59,6 +70,62 @@
 		const data = await res.json()
 
 		players = data.players
+	}
+
+	function checkForPlayer(id: string) {
+		for (let i = 0; i < players.length; i++) {
+			if (players[i].id == id) {
+				return true
+			}
+		}
+
+		return false
+	}
+
+	async function leave(userId: string, tournamentId: number) {
+		const res = await fetch("/api/leaveTournament", {
+			method: "POST",
+			body: JSON.stringify({
+				userId,
+				tournamentId
+			})
+		})
+
+		const { success } = await res.json()
+
+		if (success) {
+			getParticipants().then(() => {
+				socket.emit("updatePlayers", players)
+			})
+		}
+	}
+
+	async function join(userId: string, tournamentId: number) {
+		const res = await fetch("/api/joinTournament", {
+			method: "POST",
+			body: JSON.stringify({
+				userId,
+				tournamentId
+			})
+		})
+
+		const { success } = await res.json()
+
+		if (success) {
+			getParticipants().then(() => {
+				socket.emit("updatePlayers", players)
+			})
+		}
+	}
+
+	function checkPassword() {
+		if (password == tournament.password) {
+			passwordWindow = false
+			password = ""
+			join(user.userId, tournament.id)
+		} else {
+			error = "Password incorrect"
+		}
 	}
 </script>
 
@@ -70,7 +137,56 @@
 	<Loading />
 {:else}
 	<div class="tournamentwrapper">
-		<header style="background-image: url({tournament.cover_image})" />
+		<header style="background-image: url({tournament.cover_image})">
+			{#key players}
+				{#if tournament.authUserId == user?.userId || String(user?.role) == "admin"}
+					<div class="buttondiv">
+						<button on:click={() => goto(`/tournaments/${$page.params.id}/edit`)}
+							>Edit tournament</button
+						>
+					</div>
+				{:else if tournament.status == "active"}
+					<div class="buttondiv">
+						<button disabled>Active</button>
+					</div>
+				{:else if checkForPlayer(user?.userId)}
+					<div class="buttondiv">
+						<button class="leavebutton" on:click={() => leave(user.userId, tournament.id)}
+							>Leave</button
+						>
+					</div>
+				{:else if !user}
+					<div class="buttondiv">
+						<button>Login to join the tournament</button>
+					</div>
+				{:else if tournament.max_slots == players.length}
+					<div class="buttondiv">
+						<button>Full</button>
+					</div>
+				{:else if tournament.type == "passwordProtected"}
+					<div class="buttondiv">
+						<button
+							on:click={() => {
+								passwordWindow = !passwordWindow
+							}}>Enter password to join</button
+						>
+						{#if passwordWindow}
+							<div class="passwordWindow" transition:fly={{ x: 20 }}>
+								<div class="passwordWindowtop">
+									<input type="password" placeholder="Type password..." bind:value={password} />
+									<button on:click={checkPassword}>Enter</button>
+								</div>
+								<p>{error}</p>
+							</div>
+						{/if}
+					</div>
+				{:else}
+					<div class="buttondiv">
+						<button on:click={() => join(user.userId, tournament.id)}>Join</button>
+					</div>
+				{/if}
+			{/key}
+		</header>
 		<div class="tournamentselector">
 			<button
 				class:tournamentselected={activeButton == "About"}
@@ -87,8 +203,12 @@
 					><Icon icon="mdi:twitch" /> Twitch Stream</button
 				>
 			{/if}
-			<button class:tournamentselected={activeButton == "Participants"} on:click={getParticipants}
-				><Icon icon="ic:baseline-people" /> Participants ({players.length})</button
+			<button
+				class:tournamentselected={activeButton == "Participants"}
+				on:click={() => {
+					activeButton = "Participants"
+					getParticipants()
+				}}><Icon icon="ic:baseline-people" /> Participants ({players.length})</button
 			>
 		</div>
 		{#if activeButton == "About"}

@@ -2586,6 +2586,7 @@ button:disabled:hover {
 }
 
 .tournamentwrapper header {
+    position: relative;
     height: 400px;
     background-size: cover;
     border-top-left-radius: 20px;
@@ -2747,6 +2748,64 @@ button:disabled:hover {
 
 .tournamentplayers a svg:first-of-type {
     margin-left: 5px;
+}
+
+.tournamentwrapper header .buttondiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 20px;
+}
+
+.tournamentwrapper header .buttondiv button {
+    cursor: pointer;
+    padding: 10px;
+    transition: 0.3s;
+    font-weight: bold;
+    color: white;
+    border: 0px;
+    border-radius: 10px;
+    background-color: #111;
+}
+
+.passwordWindow {
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #111;
+}
+
+.passwordWindow input {
+    background-color: #292929;
+    border: 0px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    outline: none;
+    caret-color: white;
+    color: white;
+}
+
+.passwordWindow .passwordWindowtop {
+    margin-bottom: 10px;
+}
+
+.passwordWindow p {
+    font-size: 14px;
+    color: red;
+}
+
+.tournamentwrapper header button:hover {
+    transform: translateY(-3px) !important;
+}
+
+.tournamentwrapper header button:disabled {
+    background-color: green;
+    opacity: 1 !important;
+}
+
+.leavebutton {
+    background-color: darkred !important;
 }
 
 /* Ranks XP Bar */

@@ -1,16 +1,22 @@
 <script lang="ts">
 	import Icon from "@iconify/svelte"
-	import { onMount } from "svelte"
+	import { onDestroy, onMount } from "svelte"
 	import { page } from "$app/stores"
 	import type { Tournament } from "$lib/types/tournament"
 	import Loading from "$lib/components/others/loading.svelte"
 	import { badges as userbadges } from "$lib/utils/badges"
 	import type { Player } from "$lib/types/player"
+	import { io } from "socket.io-client"
+	import NoContent from "$lib/components/others/nocontent.svelte"
 
 	let tournament: Tournament
 	let loading: boolean = true
-	let activeButton: string = "Stream"
+	let activeButton: string = "Participants"
 	let players: Player[] = []
+
+	const socket = io("https://socketserver-yq5m.onrender.com")
+
+	socket.emit("tournamentId", $page.params.id)
 
 	onMount(async () => {
 		const res = await fetch("/api/getTournamentById", {
@@ -24,8 +30,10 @@
 		players = data.players
 
 		loading = false
+	})
 
-		console.log(players)
+	onDestroy(() => {
+		socket.disconnect()
 	})
 
 	function dateFormat(notFormatDate: Date) {
@@ -38,6 +46,19 @@
 			hour: "2-digit",
 			minute: "2-digit"
 		})
+	}
+
+	async function getParticipants() {
+		activeButton = "Participants"
+
+		const res = await fetch("/api/getMembersByTournamentId", {
+			method: "POST",
+			body: JSON.stringify($page.params.id)
+		})
+
+		const data = await res.json()
+
+		players = data.members
 	}
 </script>
 
@@ -66,10 +87,8 @@
 					><Icon icon="mdi:twitch" /> Twitch Stream</button
 				>
 			{/if}
-			<button
-				class:tournamentselected={activeButton == "Members"}
-				on:click={() => (activeButton = "Members")}
-				><Icon icon="ic:baseline-people" /> Members</button
+			<button class:tournamentselected={activeButton == "Participants"} on:click={getParticipants}
+				><Icon icon="ic:baseline-people" /> Participants</button
 			>
 		</div>
 		{#if activeButton == "About"}
@@ -151,6 +170,21 @@
 						src="https://www.twitch.tv/embed/{tournament.creatorStream}/chat?darkpopout&parent=localhost"
 					/>
 				</div>
+			</div>
+		{/if}
+		{#if activeButton == "Participants"}
+			<div class="tournamentcontent">
+				{#if players.length > 0}
+					<div class="tournamentplayers">
+						{#each players as { id, username, profile_picture, badges }}
+							<a href="/profile/{username}">
+								<img src={profile_picture} alt={username} />
+							</a>
+						{/each}
+					</div>
+				{:else}
+					<NoContent missing="players" />
+				{/if}
 			</div>
 		{/if}
 	</div>

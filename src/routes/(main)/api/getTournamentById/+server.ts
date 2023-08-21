@@ -19,6 +19,7 @@ export const POST: RequestHandler = async ({ request }) => {
             },
             authUser: {
                 select: {
+                    id: true,
                     username: true,
                     profile_picture: true,
                     badges: true
@@ -35,7 +36,9 @@ export const POST: RequestHandler = async ({ request }) => {
             AuthUser: {
                 select: {
                     username: true,
-                    id: true
+                    id: true,
+                    badges: true,
+                    profile_picture: true
                 }
             }
         }

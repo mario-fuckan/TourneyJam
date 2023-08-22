@@ -16,6 +16,7 @@ export interface Tournament {
     game: Game,
     creatorStream: string,
     authUserId: string,
+    bracket: string[]
 }
 
 interface Game {

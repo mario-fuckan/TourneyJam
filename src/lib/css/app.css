@@ -2808,6 +2808,66 @@ button:disabled:hover {
     background-color: darkred !important;
 }
 
+.tournamentbracketwrapper {
+    overflow-y: auto;
+}
+
+.tournamentbracketwrapper::-webkit-scrollbar {
+    height: 15px;
+}
+
+.tournamentbracketwrapper::-webkit-scrollbar-track {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-left: 1px solid #444;
+    border-right: 1px solid #444;
+    border-bottom: 1px solid #444;
+}
+
+.tournamentbracketwrapper::-webkit-scrollbar-thumb {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.tournamentbracket {
+    display: flex;
+    align-items: center;
+    gap: 200px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.column:last-of-type .group {
+    margin-right: 20px;
+}
+
+.group {
+    padding: 20px;
+    border: 1px solid #444;
+    background-color: #222;
+    min-width: 400px;
+    box-sizing: border-box;
+}
+
+.group h1 {
+    font-size: 20px;
+}
+
+.players {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.player {
+    border: 1px solid #444;
+}
+
 /* Ranks XP Bar */
 
 .bronzebackground {

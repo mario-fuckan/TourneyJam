@@ -13,7 +13,7 @@ export async function load({ locals }) {
 
 export const actions: Actions = {
     default: async ({ request }) => {
-        const { title, description, cover_image, prize, max_slots, owner, gameId, startOn, type, password, tags, creatorStream } = Object.fromEntries(await request.formData()) as {
+        const { title, description, cover_image, prize, max_slots, owner, gameId, startOn, type, password, tags, creatorString } = Object.fromEntries(await request.formData()) as {
             title: string,
             description: string,
             cover_image: string,
@@ -25,7 +25,7 @@ export const actions: Actions = {
             type: string,
             password: string,
             tags: string,
-            creatorStream: string
+            creatorString: string
         }
 
         if (!title || !description || !cover_image || !prize || !max_slots || !startOn || !type) {
@@ -93,7 +93,7 @@ export const actions: Actions = {
                         password,
                         tags: tags.length != 0 ? tags.split(",") : [],
                         status: "scheduled",
-                        creatorStream
+                        creatorStream: creatorString
                     }
                 })
             } catch (error) {

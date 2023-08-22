@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from "@iconify/svelte"
-	import { onDestroy, onMount } from "svelte"
+	import { onDestroy, onMount, tick } from "svelte"
 	import { page } from "$app/stores"
 	import type { Tournament } from "$lib/types/tournament"
 	import Loading from "$lib/components/others/loading.svelte"
@@ -14,19 +14,26 @@
 
 	let tournament: Tournament
 	let loading: boolean = true
-	let activeButton: string = "About"
+	let activeButton: string = "Bracket"
 	let players: Player[] = []
 	let user: User
 	let passwordWindow: boolean = false
 	let password: string = ""
 	let error: string = ""
+	let bracket: any = []
 
 	const socket = io("https://socketserver-yq5m.onrender.com")
 
 	socket.emit("tournamentId", $page.params.id)
+
 	socket.on("updatePlayers", (message) => {
 		players = message
 		players = players
+	})
+
+	socket.on("updateBracket", (message) => {
+		bracket = message
+		bracket = bracket
 	})
 
 	$: ({ user } = $page.data)
@@ -41,6 +48,14 @@
 
 		tournament = data.tournament
 		players = data.players
+
+		if (tournament.bracket) {
+			bracket = tournament.bracket
+		} else {
+			if (players.length > 0) {
+				createBracket(players)
+			}
+		}
 
 		loading = false
 	})
@@ -94,8 +109,9 @@
 		const { success } = await res.json()
 
 		if (success) {
-			getParticipants().then(() => {
+			getParticipants().then(async () => {
 				socket.emit("updatePlayers", players)
+				createBracket(players)
 			})
 		}
 	}
@@ -112,9 +128,12 @@
 		const { success } = await res.json()
 
 		if (success) {
-			getParticipants().then(() => {
+			getParticipants().then(async () => {
 				socket.emit("updatePlayers", players)
+				createBracket(players)
 			})
+		} else {
+			error = "Tournament is full."
 		}
 	}
 
@@ -126,6 +145,77 @@
 		} else {
 			error = "Password incorrect"
 		}
+	}
+
+	async function createBracket(players: any) {
+		bracket = []
+		let playerLength: number = players.length
+		let column: any = []
+		let round: any = []
+
+		if (playerLength == 1) {
+			bracket.push([players])
+		} else {
+			for (let i = 0; i < Math.ceil(playerLength / 2); i++) {
+				for (let j = i * 2; j < i + 2; j++) {
+					round.push(players[j])
+				}
+
+				column.push(round)
+				round = []
+			}
+
+			bracket.push(column)
+			column = []
+
+			let index: number = 0
+
+			playerLength = bracket[index].length
+
+			while (playerLength != 1) {
+				for (let i = 0; i < Math.ceil(playerLength / 2); i++) {
+					for (let j = 0; j < 2; j++) {
+						round.push({
+							id: "",
+							username: "",
+							profile_picture: "",
+							badges: []
+						})
+					}
+					column.push(round)
+					round = []
+				}
+
+				bracket.push(column)
+				column = []
+
+				index++
+				playerLength = bracket[index].length
+			}
+		}
+
+		bracket.push([
+			[
+				{
+					id: "",
+					username: "",
+					profile_picture: "",
+					badges: []
+				}
+			]
+		])
+
+		bracket = bracket
+
+		await fetch("/api/updateBracket", {
+			method: "POST",
+			body: JSON.stringify({
+				tournamentId: tournament.id,
+				newBracket: bracket
+			})
+		})
+
+		socket.emit("updateBracket", bracket)
 	}
 </script>
 
@@ -312,6 +402,35 @@
 					<NoContent missing="players" />
 				{/if}
 			</div>
+		{/if}
+		{#if activeButton == "Bracket"}
+			{#if players.length > 0}
+				<div class="tournamentcontent tournamentbracketwrapper">
+					<div class="tournamentbracket">
+						{#key bracket}
+							{#each bracket as column}
+								<div class="column">
+									{#each column as group}
+										<div class="group">
+											<h1>Round x</h1>
+											<div class="players">
+												{#each group as player}
+													<div class="player" draggable="true">
+														<img src={player.profile_picture} alt={player.username} />
+														<p>{player.username}</p>
+													</div>
+												{/each}
+											</div>
+										</div>
+									{/each}
+								</div>
+							{/each}
+						{/key}
+					</div>
+				</div>
+			{:else}
+				<NoContent missing="bracket" />
+			{/if}
 		{/if}
 	</div>
 {/if}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from "@iconify/svelte"
-	import { onDestroy, onMount, tick } from "svelte"
+	import { onDestroy, onMount } from "svelte"
 	import { page } from "$app/stores"
 	import type { Tournament } from "$lib/types/tournament"
 	import Loading from "$lib/components/others/loading.svelte"
@@ -11,10 +11,11 @@
 	import type { User } from "$lib/types/user"
 	import { goto } from "$app/navigation"
 	import { fly } from "svelte/transition"
+	import { draggable, dropzone } from "$lib/actions/dnd.js"
 
 	let tournament: Tournament
 	let loading: boolean = true
-	let activeButton: string = "Bracket"
+	let activeButton: string = "About"
 	let players: Player[] = []
 	let user: User
 	let passwordWindow: boolean = false
@@ -34,6 +35,26 @@
 	socket.on("updateBracket", (message) => {
 		bracket = message
 		bracket = bracket
+	})
+
+	socket.on("refreshTournamentPage", async () => {
+		const res = await fetch("/api/getTournamentById", {
+			method: "POST",
+			body: JSON.stringify($page.params.id)
+		})
+
+		const data = await res.json()
+
+		tournament = data.tournament
+		players = data.players
+
+		if (tournament.bracket) {
+			bracket = tournament.bracket
+		} else {
+			if (players.length > 0) {
+				createBracket(players)
+			}
+		}
 	})
 
 	$: ({ user } = $page.data)
@@ -200,13 +221,26 @@
 					id: "",
 					username: "",
 					profile_picture: "",
-					badges: []
+					badges: [],
+					winner: true
 				}
 			]
 		])
 
 		bracket = bracket
 
+		await fetch("/api/updateBracket", {
+			method: "POST",
+			body: JSON.stringify({
+				tournamentId: tournament.id,
+				newBracket: bracket
+			})
+		})
+
+		socket.emit("updateBracket", bracket)
+	}
+
+	async function updateBracket() {
 		await fetch("/api/updateBracket", {
 			method: "POST",
 			body: JSON.stringify({
@@ -229,7 +263,7 @@
 	<div class="tournamentwrapper">
 		<header style="background-image: url({tournament.cover_image})">
 			{#key players}
-				{#if tournament.authUserId == user?.userId || String(user?.role) == "admin"}
+				{#if tournament.authUserId == user?.userId}
 					<div class="buttondiv">
 						<button on:click={() => goto(`/tournaments/${$page.params.id}/edit`)}
 							>Edit tournament</button
@@ -238,6 +272,10 @@
 				{:else if tournament.status == "active"}
 					<div class="buttondiv">
 						<button disabled>Active</button>
+					</div>
+				{:else if tournament.status == "ended"}
+					<div class="buttondiv">
+						<button class="leavebutton">Ended</button>
 					</div>
 				{:else if checkForPlayer(user?.userId)}
 					<div class="buttondiv">
@@ -308,7 +346,11 @@
 					<Icon icon="mdi:calendar" />
 					{dateFormat(tournament.startOn)} -
 					<span class={tournament.status}
-						>{tournament.status == "active" ? "Active" : "Scheduled"}</span
+						>{tournament.status == "active"
+							? "Active"
+							: tournament.status == "scheduled"
+							? "Scheduled"
+							: "Ended"}</span
 					>
 				</p>
 				<a href="/profile/{tournament.authUser.username}">
@@ -407,25 +449,217 @@
 			{#if players.length > 0}
 				<div class="tournamentcontent tournamentbracketwrapper">
 					<div class="tournamentbracket">
-						{#key bracket}
-							{#each bracket as column}
-								<div class="column">
-									{#each column as group}
-										<div class="group">
-											<h1>Round x</h1>
-											<div class="players">
-												{#each group as player}
-													<div class="player" draggable="true">
-														<img src={player.profile_picture} alt={player.username} />
-														<p>{player.username}</p>
+						{#if tournament.authUserId == user?.userId}
+							{#if tournament.status == "active"}
+								{#key bracket}
+									{#each bracket as column, columnIndex}
+										<div class="column">
+											{#each column as group, i}
+												{#if !group[0]?.winner || group[1]?.winner}
+													<div class="group">
+														<h1>Round {i + 1}</h1>
+														<div class="players">
+															{#each group as player}
+																<div
+																	class="player"
+																	use:draggable={player}
+																	use:dropzone={{
+																		//@ts-ignore
+																		on_dropzone(node) {
+																			const item = JSON.parse(node)
+
+																			function existsInGroup() {
+																				for (let i = 0; i < group.length; i++) {
+																					if (group[i].id == item.id) {
+																						return true
+																					}
+																				}
+
+																				return false
+																			}
+
+																			if (columnIndex != 0) {
+																				const exists = existsInGroup()
+
+																				if (!exists) {
+																					player = item
+																				}
+																			}
+
+																			bracket = bracket
+																			updateBracket()
+																		}
+																	}}
+																>
+																	{#if player.profile_picture && player.username}
+																		<img src={player.profile_picture} alt={player.username} />
+																		{player.username}
+																		<div class="playerbadges">
+																			{#if player.badges.length > 0}
+																				{#each player.badges as badge}
+																					<Icon
+																						icon={userbadges[badge].icon}
+																						style="color: {userbadges[badge].color}"
+																					/>
+																				{/each}
+																			{/if}
+																		</div>
+																		{#if columnIndex > 0}
+																			<button
+																				on:click={() => {
+																					;(player.id = ""),
+																						(player.badges = []),
+																						(player.username = ""),
+																						(player.profile_picture = ""),
+																						(bracket = bracket)
+																					updateBracket()
+																				}}
+																			>
+																				<Icon icon="material-symbols:close" />
+																			</button>
+																		{/if}
+																	{:else}
+																		<img src="" alt="" style="opacity: 0" />
+																	{/if}
+																</div>
+															{/each}
+														</div>
 													</div>
-												{/each}
-											</div>
+												{:else}
+													<div class="group">
+														<h1>Winner</h1>
+														<div class="players">
+															{#each group as player}
+																<div
+																	class="player"
+																	use:draggable={player}
+																	use:dropzone={{
+																		//@ts-ignore
+																		on_dropzone(node) {
+																			const item = JSON.parse(node)
+
+																			player = { ...item, winner: true }
+
+																			bracket = bracket
+																			updateBracket()
+																		}
+																	}}
+																>
+																	{#if player.profile_picture && player.username}
+																		<img src={player.profile_picture} alt={player.username} />
+																		{player.username}
+																		<div class="playerbadges">
+																			{#if player.badges.length > 0}
+																				{#each player.badges as badge}
+																					<Icon
+																						icon={userbadges[badge].icon}
+																						style="color: {userbadges[badge].color}"
+																					/>
+																				{/each}
+																			{/if}
+																		</div>
+																		<button
+																			on:click={() => {
+																				;(player.id = ""),
+																					(player.badges = []),
+																					(player.username = ""),
+																					(player.profile_picture = ""),
+																					(bracket = bracket)
+																				updateBracket()
+																			}}
+																		>
+																			<Icon icon="material-symbols:close" />
+																		</button>
+																	{:else}
+																		<img src="" alt="" style="opacity: 0" />
+																	{/if}
+																</div>
+															{/each}
+														</div>
+													</div>
+												{/if}
+											{/each}
 										</div>
 									{/each}
+								{/key}
+							{:else if tournament.status == "scheduled"}
+								<div class="nocontent waitfortournament">
+									<h1>You must start the tournament.</h1>
+									<h1>You can start it <a href="/tournaments/{tournament.id}/edit">here</a>.</h1>
 								</div>
-							{/each}
-						{/key}
+							{:else}
+								<div class="nocontent waitfortournament">
+									<h1>Your tournament has ended.</h1>
+									<h1>You can change that <a href="/tournaments/{tournament.id}/edit">here</a>.</h1>
+								</div>
+							{/if}
+						{:else if tournament.status == "active" || tournament.status == "ended"}
+							{#key bracket}
+								{#each bracket as column}
+									<div class="column">
+										{#each column as group, i}
+											{#if !group[0]?.winner || group[1]?.winner}
+												<div class="group">
+													<h1>Round {i + 1}</h1>
+													<div class="players">
+														{#each group as player}
+															<div class="player">
+																{#if player.profile_picture && player.username}
+																	<img src={player.profile_picture} alt={player.username} />
+																	{player.username}
+																	<div class="playerbadges">
+																		{#if player.badges.length > 0}
+																			{#each player.badges as badge}
+																				<Icon
+																					icon={userbadges[badge].icon}
+																					style="color: {userbadges[badge].color}"
+																				/>
+																			{/each}
+																		{/if}
+																	</div>
+																{:else}
+																	<img src="" alt="" style="opacity: 0" />
+																{/if}
+															</div>
+														{/each}
+													</div>
+												</div>
+											{:else}
+												<div class="group">
+													<h1>Winner</h1>
+													<div class="players">
+														{#each group as player}
+															<div class="player">
+																{#if player.profile_picture && player.username}
+																	<img src={player.profile_picture} alt={player.username} />
+																	{player.username}
+																	<div class="playerbadges">
+																		{#if player.badges.length > 0}
+																			{#each player.badges as badge}
+																				<Icon
+																					icon={userbadges[badge].icon}
+																					style="color: {userbadges[badge].color}"
+																				/>
+																			{/each}
+																		{/if}
+																	</div>
+																{:else}
+																	<img src="" alt="" style="opacity: 0" />
+																{/if}
+															</div>
+														{/each}
+													</div>
+												</div>
+											{/if}
+										{/each}
+									</div>
+								{/each}
+							{/key}
+						{:else}
+							<div class="nocontent waitfortournament">
+								<h1>Wait for the tournament to start.</h1>
+							</div>
+						{/if}
 					</div>
 				</div>
 			{:else}

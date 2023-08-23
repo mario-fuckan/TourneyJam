@@ -25,7 +25,7 @@
 	let game_showcase: string
 	let game_tags: string[] = []
 	let game_website: string
-	let owner: string = $page.data.user.role == "admin" ? "" : $page.data.user.userId
+	let owner: string
 	let ownerSearch: string
 
 	let allTags: string[] = []
@@ -280,16 +280,7 @@
 				method="POST"
 				use:enhance={() => {
 					return async ({ update }) => {
-						await update()
-						game_name = ""
-						game_description = ""
-						game_cover = ""
-						game_background = ""
-						game_showcase = ""
-						game_tags = []
-						game_website = ""
-						owner = ""
-						ownerSearch = ""
+						update({ reset: false })
 					}
 				}}
 			>

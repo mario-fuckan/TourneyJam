@@ -1,32 +1,68 @@
 <script lang="ts">
+	import { onMount, onDestroy } from "svelte"
+	import { page } from "$app/stores"
+	import Loading from "$lib/components/others/loading.svelte"
+	import type { Tournament } from "$lib/types/tournament"
+	import { io } from "socket.io-client"
 	import { enhance } from "$app/forms"
 	import { goto } from "$app/navigation"
 	import DragAndDrop from "$lib/components/others/draganddrop.svelte"
-	import { page } from "$app/stores"
-	import type { Game } from "$lib/types/tournamentGame"
+
+	const socket = io("https://socketserver-yq5m.onrender.com")
+
+	socket.emit("tournamentId", $page.params.id)
+
+	let loading: boolean = true
+	let tournament: Tournament
+
+	export let form
 
 	let createState: string = ""
-	let game_query: string
-	let allGames: Game[] = []
 	let date: string
 	let time: string
-	let tags: string[] = []
-	let tag: string = ""
+	let tag: string
 
 	let title: string
 	let description: string
 	let cover_image: string
 	let prize: string
-	let max_slots: string
-	let gameId: string = ""
-	let startOn: string
 	let type: string
-	let password: string = ""
-	let creatorStream: string = ""
+	let password: string
+	let creatorStream: string
+	let startOn: Date | string
+	let tags: string[]
+	let status: string
 
-	let owner: string = $page.data.user.userId
+	onMount(async () => {
+		const res = await fetch("/api/getTournamentByIdEdit", {
+			method: "POST",
+			body: JSON.stringify($page.params.id)
+		})
 
-	export let form
+		const data = await res.json()
+
+		tournament = data.tournament
+
+		title = tournament.title
+		description = tournament.description
+		cover_image = tournament.cover_image
+		prize = String(tournament.prize)
+		type = tournament.type
+		password = tournament.password
+		creatorStream = tournament.creatorStream
+		tags = tournament.tags
+		startOn = tournament.startOn
+		status = tournament.status
+
+		date = new Date(startOn).toISOString().split("T")[0]
+		time = new Date(startOn).toTimeString().split(" ")[0]
+
+		loading = false
+	})
+
+	onDestroy(() => {
+		socket.disconnect()
+	})
 
 	function tournamentCover(e: any) {
 		cover_image = e.detail
@@ -34,31 +70,17 @@
 
 	$: if (form?.done) {
 		createState = "done"
+		socket.emit("refreshTournamentPage", true)
 		setTimeout(() => {
 			createState = ""
 			setTimeout(() => {
-				goto("/tournaments/" + form?.createdTournamentId?.id)
+				goto("/tournaments/" + $page.params.id)
 			}, 500)
 		}, 1000)
 	}
 
 	$: if (form?.where) {
 		createState = ""
-	}
-
-	async function searchGame() {
-		if (game_query != "") {
-			const res = await fetch("/api/tournamentSearchGame", {
-				method: "POST",
-				body: JSON.stringify(game_query)
-			})
-
-			const data = await res.json()
-
-			allGames = data.games
-		} else {
-			allGames = []
-		}
 	}
 
 	$: if (date && time) {
@@ -86,54 +108,52 @@
 			prize = prize.replace(/[^0-9]/g, "")
 		}
 
-		if (max_slots) {
-			max_slots = max_slots.replace(/[^0-9]/g, "")
-		}
-
 		if (Number(prize) > 10000) {
 			prize = "10000"
-		}
-
-		if (Number(max_slots) > 50) {
-			max_slots = "50"
 		}
 	}
 </script>
 
 <svelte:head>
-	<title>TourneyJam - Create a tournament</title>
+	<title>TourneyJam - {tournament?.title}</title>
 </svelte:head>
 
-<div class="addpagewrapper">
-	<div class="addpageheading">
-		<h1>Creating a tournament</h1>
-		<p>Start your own tournament in a few clicks.</p>
-	</div>
-	<hr />
-	<div class="addpagemodule">
-		<div class="addmoduleleft">
-			<h4>On which game is the tournament based on? <span class="mandatory">*</span></h4>
-			<p>Select the game to continue the creation process.</p>
+{#if loading}
+	<Loading />
+{:else}
+	<div class="addpagewrapper">
+		<div class="addpageheading">
+			<h1>Editing {tournament.title}</h1>
+			<p>Start your own tournament in a few clicks.</p>
 		</div>
-		<div class="addmoduleright searchmodule">
-			<input
-				type="text"
-				placeholder="Enter game name..."
-				bind:value={game_query}
-				on:keyup={searchGame}
-			/>
-			<select name="gameId" bind:value={gameId}>
-				<option value="" disabled selected>Select the game</option>
-				{#if allGames.length > 0}
-					{#each allGames as { game_name, id }}
-						<option value={id}>{game_name}</option>
-					{/each}
-				{/if}
-			</select>
+		<hr />
+		<div class="addpagemodule">
+			<div class="addmoduleleft">
+				<h4>Tournament status <span class="mandatory">*</span></h4>
+				<p>Select the status of your tournament.</p>
+			</div>
+			<div class="addmoduleright statusbuttons">
+				<button
+					class:activeStatus={status == "active"}
+					on:click={() => {
+						status = "active"
+					}}>Active</button
+				>
+				<button
+					class:activeStatus={status == "scheduled"}
+					on:click={() => {
+						status = "scheduled"
+					}}>Scheduled</button
+				>
+				<button
+					class:activeStatus={status == "ended"}
+					on:click={() => {
+						status = "ended"
+					}}>Ended</button
+				>
+			</div>
 		</div>
-	</div>
-	<hr />
-	{#if gameId != ""}
+		<hr />
 		<div class="addpagemodule">
 			<div class="addmoduleleft">
 				<h4>Tournament cover image <span class="mandatory">*</span></h4>
@@ -205,44 +225,29 @@
 			</div>
 		</div>
 		<hr />
-		<div class="addpagemodule prizemodule">
-			<div class="addmoduleleft">
-				<h4>Maximum number of participants <span class="mandatory">*</span></h4>
-				<p>Enter the max number of participants in your tournament.</p>
+		{#if status != "active"}
+			<div class="addpagemodule">
+				<div class="addmoduleleft">
+					<h4>Starting date and time <span class="mandatory">*</span></h4>
+					<p>Pick a starting date and time for your tournament.</p>
+				</div>
+				<div class="addmoduleright datemodule">
+					<input
+						type="date"
+						bind:value={date}
+						class:shake={form?.where?.includes("startOn")}
+						class:inputmissing={form?.where?.includes("startOn")}
+					/>
+					<input
+						type="time"
+						bind:value={time}
+						class:shake={form?.where?.includes("startOn")}
+						class:inputmissing={form?.where?.includes("startOn")}
+					/>
+				</div>
 			</div>
-			<div class="addmoduleright tagmodule">
-				<input
-					type="text"
-					placeholder="Max number of participants..."
-					bind:value={max_slots}
-					on:input={onlyNumbers}
-					class:shake={form?.where?.includes("max_slots")}
-					class:inputmissing={form?.where?.includes("max_slots")}
-				/>
-			</div>
-		</div>
-		<hr />
-		<div class="addpagemodule">
-			<div class="addmoduleleft">
-				<h4>Starting date and time <span class="mandatory">*</span></h4>
-				<p>Pick a starting date and time for your tournament.</p>
-			</div>
-			<div class="addmoduleright datemodule">
-				<input
-					type="date"
-					bind:value={date}
-					class:shake={form?.where?.includes("startOn")}
-					class:inputmissing={form?.where?.includes("startOn")}
-				/>
-				<input
-					type="time"
-					bind:value={time}
-					class:shake={form?.where?.includes("startOn")}
-					class:inputmissing={form?.where?.includes("startOn")}
-				/>
-			</div>
-		</div>
-		<hr />
+			<hr />
+		{/if}
 		<div class="addpagemodule">
 			<div class="addmoduleleft">
 				<h4>Tournament type <span class="mandatory">*</span></h4>
@@ -300,10 +305,8 @@
 			</div>
 		</div>
 		<hr />
-	{/if}
-	<div class="pesavebuttons">
-		<button on:click={() => goto("/tournaments")}>Cancel</button>
-		{#if gameId != ""}
+		<div class="pesavebuttons">
+			<button on:click={() => goto(`/tournaments/${$page.params.id}`)}>Cancel</button>
 			<form
 				method="POST"
 				use:enhance={() => {
@@ -316,27 +319,25 @@
 				<input type="text" name="description" bind:value={description} hidden />
 				<input type="text" name="cover_image" bind:value={cover_image} hidden />
 				<input type="text" name="prize" bind:value={prize} hidden />
-				<input type="text" name="max_slots" bind:value={max_slots} hidden />
-				<input type="text" name="owner" bind:value={owner} hidden />
-				<input type="text" name="gameId" bind:value={gameId} hidden />
 				<input type="text" name="startOn" bind:value={startOn} hidden />
 				<input type="text" name="type" bind:value={type} hidden />
 				<input type="text" name="password" bind:value={password} hidden />
 				<input type="text" name="tags" bind:value={tags} hidden />
 				<input type="text" name="creatorString" bind:value={creatorStream} hidden />
+				<input type="text" name="status" bind:value={status} hidden />
 				<button
 					class="savechanges"
 					type="submit"
 					on:click={() => {
-						createState = "creating"
+						createState = "editing"
 					}}
 					>{createState == "done"
-						? "Tournament created!"
-						: createState == "creating"
-						? "Creating tournament..."
-						: "Create tournament"}</button
+						? "Tournament edited!"
+						: createState == "editing"
+						? "Editing tournament..."
+						: "Edit tournament"}</button
 				>
 			</form>
-		{/if}
+		</div>
 	</div>
-</div>
+{/if}

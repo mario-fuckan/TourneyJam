@@ -2476,6 +2476,11 @@ button:disabled:hover {
     font-weight: bold;
 }
 
+.ended {
+    color: red;
+    font-weight: bold;
+}
+
 .poupscrollloading .load {
     height: 200px;
 }
@@ -2555,6 +2560,32 @@ button:disabled:hover {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.addpagemodule .statusbuttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.addpagemodule .statusbuttons button {
+    padding: 10px;
+    outline: none;
+    border: 1px solid #444;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    transition: 0.3s;
+}
+
+.addpagemodule .statusbuttons button:hover {
+    transform: translateY(-3px);
+}
+
+.activeStatus {
+    background-color: #444 !important;
 }
 
 .moduletags button {
@@ -2865,7 +2896,70 @@ button:disabled:hover {
 }
 
 .player {
+    position: relative;
+    display: flex;
+    align-items: center;
     border: 1px solid #444;
+    transition: 0.3s;
+}
+
+.player img {
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
+}
+
+.player .playerbadges {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    margin-left: 5px;
+}
+
+.droppable {
+    border: 1px solid #999;
+}
+
+.droppable * {
+    pointer-events: none;
+}
+
+.player button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    border: 0px;
+    background-color: transparent;
+    color: white;
+    padding: 5px;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.player button:hover {
+    transform: translateY(-2px);
+    filter: brightness(0.8);
+}
+
+.waitfortournament {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.waitfortournament h1 {
+    display: flex;
+}
+
+.waitfortournament a {
+    display: block;
+    color: #7f879c;
+    margin-left: 5px;
+    text-decoration: underline;
 }
 
 /* Ranks XP Bar */

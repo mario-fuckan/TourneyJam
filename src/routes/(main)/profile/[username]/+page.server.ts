@@ -1,9 +1,9 @@
-import type { PageServerLoad, Actions } from "./$types"
+import type { Actions } from "./$types"
 import { prisma } from "$lib/server/prisma"
 import { auth } from "$lib/server/lucia"
 import { redirect } from "@sveltejs/kit"
 
-export const load: PageServerLoad = async ({ params }) => {
+export async function load({ params }) {
     const { username } = params
 
     const checkIfUserExists = await prisma.authUser.findUnique({

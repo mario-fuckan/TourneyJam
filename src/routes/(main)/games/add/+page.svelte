@@ -242,16 +242,7 @@
 			method="POST"
 			use:enhance={() => {
 				return async ({ update }) => {
-					await update()
-					game_name = ""
-					game_description = ""
-					game_cover = ""
-					game_background = ""
-					game_showcase = ""
-					game_tags = []
-					game_website = ""
-					owner = ""
-					ownerSearch = ""
+					update({ reset: false })
 				}
 			}}
 		>

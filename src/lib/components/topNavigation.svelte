@@ -5,10 +5,13 @@
 	import type { User } from "$lib/types/user"
 	import { calculate } from "$lib/actions/calculateLevel"
 	import { onMount } from "svelte"
+	import dataToPass from "$lib/stores/navigationRefresh"
 
 	let user: User
 	let userRank: string
 	let levelPercentage: string | number = ""
+	let update: boolean = false
+	let updatebar: boolean = false
 
 	$: ({ hash } = $page.url)
 
@@ -16,7 +19,7 @@
 
 	onMount(() => {
 		if (user) {
-			if (user.level != 50) {
+			if (user.level != 60) {
 				;({ userRank, levelPercentage } = calculate(user.level, user.xp))
 			} else {
 				levelPercentage = "MAX"
@@ -24,6 +27,28 @@
 			}
 		}
 	})
+
+	$: if ($dataToPass.refresh) {
+		user.level = $dataToPass.level
+		user.xp = $dataToPass.xp
+
+		update = true
+		updatebar = true
+
+		if (user.level != 60) {
+			;({ userRank, levelPercentage } = calculate(user.level, user.xp))
+		} else {
+			levelPercentage = "MAX"
+			userRank = "rainbow"
+		}
+
+		$dataToPass.refresh = false
+
+		setTimeout(() => {
+			update = false
+			updatebar = false
+		}, 600)
+	}
 </script>
 
 <nav>
@@ -49,11 +74,11 @@
 				<a href={"/profile/" + user.username}>
 					<img class="profilepicture" src={user.profile_picture} alt={user.username} />
 				</a>
-				<div class="pil">
+				<div class="pil" class:update>
 					<Icon icon="material-symbols:hexagon" class={"rank " + userRank} />
 					<span>{user.level}</span>
 				</div>
-				<div class="xpbar">
+				<div class="xpbar" class:updatebar>
 					<span class="xppercentage">
 						{levelPercentage}{levelPercentage != "MAX" ? "%" : ""}
 					</span>

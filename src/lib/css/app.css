@@ -2962,6 +2962,97 @@ button:disabled:hover {
     text-decoration: underline;
 }
 
+.endwrapper {
+    width: 100%;
+    text-align: right;
+    margin-top: 20px;
+}
+
+.endwrapper button {
+    cursor: pointer;
+    border-radius: 10px;
+    border: 0px;
+    background-color: darkred;
+    color: white;
+    padding: 10px;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.endwrapper button:hover {
+    filter: brightness(0.8);
+    transform: translateY(-3px);
+}
+
+.statusmodule .notes {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.statusmodule p span {
+    font-weight: bold;
+}
+
+.update {
+    animation-name: update;
+    animation-duration: 0.3s;
+    animation-timing-function: linear;
+    animation-iteration-count: 2;
+}
+
+.updatebar {
+    animation-name: updatebar;
+    animation-duration: 0.3s;
+    animation-timing-function: linear;
+    animation-iteration-count: 2;
+}
+
+@keyframes update {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(15deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    75% {
+        transform: rotate(-15deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes updatebar {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(5deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    75% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
 /* Ranks XP Bar */
 
 .bronzebackground {

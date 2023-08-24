@@ -12,10 +12,11 @@
 	import { goto } from "$app/navigation"
 	import { fly } from "svelte/transition"
 	import { draggable, dropzone } from "$lib/actions/dnd.js"
+	import dataToPass from "$lib/stores/navigationRefresh"
 
 	let tournament: Tournament
 	let loading: boolean = true
-	let activeButton: string = "About"
+	let activeButton: string = "Bracket"
 	let players: Player[] = []
 	let user: User
 	let passwordWindow: boolean = false
@@ -50,10 +51,24 @@
 
 		if (tournament.bracket) {
 			bracket = tournament.bracket
-		} else {
-			if (players.length > 0) {
-				createBracket(players)
-			}
+		}
+	})
+
+	socket.on("usersToRefresh", async (usersToRefresh) => {
+		if (usersToRefresh.includes(user?.userId)) {
+			const res = await fetch("/api/refreshUser", {
+				method: "POST",
+				body: JSON.stringify(user.userId)
+			})
+
+			const { getUser } = await res.json()
+
+			user.level = getUser.level
+			user.xp = getUser.xp
+
+			$dataToPass.level = user.level
+			$dataToPass.xp = user.xp
+			$dataToPass.refresh = true
 		}
 	})
 
@@ -72,10 +87,6 @@
 
 		if (tournament.bracket) {
 			bracket = tournament.bracket
-		} else {
-			if (players.length > 0) {
-				createBracket(players)
-			}
 		}
 
 		loading = false
@@ -132,7 +143,6 @@
 		if (success) {
 			getParticipants().then(async () => {
 				socket.emit("updatePlayers", players)
-				createBracket(players)
 			})
 		}
 	}
@@ -151,7 +161,6 @@
 		if (success) {
 			getParticipants().then(async () => {
 				socket.emit("updatePlayers", players)
-				createBracket(players)
 			})
 		} else {
 			error = "Tournament is full."
@@ -168,67 +177,7 @@
 		}
 	}
 
-	async function createBracket(players: any) {
-		bracket = []
-		let playerLength: number = players.length
-		let column: any = []
-		let round: any = []
-
-		if (playerLength == 1) {
-			bracket.push([players])
-		} else {
-			for (let i = 0; i < Math.ceil(playerLength / 2); i++) {
-				for (let j = i * 2; j < i + 2; j++) {
-					round.push(players[j])
-				}
-
-				column.push(round)
-				round = []
-			}
-
-			bracket.push(column)
-			column = []
-
-			let index: number = 0
-
-			playerLength = bracket[index].length
-
-			while (playerLength != 1) {
-				for (let i = 0; i < Math.ceil(playerLength / 2); i++) {
-					for (let j = 0; j < 2; j++) {
-						round.push({
-							id: "",
-							username: "",
-							profile_picture: "",
-							badges: []
-						})
-					}
-					column.push(round)
-					round = []
-				}
-
-				bracket.push(column)
-				column = []
-
-				index++
-				playerLength = bracket[index].length
-			}
-		}
-
-		bracket.push([
-			[
-				{
-					id: "",
-					username: "",
-					profile_picture: "",
-					badges: [],
-					winner: true
-				}
-			]
-		])
-
-		bracket = bracket
-
+	async function updateBracket() {
 		await fetch("/api/updateBracket", {
 			method: "POST",
 			body: JSON.stringify({
@@ -240,16 +189,22 @@
 		socket.emit("updateBracket", bracket)
 	}
 
-	async function updateBracket() {
-		await fetch("/api/updateBracket", {
+	async function endTournament() {
+		const res = await fetch("/api/endTournament", {
 			method: "POST",
 			body: JSON.stringify({
-				tournamentId: tournament.id,
-				newBracket: bracket
+				id: tournament.id,
+				bracket,
+				prize: tournament.prize
 			})
 		})
 
-		socket.emit("updateBracket", bracket)
+		const data = await res.json()
+
+		if (data.success) {
+			socket.emit("usersToRefresh", data.usersToRefresh)
+			socket.emit("refreshTournamentPage", true)
+		}
 	}
 </script>
 
@@ -263,7 +218,11 @@
 	<div class="tournamentwrapper">
 		<header style="background-image: url({tournament.cover_image})">
 			{#key players}
-				{#if tournament.authUserId == user?.userId}
+				{#if tournament.status == "ended"}
+					<div class="buttondiv">
+						<button class="leavebutton">Ended</button>
+					</div>
+				{:else if tournament.authUserId == user?.userId}
 					<div class="buttondiv">
 						<button on:click={() => goto(`/tournaments/${$page.params.id}/edit`)}
 							>Edit tournament</button
@@ -272,10 +231,6 @@
 				{:else if tournament.status == "active"}
 					<div class="buttondiv">
 						<button disabled>Active</button>
-					</div>
-				{:else if tournament.status == "ended"}
-					<div class="buttondiv">
-						<button class="leavebutton">Ended</button>
 					</div>
 				{:else if checkForPlayer(user?.userId)}
 					<div class="buttondiv">
@@ -588,10 +543,67 @@
 									<h1>You can start it <a href="/tournaments/{tournament.id}/edit">here</a>.</h1>
 								</div>
 							{:else}
-								<div class="nocontent waitfortournament">
-									<h1>Your tournament has ended.</h1>
-									<h1>You can change that <a href="/tournaments/{tournament.id}/edit">here</a>.</h1>
-								</div>
+								{#key bracket}
+									{#each bracket as column}
+										<div class="column">
+											{#each column as group, i}
+												{#if !group[0]?.winner || group[1]?.winner}
+													<div class="group">
+														<h1>Round {i + 1}</h1>
+														<div class="players">
+															{#each group as player}
+																<div class="player">
+																	{#if player.profile_picture && player.username}
+																		<img src={player.profile_picture} alt={player.username} />
+																		{player.username}
+																		<div class="playerbadges">
+																			{#if player.badges.length > 0}
+																				{#each player.badges as badge}
+																					<Icon
+																						icon={userbadges[badge].icon}
+																						style="color: {userbadges[badge].color}"
+																					/>
+																				{/each}
+																			{/if}
+																		</div>
+																	{:else}
+																		<img src="" alt="" style="opacity: 0" />
+																	{/if}
+																</div>
+															{/each}
+														</div>
+													</div>
+												{:else}
+													<div class="group">
+														<h1>Winner</h1>
+														<div class="players">
+															{#each group as player}
+																<div class="player">
+																	{#if player.profile_picture && player.username}
+																		<img src={player.profile_picture} alt={player.username} />
+																		{player.username}
+																		<div class="playerbadges">
+																			{#if player.badges.length > 0}
+																				{#each player.badges as badge}
+																					<Icon
+																						icon={userbadges[badge].icon}
+																						style="color: {userbadges[badge].color}"
+																					/>
+																				{/each}
+																			{/if}
+																		</div>
+																	{:else}
+																		<img src="" alt="" style="opacity: 0" />
+																	{/if}
+																</div>
+															{/each}
+														</div>
+													</div>
+												{/if}
+											{/each}
+										</div>
+									{/each}
+								{/key}
 							{/if}
 						{:else if tournament.status == "active" || tournament.status == "ended"}
 							{#key bracket}
@@ -662,6 +674,11 @@
 						{/if}
 					</div>
 				</div>
+				{#if tournament.status != "ended" && user?.userId == tournament.authUserId && bracket[bracket.length - 1][0][0].id != ""}
+					<div class="endwrapper">
+						<button on:click={endTournament} in:fly={{ y: 20, delay: 100 }}>End tournament</button>
+					</div>
+				{/if}
 			{:else}
 				<NoContent missing="bracket" />
 			{/if}

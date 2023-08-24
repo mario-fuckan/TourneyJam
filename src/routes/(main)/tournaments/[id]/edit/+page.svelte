@@ -43,6 +43,10 @@
 
 		tournament = data.tournament
 
+		if (tournament.status == "ended") {
+			goto(`/tournaments/${$page.params.id}`)
+		}
+
 		title = tournament.title
 		description = tournament.description
 		cover_image = tournament.cover_image
@@ -70,6 +74,7 @@
 
 	$: if (form?.done) {
 		createState = "done"
+		socket.emit("usersToRefresh", form.usersToRefresh)
 		socket.emit("refreshTournamentPage", true)
 		setTimeout(() => {
 			createState = ""
@@ -128,9 +133,20 @@
 		</div>
 		<hr />
 		<div class="addpagemodule">
-			<div class="addmoduleleft">
+			<div class="addmoduleleft statusmodule">
 				<h4>Tournament status <span class="mandatory">*</span></h4>
 				<p>Select the status of your tournament.</p>
+				<div class="notes">
+					<p><span>Note:</span> Changing this to <span>Active</span> will reset your bracket.</p>
+					<p>
+						<span>Note:</span> Changing this to <span>Scheduled</span> will hide the bracket and enable
+						player signup.
+					</p>
+					<p>
+						<span>Note:</span> Changing this to <span>Ended</span> will close your tournament and you
+						will lose access.
+					</p>
+				</div>
 			</div>
 			<div class="addmoduleright statusbuttons">
 				<button

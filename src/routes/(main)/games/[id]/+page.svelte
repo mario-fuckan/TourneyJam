@@ -180,7 +180,9 @@
 								</div>
 								<div class="aitem">${prize}</div>
 								<div class="aitem">{max_slots}</div>
-								<div class="aitem">{convertToDate(startOn)}</div>
+								<div class="aitem">
+									{convertToDate(startOn) != "" ? convertToDate(startOn) : "Started"}
+								</div>
 								<div class={`aitem aitemicon aitem${type}`}>
 									<span
 										use:tooltip={{

@@ -9,7 +9,7 @@
 	import type { Game } from "$lib/types/gamesGame"
 	import { socials } from "$lib/utils/socials"
 	import { tooltip } from "svooltip"
-	import { goto, afterNavigate } from "$app/navigation"
+	import { goto } from "$app/navigation"
 	import { enhance } from "$app/forms"
 
 	let userProfile: UserFull
@@ -144,112 +144,79 @@
 			{/if}
 		</div>
 		<div class="profilepanels">
-			{#if String(userProfile.role) != "company"}
-				<div class="profilepanel">
+			<div class="profilepanel">
+				<h2>
+					<Icon icon="mdi:tournament" />
+					Tournaments Played
+				</h2>
+				<h1>{userProfile.tournamentsPlayed}</h1>
+			</div>
+			<div class="profilepanel">
+				<h2>
+					<Icon icon="mdi:prize" />
+					Total Prize Won
+				</h2>
+				<h1>{userProfile.prizeWon}$</h1>
+			</div>
+			{#if userProfile.socials?.length > 0}
+				<div class="profilepanel socialprofilepanel">
 					<h2>
-						<Icon icon="mdi:tournament" />
-						Tournaments Played
+						<Icon icon="material-symbols:star" />
+						Socials
 					</h2>
-					<h1>{userProfile.tournamentsPlayed}</h1>
+					<h1>
+						{#each userProfile.socials as { social, url }}
+							<a
+								href={url}
+								target="_blank"
+								use:tooltip={{
+									content: capitalize(social),
+									placement: "top",
+									offset: 15
+								}}
+							>
+								<Icon icon={getSocialIcon(social)} />
+							</a>
+						{/each}
+					</h1>
 				</div>
-				<div class="profilepanel">
+			{/if}
+			<div class="profilepanel">
+				<h2>
+					<Icon icon="material-symbols:card-membership" />
+					Joined On
+				</h2>
+				<h1>{dateFormat(userProfile.join_date)}</h1>
+			</div>
+			<div class="profilepanel">
+				<h2>
+					<Icon icon="mdi:arrow-up-bold" />
+					Total XP
+				</h2>
+				<h1>{userProfile.xp}</h1>
+			</div>
+			<div class="profilepanel">
+				<h2>
+					<Icon icon="icon-park-solid:level" />
+					Level
+				</h2>
+				<h1>{userProfile.level}</h1>
+			</div>
+			{#if userGames?.length > 0}
+				<div class="profilepanel gamespanel">
 					<h2>
-						<Icon icon="mdi:prize" />
-						Total Prize Won
+						<Icon icon="fluent:games-16-filled" />
+						Games
 					</h2>
-					<h1>{userProfile.prizeWon}$</h1>
-				</div>
-				{#if userProfile.socials?.length > 0}
-					<div class="profilepanel socialprofilepanel">
-						<h2>
-							<Icon icon="material-symbols:star" />
-							Socials
-						</h2>
-						<h1>
-							{#each userProfile.socials as { social, url }}
-								<a
-									href={url}
-									target="_blank"
-									use:tooltip={{
-										content: capitalize(social),
-										placement: "top",
-										offset: 15
-									}}
-								>
-									<Icon icon={getSocialIcon(social)} />
-								</a>
-							{/each}
-						</h1>
+					<div class="panelgames">
+						{#each userGames as { id, game_name, game_cover }}
+							<a href="/games/{id}">
+								<img src={game_cover} alt={game_name} />
+								<p>{game_name}</p>
+							</a>
+						{/each}
 					</div>
-				{/if}
-				<div class="profilepanel">
-					<h2>
-						<Icon icon="material-symbols:card-membership" />
-						Joined On
-					</h2>
-					<h1>{dateFormat(userProfile.join_date)}</h1>
 				</div>
-				<div class="profilepanel">
-					<h2>
-						<Icon icon="mdi:arrow-up-bold" />
-						Total XP
-					</h2>
-					<h1>{userProfile.xp}</h1>
-				</div>
-				<div class="profilepanel">
-					<h2>
-						<Icon icon="icon-park-solid:level" />
-						Level
-					</h2>
-					<h1>{userProfile.level}</h1>
-				</div>
-			{:else}
-				<div class="profilepanel">
-					<h2>
-						<Icon icon="material-symbols:card-membership" />
-						Joined On
-					</h2>
-					<h1>{dateFormat(userProfile.join_date)}</h1>
-				</div>
-				{#if userProfile.socials?.length > 0}
-					<div class="profilepanel socialprofilepanel">
-						<h2>
-							<Icon icon="material-symbols:star" />
-							Socials
-						</h2>
-						<h1>
-							{#each userProfile.socials as { social, url }}
-								<a
-									href={url}
-									target="_blank"
-									use:tooltip={{
-										content: capitalize(social),
-										placement: "top",
-										offset: 15
-									}}
-								>
-									<Icon icon={getSocialIcon(social)} />
-								</a>
-							{/each}
-						</h1>
-					</div>
-				{/if}
-				{#if userGames.length > 0}
-					<div class="profilepanel gamespanel">
-						<h2>
-							<Icon icon="fluent:games-16-filled" />
-							Games
-						</h2>
-						<div class="panelgames">
-							{#each userGames as { id, game_name, game_cover }}
-								<a href="/games/{id}">
-									<img src={game_cover} alt={game_name} />
-									<p>{game_name}</p>
-								</a>
-							{/each}
-						</div>
-					</div>
-				{/if}
 			{/if}
 		</div>
 	</div>

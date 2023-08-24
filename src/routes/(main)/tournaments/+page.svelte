@@ -115,6 +115,7 @@
 							src={cover_image == "tournament.png" ? `/${cover_image}` : cover_image}
 							alt={title}
 							draggable="false"
+							loading="lazy"
 						/>
 						<p class="startdate">
 							{firstDate}

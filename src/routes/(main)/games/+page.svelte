@@ -105,6 +105,7 @@
 					<img
 						src={game_cover == "tournament.png" ? "/tournament.png" : game_cover}
 						alt={game_name}
+						loading="lazy"
 					/>
 					<h1>{game_name}</h1>
 					<p>{activeTournaments} tournaments</p>

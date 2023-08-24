@@ -219,7 +219,7 @@
 					{#each games as { id, game_name, game_cover }}
 						{@const status = buttonStates.find((e) => e.id == id)?.status}
 						<div class="pgame">
-							<img src={game_cover} alt={game_name} />
+							<img src={game_cover} alt={game_name} loading="lazy" />
 							<h2>{game_name}</h2>
 							<button
 								on:click={() => {

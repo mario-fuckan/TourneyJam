@@ -11,7 +11,6 @@ export const POST: RequestHandler = async ({ request }) => {
         select: {
             username: true,
             role: true,
-            tournamentsPlayed: true,
             prizeWon: true,
             socials: true,
             badges: true,
@@ -20,6 +19,15 @@ export const POST: RequestHandler = async ({ request }) => {
             level: true,
             profile_picture: true,
             id: true
+        }
+    })
+
+    const tournamentsPlayed = await prisma.tournamentPlayers.count({
+        where: {
+            authUserId: getUserProfile?.id,
+            Tournament: {
+                status: "ended"
+            }
         }
     })
 
@@ -35,13 +43,19 @@ export const POST: RequestHandler = async ({ request }) => {
             }
         })
 
+        let userProfile = { ...getUserProfile, tournamentsPlayed }
+
+        console.log(userProfile)
+
         return json({
-            user: getUserProfile,
+            user: userProfile,
             userGames: getUserGames
         })
     }
 
+    let userProfile = { ...getUserProfile, tournamentsPlayed }
+
     return json({
-        user: getUserProfile
+        user: userProfile
     })
 }

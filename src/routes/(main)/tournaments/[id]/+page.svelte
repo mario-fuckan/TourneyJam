@@ -11,7 +11,7 @@
 	import type { User } from "$lib/types/user"
 	import { goto } from "$app/navigation"
 	import { fly } from "svelte/transition"
-	import { draggable, dropzone } from "$lib/actions/dnd.js"
+	import { draggable, dropzone } from "$lib/actions/dnd"
 	import dataToPass from "$lib/stores/navigationRefresh"
 
 	let tournament: Tournament

@@ -217,7 +217,7 @@
 						<div class="tags">
 							{#if tags.length != 0}
 								{#each tags as tag}
-									<button>{tag}</button>
+									<button class="nocursor">{tag}</button>
 								{/each}
 							{:else}
 								<button class="hiddenb">PLACEHOLDER</button>
@@ -321,7 +321,7 @@
 						<div class="tags">
 							{#if tags.length != 0}
 								{#each tags as tag}
-									<button>{tag}</button>
+									<button class="nocursor">{tag}</button>
 								{/each}
 							{:else}
 								<button class="hiddenb">PLACEHOLDER</button>

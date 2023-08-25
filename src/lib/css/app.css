@@ -390,10 +390,6 @@ aside hr {
     font-size: 18px;
 }
 
-.tags:first-of-type button {
-    cursor: pointer;
-}
-
 .tags {
     display: flex;
     align-items: center;
@@ -403,6 +399,7 @@ aside hr {
 
 .hiddenb {
     opacity: 0;
+    pointer-events: none;
 }
 
 .tags button {
@@ -412,6 +409,11 @@ aside hr {
     border: 0px;
     color: #7f879c;
     transition: 0.3s;
+    cursor: pointer;
+}
+
+.nocursor {
+    pointer-events: none;
 }
 
 .tags button:hover {

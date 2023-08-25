@@ -63,11 +63,8 @@
 
 			const { getUser } = await res.json()
 
-			user.level = getUser.level
-			user.xp = getUser.xp
-
-			$dataToPass.level = user.level
-			$dataToPass.xp = user.xp
+			$dataToPass.level = getUser.level
+			$dataToPass.xp = getUser.xp
 			$dataToPass.refresh = true
 		}
 	})

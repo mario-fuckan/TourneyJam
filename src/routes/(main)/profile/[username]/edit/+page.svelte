@@ -61,6 +61,8 @@
 			}
 		}
 
+		role = userProfile.role
+
 		if (String(userProfile.badges).includes("verified")) {
 			verified = true
 		}
@@ -178,10 +180,8 @@
 						bind:value={userProfile.profile_picture}
 						hidden
 					/>
-					{#if $page.data.user.role == "admin"}
-						<input type="text" name="role" bind:value={userProfile.role} hidden />
-						<input type="checkbox" name="verified" bind:checked={verified} hidden />
-					{/if}
+					<input type="text" name="role" bind:value={role} hidden />
+					<input type="checkbox" name="verified" bind:checked={verified} hidden />
 					<input type="text" name="socialmedia" bind:value={social} hidden />
 					<button class="savechanges" type="submit"
 						>{!form?.updateFinished ? "Save changes" : "Changes saved!"}</button
@@ -229,7 +229,7 @@
 					<p>Update your privileges.</p>
 				</div>
 				<div class="pmoduleright moduleadmin">
-					<select name="userroles" bind:value={userProfile.role}>
+					<select name="userroles" bind:value={role}>
 						<option value="user">User</option>
 						<option value="admin">Admin</option>
 						<option value="company">Company</option>
@@ -287,10 +287,8 @@
 				<input type="text" name="username" bind:value={newUsername} hidden />
 				<input type="text" name="profilepicture" bind:value={userProfile.profile_picture} hidden />
 				<input type="text" name="socialmedia" bind:value={social} hidden />
-				{#if $page.data.user.role == "admin"}
-					<input type="text" name="role" bind:value={userProfile.role} hidden />
-					<input type="checkbox" name="verified" bind:checked={verified} hidden />
-				{/if}
+				<input type="text" name="role" bind:value={role} hidden />
+				<input type="checkbox" name="verified" bind:checked={verified} hidden />
 				<button class="savechanges" type="submit"
 					>{!form?.updateFinished ? "Save changes" : "Changes saved!"}</button
 				>

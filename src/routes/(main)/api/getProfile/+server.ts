@@ -45,8 +45,6 @@ export const POST: RequestHandler = async ({ request }) => {
 
         let userProfile = { ...getUserProfile, tournamentsPlayed }
 
-        console.log(userProfile)
-
         return json({
             user: userProfile,
             userGames: getUserGames

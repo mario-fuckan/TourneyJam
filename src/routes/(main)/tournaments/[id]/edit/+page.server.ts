@@ -343,8 +343,6 @@ export const actions: Actions = {
             }
         }
 
-        console.log(usersToRefresh)
-
         return {
             done: true,
             usersToRefresh

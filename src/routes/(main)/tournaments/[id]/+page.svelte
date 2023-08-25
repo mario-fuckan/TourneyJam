@@ -674,7 +674,7 @@
 						{/if}
 					</div>
 				</div>
-				{#if tournament.status != "ended" && user?.userId == tournament.authUserId && bracket[bracket.length - 1][0][0].id != ""}
+				{#if tournament.status == "active" && user?.userId == tournament.authUserId && bracket[bracket.length - 1][0][0].id != ""}
 					<div class="endwrapper">
 						<button on:click={endTournament} in:fly={{ y: 20, delay: 100 }}>End tournament</button>
 					</div>

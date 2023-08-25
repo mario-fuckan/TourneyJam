@@ -14,9 +14,9 @@ export function calculate(userLevel: number, userXP: number) {
         userRank = "silver"
     } else if (userLevel >= 21 && userLevel <= 30) {
         userRank = "gold"
-    } else if (userLevel >= 31 && userLevel <= 40) {
+    } else if (userLevel >= 31 && userLevel <= 45) {
         userRank = "emerald"
-    } else if (userLevel >= 41 && userLevel <= 50) {
+    } else if (userLevel >= 46 && userLevel <= 59) {
         userRank = "diamond"
     } else {
         userRank = "rainbow"

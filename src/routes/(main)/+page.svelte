@@ -7,12 +7,17 @@
 	import type { Tournament } from "$lib/types/tournament"
 	import NoContent from "$lib/components/others/nocontent.svelte"
 	import { badges as UserBadges } from "$lib/utils/badges"
+	import type { User } from "$lib/types/user"
+	import { page } from "$app/stores"
 
 	let news: string
 	let loading: boolean = true
 	let articles: Articles[]
 	let tournaments: Tournament[] = []
 	let tournamentCount: number
+	let user: User
+
+	$: ({ user } = $page.data)
 
 	onMount(async () => {
 		const res = await fetch("/api/getLandingTournaments", {
@@ -48,6 +53,19 @@
 
 		loading = false
 	})
+
+	function checkIfJoined(players: any) {
+		let exists: boolean = false
+
+		for (let i = 0; i < players.length; i++) {
+			if (user?.userId == players[i].id) {
+				exists = true
+				break
+			}
+		}
+
+		return exists
+	}
 </script>
 
 <svelte:head>
@@ -91,7 +109,7 @@
 			<h1>Tournaments</h1>
 			<hr />
 			<div class="tournaments">
-				{#each tournaments as { id, cover_image, title, tags, type, status, authUser, prize, startOn, max_slots, players, game }}
+				{#each tournaments as { id, cover_image, title, tags, type, status, authUser, prize, startOn, max_slots, players, game, authUserId }}
 					{@const firstDate = new Date(startOn).toLocaleDateString("en-US", {
 						month: "long",
 						day: "numeric"
@@ -101,6 +119,11 @@
 
 					<div class="twrapper">
 						<div class="tournament">
+							{#if authUserId == user?.userId}
+								<div class="tournamenttag">Created</div>
+							{:else if checkIfJoined(players)}
+								<div class="tournamenttag">Joined</div>
+							{/if}
 							<img
 								class="tournamentimg"
 								src={cover_image == "tournament.png" ? `/${cover_image}` : cover_image}

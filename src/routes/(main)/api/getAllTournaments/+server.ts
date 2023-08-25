@@ -1,7 +1,9 @@
 import { json, type RequestHandler } from "@sveltejs/kit"
 import { prisma } from "$lib/server/prisma"
 
-export const POST: RequestHandler = async () => {
+export const POST: RequestHandler = async ({ request }) => {
+    let userId: string = await request.json()
+
     const getAllTournaments = await prisma.tournament.findMany({
         where: {
             status: {
@@ -33,7 +35,8 @@ export const POST: RequestHandler = async () => {
                     game_name: true,
                     id: true
                 }
-            }
+            },
+            authUserId: true
         },
         take: 12
     })
@@ -78,8 +81,35 @@ export const POST: RequestHandler = async () => {
         }
     }))
 
+    let myTournamentCount: number = 0
+
+    if (userId != "") {
+        const countMyTournaments = await prisma.tournament.count({
+            where: {
+                authUserId: userId,
+                status: {
+                    not: "ended"
+                }
+            }
+        })
+
+        const countPartOfTournament = await prisma.tournamentPlayers.count({
+            where: {
+                authUserId: userId,
+                Tournament: {
+                    status: {
+                        not: "ended"
+                    }
+                }
+            }
+        })
+
+        myTournamentCount = myTournamentCount + countMyTournaments + countPartOfTournament
+    }
+
     return json({
         tournaments: newAllTournaments,
-        tournamentCount: tournamentCount
+        tournamentCount: tournamentCount,
+        myTournamentCount
     })
 }

@@ -49,7 +49,7 @@ export const POST: RequestHandler = async ({ request }) => {
                 select: {
                     username: true,
                     profile_picture: true,
-                    badges: true
+                    badges: true,
                 }
             },
             game: {
@@ -57,7 +57,8 @@ export const POST: RequestHandler = async ({ request }) => {
                     game_name: true,
                     id: true
                 }
-            }
+            },
+            authUserId: true
         }
     })
 

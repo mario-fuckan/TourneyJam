@@ -35,7 +35,8 @@ export const POST: RequestHandler = async ({ request }) => {
                     game_name: true,
                     id: true
                 }
-            }
+            },
+            authUserId: true
         },
         take: 12, skip: toSkip
     })

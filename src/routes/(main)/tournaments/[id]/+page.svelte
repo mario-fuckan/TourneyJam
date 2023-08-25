@@ -16,7 +16,7 @@
 
 	let tournament: Tournament
 	let loading: boolean = true
-	let activeButton: string = "Bracket"
+	let activeButton: string = "About"
 	let players: Player[] = []
 	let user: User
 	let passwordWindow: boolean = false

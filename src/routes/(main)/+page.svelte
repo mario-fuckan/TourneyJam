@@ -66,6 +66,16 @@
 
 		return exists
 	}
+
+	function getMinutes(startOn: Date) {
+		let minutes: number | string = new Date(startOn).getMinutes()
+
+		if (minutes < 10) {
+			minutes = "0" + minutes
+		}
+
+		return minutes
+	}
 </script>
 
 <svelte:head>
@@ -115,7 +125,7 @@
 						day: "numeric"
 					})}
 					{@const startHours = new Date(startOn).getHours()}
-					{@const startMinutes = new Date(startOn).getMinutes()}
+					{@const startMinutes = getMinutes(startOn)}
 
 					<div class="twrapper">
 						<div class="tournament">

@@ -138,6 +138,16 @@
 			myTournaments = []
 		}
 	}
+
+	function getMinutes(startOn: Date) {
+		let minutes: number | string = new Date(startOn).getMinutes()
+
+		if (minutes < 10) {
+			minutes = "0" + minutes
+		}
+
+		return minutes
+	}
 </script>
 
 <svelte:head>
@@ -162,11 +172,13 @@
 				{/if}
 				<input
 					class="tournamentsearch"
+					class:disabled={myTournamentSwitch}
 					type="text"
 					placeholder="Search by name, game or tag..."
 					maxlength="15"
 					on:keyup={searchAllTournaments}
 					bind:value={search}
+					disabled={myTournamentSwitch}
 				/>
 				<Icon icon="material-symbols:search" />
 			</div>
@@ -185,7 +197,7 @@
 					day: "numeric"
 				})}
 				{@const startHours = new Date(startOn).getHours()}
-				{@const startMinutes = new Date(startOn).getMinutes()}
+				{@const startMinutes = getMinutes(startOn)}
 
 				<div class="twrapper">
 					<div class="tournament">
@@ -289,7 +301,7 @@
 					day: "numeric"
 				})}
 				{@const startHours = new Date(startOn).getHours()}
-				{@const startMinutes = new Date(startOn).getMinutes()}
+				{@const startMinutes = getMinutes(startOn)}
 
 				<div class="twrapper">
 					<div class="tournament">

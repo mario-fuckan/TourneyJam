@@ -4,7 +4,7 @@ import { prisma } from "$lib/server/prisma"
 export const POST: RequestHandler = async ({ request }) => {
     let userId: string = await request.json()
 
-    const getAllTournaments = await prisma.tournament.findMany({
+    const getCreatedTournaments = await prisma.tournament.findMany({
         where: {
             authUserId: userId,
             status: {
@@ -41,7 +41,52 @@ export const POST: RequestHandler = async ({ request }) => {
         }
     })
 
-    const newAllTournaments = await Promise.all(getAllTournaments.map(async (tournament) => {
+    const getJoinedTournaments = await prisma.tournamentPlayers.findMany({
+        where: {
+            authUserId: userId,
+            Tournament: {
+                status: {
+                    not: "ended"
+                }
+            }
+        },
+        orderBy: {
+            id: "desc"
+        },
+        select: {
+            Tournament: {
+                select: {
+                    id: true,
+                    cover_image: true,
+                    tags: true,
+                    title: true,
+                    prize: true,
+                    max_slots: true,
+                    type: true,
+                    status: true,
+                    startOn: true,
+                    authUser: {
+                        select: {
+                            username: true,
+                            profile_picture: true,
+                            badges: true
+                        }
+                    },
+                    game: {
+                        select: {
+                            game_name: true,
+                            id: true
+                        }
+                    },
+                    authUserId: true
+                }
+            }
+        }
+    })
+
+    const allMyTournaments = [...getCreatedTournaments, ...getJoinedTournaments.map((tournament) => tournament.Tournament)]
+
+    const newAllTournaments = await Promise.all(allMyTournaments.map(async (tournament) => {
         const tournamentPlayers = await prisma.tournamentPlayers.findMany({
             where: {
                 tournamentId: tournament.id
@@ -74,6 +119,6 @@ export const POST: RequestHandler = async ({ request }) => {
     }))
 
     return json({
-        myTournaments: newAllTournaments,
+        myTournaments: newAllTournaments
     })
 }

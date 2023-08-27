@@ -114,12 +114,10 @@
 			<Icon icon="material-symbols:search" />
 		</form>
 		{#if search != ""}
-			{#if loading}
-				<div class="navsearchcontent" in:slide>
+			<div class="navsearchcontent" transition:slide>
+				{#if loading}
 					<Loading />
-				</div>
-			{:else}
-				<div class="navsearchcontent" in:slide>
+				{:else}
 					<div class="navsearchboxes">
 						<div class="navbox">
 							<h1>Users</h1>
@@ -184,8 +182,8 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			{/if}
+				{/if}
+			</div>
 		{/if}
 	</div>
 	<div class="navright">

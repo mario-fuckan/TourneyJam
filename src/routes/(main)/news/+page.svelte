@@ -9,7 +9,7 @@
 
 	onMount(async () => {
 		const res = await fetch("/api/getAllNews", {
-			method: "POST"
+			method: "GET"
 		})
 		const data = await res.json()
 
@@ -24,9 +24,8 @@
 
 	async function moreNews() {
 		loadMore = true
-		const res = await fetch("/api/moreNews", {
-			method: "POST",
-			body: JSON.stringify(numberOfNews)
+		const res = await fetch(`/api/moreNews?newsToSkip=${numberOfNews}`, {
+			method: "GET"
 		})
 
 		const data = await res.json()

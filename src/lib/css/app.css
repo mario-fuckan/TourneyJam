@@ -103,6 +103,7 @@ nav .navleft {
 }
 
 .navcenter form {
+    width: 100%;
     position: relative;
     display: flex;
     justify-content: center;
@@ -3096,6 +3097,87 @@ button:disabled:hover {
 
 .disabled {
     opacity: 0.5;
+}
+
+.navcenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.navsearchcontent {
+    top: 60px;
+    position: absolute;
+    width: 1200px;
+    background-color: #121212;
+    border-radius: 10px;
+    border: 1px solid #444;
+}
+
+.navsearchcontent .load {
+    padding: 200px 0px;
+    height: 100%;
+    animation-name: showloading;
+    animation-iteration-count: 1;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-delay: 0.4s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+}
+
+@keyframes showloading {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.navsearchboxes {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+.navbox h1 {
+    font-size: 17px;
+    color: white;
+}
+
+.navbox hr {
+    margin: 10px 0px 15px 0px;
+    width: 100%;
+    border: 0px;
+    height: 1px;
+    background-color: #444;
+}
+
+.navboxcontent {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 15px;
+}
+
+.navboxcontent a {
+    border: 1px solid #444;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 50px;
+}
+
+.navboxcontent a img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
 }
 
 /* Ranks XP Bar */

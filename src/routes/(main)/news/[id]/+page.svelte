@@ -9,9 +9,8 @@
 	let article: Article
 
 	onMount(async () => {
-		const res = await fetch("/api/getNewsArticle", {
-			method: "POST",
-			body: JSON.stringify($page.params.id)
+		const res = await fetch(`/api/getNewsArticle?id=${$page.params.id}`, {
+			method: "GET"
 		})
 
 		const data = await res.json()

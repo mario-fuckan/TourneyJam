@@ -1,9 +1,9 @@
-import type { RequestHandler } from "./$types"
 import { json } from "@sveltejs/kit"
 
-export const POST: RequestHandler = async ({ fetch, setHeaders }) => {
+export async function GET({ fetch, setHeaders }) {
+
     setHeaders({
-        "Cache-Control": "max-age=36000"
+        "Cache-Control": "public, max-age=3600"
     })
 
     const url = "http://www.gamespot.com/api/articles/?api_key="

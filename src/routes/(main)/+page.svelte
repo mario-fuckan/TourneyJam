@@ -34,7 +34,7 @@
 
 			if (!news) {
 				const res = await fetch("/api/getHomeNews", {
-					method: "POST"
+					method: "GET"
 				})
 
 				const data = await res.json()
@@ -43,7 +43,7 @@
 			}
 		} else {
 			const res = await fetch("/api/getHomeNews", {
-				method: "POST"
+				method: "GET"
 			})
 
 			const data = await res.json()

@@ -115,11 +115,11 @@
 		</form>
 		{#if search != ""}
 			{#if loading}
-				<div class="navsearchcontent" transition:slide>
+				<div class="navsearchcontent" in:slide>
 					<Loading />
 				</div>
 			{:else}
-				<div class="navsearchcontent" transition:slide>
+				<div class="navsearchcontent" in:slide>
 					<div class="navsearchboxes">
 						<div class="navbox">
 							<h1>Users</h1>

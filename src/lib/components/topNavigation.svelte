@@ -5,10 +5,10 @@
 	import type { User } from "$lib/types/user"
 	import { calculate } from "$lib/actions/calculateLevel"
 	import { onMount } from "svelte"
-	import { slide } from "svelte/transition"
 	import { badges as userbadges } from "$lib/utils/badges"
 	import dataToPass from "$lib/stores/navigationRefresh"
 	import Loading from "$lib/components/others/loading.svelte"
+	import { beforeNavigate } from "$app/navigation"
 	import type { User as NavigationUser, Game, Tournament, Tag } from "$lib/types/navigationTypes"
 
 	let user: User
@@ -39,6 +39,15 @@
 		}
 	})
 
+	beforeNavigate(() => {
+		search = ""
+
+		users = []
+		games = []
+		tags = []
+		tournaments = []
+	})
+
 	$: if ($dataToPass.refresh) {
 		user.level = $dataToPass.level
 		user.xp = $dataToPass.xp
@@ -64,16 +73,15 @@
 	async function navigationSearch() {
 		loading = true
 
-		const res = await fetch("/api/navigationSearch", {
-			method: "POST",
-			body: JSON.stringify({
-				query: search
+		if (search != "") {
+			const res = await fetch(`/api/navigationSearch?query=${search}`, {
+				method: "GET"
 			})
-		})
 
-		const data = await res.json()
+			const data = await res.json()
 
-		;({ users, games, tournaments, tags } = data)
+			;({ users, games, tournaments, tags } = data)
+		}
 
 		loading = false
 	}
@@ -89,6 +97,26 @@
 		}
 
 		return exists
+	}
+
+	let timer: string | number | NodeJS.Timeout | undefined
+
+	function startTimer() {
+		loading = true
+
+		users = []
+		games = []
+		tags = []
+		tournaments = []
+
+		if (search != "") {
+			resetTimer()
+		}
+	}
+
+	function resetTimer() {
+		clearTimeout(timer)
+		timer = setTimeout(navigationSearch, 800)
 	}
 </script>
 
@@ -109,12 +137,12 @@
 				placeholder="Search"
 				maxlength="40"
 				bind:value={search}
-				on:input={navigationSearch}
+				on:input={startTimer}
 			/>
 			<Icon icon="material-symbols:search" />
 		</form>
 		{#if search != ""}
-			<div class="navsearchcontent" transition:slide>
+			<div class="navsearchcontent">
 				{#if loading}
 					<Loading />
 				{:else}
@@ -176,7 +204,7 @@
 							<div class="navboxcontent">
 								{#each tags as { tag }}
 									<a href="/tag/{tag}">
-										{tag}
+										<p>{tag}</p>
 									</a>
 								{/each}
 							</div>

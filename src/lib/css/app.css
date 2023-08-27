@@ -3165,6 +3165,7 @@ button:disabled:hover {
 }
 
 .navboxcontent a {
+    position: relative;
     border: 1px solid #444;
     display: flex;
     align-items: center;
@@ -3172,10 +3173,28 @@ button:disabled:hover {
     min-height: 50px;
 }
 
+.navboxcontent a .navbadges {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+    gap: 3px;
+}
+
 .navboxcontent a img {
     width: 50px;
     height: 50px;
     margin-right: 10px;
+}
+
+.navboxcontent a p {
+    margin-left: 10px;
+}
+
+.navboxcontent a .tournamenttag {
+    position: absolute;
+    right: 10px;
+    top: auto;
 }
 
 /* Ranks XP Bar */

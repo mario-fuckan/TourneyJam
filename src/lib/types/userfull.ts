@@ -10,7 +10,8 @@ export interface UserFull {
     username: string,
     socials: Array<any>,
     xp: number,
-    tournamentsPlayed: number
+    tournamentsPlayed: number,
+    wins: number
 }
 
 enum Badges {

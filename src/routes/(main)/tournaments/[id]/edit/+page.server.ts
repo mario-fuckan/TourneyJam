@@ -303,6 +303,12 @@ export const actions: Actions = {
                                     level,
                                     prizeWon: {
                                         increment: Number(prize)
+                                    },
+                                    tournamentsPlayed: {
+                                        increment: 1
+                                    },
+                                    wins: {
+                                        increment: 1
                                     }
                                 }
                             })
@@ -316,7 +322,10 @@ export const actions: Actions = {
                                 },
                                 data: {
                                     xp,
-                                    level
+                                    level,
+                                    tournamentsPlayed: {
+                                        increment: 1
+                                    }
                                 }
                             })
                         }

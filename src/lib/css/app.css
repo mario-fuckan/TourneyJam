@@ -3205,6 +3205,181 @@ button:disabled:hover {
     color: #7f879c;
 }
 
+.leaderboardwrapper header {
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #444;
+    margin-bottom: 20px;
+}
+
+.leaderboardwrapper header h1 {
+    margin-bottom: 5px;
+}
+
+.leaderboardwrapper header h2 {
+    color: #7f879c;
+    font-size: 17px;
+}
+
+.leaderboardheader {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 20px;
+    border: 1px solid #444;
+}
+
+.filteroptions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filterbuttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.filterbuttons button {
+    background-color: transparent;
+    border: 1px solid #444;
+    font-weight: bold;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.filterbuttons button:hover {
+    filter: brightness(0.8);
+}
+
+.filterbuttons button:active {
+    transform: scale(0.9);
+}
+
+.filteroptions input {
+    width: 250px;
+    background-color: #292929;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 10px;
+    caret-color: white;
+    color: white;
+    outline: none;
+}
+
+.leadersearch {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+.leadersearch svg {
+    position: absolute;
+    right: 10px;
+    font-size: 20px;
+    color: #8e8e8e;
+}
+
+.leaderboard {
+    padding: 20px;
+    border: 1px solid #444;
+}
+
+.leaderboarditemsheader {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto;
+    border-bottom: 1px solid #444;
+    padding: 0px 0px 20px 0px;
+}
+
+.leaderboarditem {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto;
+    border-bottom: 1px solid #444;
+    padding: 20px 0px;
+}
+
+.leaderboarditem p {
+    display: flex;
+    align-items: center;
+}
+
+.leaderboarditem a {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.leaderboarditem a:hover {
+    filter: brightness(0.8);
+}
+
+.leaderboarditem a img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.leaderboarditem .centerp {
+    justify-content: center;
+}
+
+.leaderboarditemsheader button {
+    background-color: transparent;
+    color: white;
+    border: 0px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.leaderboarditemsheader button:active {
+    transform: scale(0.9);
+}
+
+.leaderboarditemsheader button svg {
+    color: white;
+}
+
+.first {
+    color: gold;
+}
+
+.second {
+    color: silver;
+}
+
+.third {
+    color: #d47e28;
+}
+
+.activefilterbutton {
+    color: black !important;
+    background-color: white !important;
+}
+
+.activefilterbuttonheader {
+    font-weight: bold !important;
+}
+
+.leaderboarditem a .badges {
+    margin-left: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Ranks XP Bar */
 
 .bronzebackground {

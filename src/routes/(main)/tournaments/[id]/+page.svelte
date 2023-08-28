@@ -362,7 +362,8 @@
 			<div class="tournamentcontent">
 				<div class="tournamentiframes">
 					<iframe
-						src="https://player.twitch.tv/?channel={tournament.creatorStream}&parent=localhost"
+						src="https://player.twitch.tv/?channel={tournament.creatorStream}&parent={$page.url
+							.hostname}"
 						title="Twitch Stream"
 						frameborder="0"
 						allowfullscreen={true}
@@ -371,7 +372,8 @@
 					<iframe
 						title="Twitch chat"
 						id="chat_embed"
-						src="https://www.twitch.tv/embed/{tournament.creatorStream}/chat?darkpopout&parent=localhost"
+						src="https://www.twitch.tv/embed/{tournament.creatorStream}/chat?darkpopout&parent={$page
+							.url.hostname}"
 					/>
 				</div>
 			</div>

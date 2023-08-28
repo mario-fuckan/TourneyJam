@@ -11,17 +11,19 @@ datasource db {
 }
 
 model AuthUser {
-  id              String   @id @unique
-  username        String   @unique
-  email           String   @unique
-  profile_picture String
-  prizeWon        Int      @default(0)
-  role            Role     @default(user)
-  socials         Json?    @default("[]")
-  join_date       DateTime @default(now())
-  xp              Int      @default(0)
-  level           Int      @default(0)
-  badges          Badge[]  @default([])
+  id                String   @id @unique
+  username          String   @unique
+  email             String   @unique
+  profile_picture   String
+  prizeWon          Int      @default(0)
+  role              Role     @default(user)
+  socials           Json?    @default("[]")
+  join_date         DateTime @default(now())
+  xp                Int      @default(0)
+  level             Int      @default(0)
+  badges            Badge[]  @default([])
+  wins              Int      @default(0)
+  tournamentsPlayed Int      @default(0)
 
   auth_session      AuthSession[]
   auth_key          AuthKey[]

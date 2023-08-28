@@ -69,6 +69,12 @@ export async function POST({ request }) {
                         level,
                         prizeWon: {
                             increment: prize
+                        },
+                        tournamentsPlayed: {
+                            increment: 1
+                        },
+                        wins: {
+                            increment: 1
                         }
                     }
                 })
@@ -82,7 +88,10 @@ export async function POST({ request }) {
                     },
                     data: {
                         xp,
-                        level
+                        level,
+                        tournamentsPlayed: {
+                            increment: 1
+                        }
                     }
                 })
             }

@@ -3197,6 +3197,14 @@ button:disabled:hover {
     top: auto;
 }
 
+.navbox .nocontent {
+    height: 150px;
+}
+
+.navbox .nocontent h1 {
+    color: #7f879c;
+}
+
 /* Ranks XP Bar */
 
 .bronzebackground {

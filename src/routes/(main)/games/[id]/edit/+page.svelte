@@ -275,7 +275,7 @@
 			<hr />
 		{/if}
 		<div class="pesavebuttons">
-			<button on:click={() => goto("/games")}>Cancel</button>
+			<button on:click={() => goto(`/games/${$page.params.id}`)}>Cancel</button>
 			<form
 				method="POST"
 				use:enhance={() => {

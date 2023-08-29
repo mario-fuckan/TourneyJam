@@ -3692,3 +3692,416 @@ button:disabled:hover {
         transform: scale(1.0);
     }
 }
+
+.mobileshow {
+    display: none;
+}
+
+@media screen and (max-width: 1440px) {
+    .navleft a {
+        display: none;
+    }
+
+    .navleft a:first-of-type {
+        display: block;
+    }
+
+    nav {
+        grid-template-columns: 30% 35% 35%;
+    }
+
+    aside {
+        overflow-y: scroll;
+    }
+
+    .favoritegames {
+        overflow-y: auto;
+    }
+
+    .navsearchcontent {
+        width: 1000px;
+    }
+
+    .games {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .tournamentswrapper .games {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tournaments {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    nav {
+        grid-template-columns: 15% 40% 45%;
+    }
+
+    .news {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .news article:first-of-type {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+
+    .news article:first-of-type h2 {
+        font-size: 20px;
+    }
+
+    .news article:nth-of-type(2) {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+
+    .news article:nth-of-type(3) {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+
+    .news article:nth-of-type(4) {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+
+    .news article:last-of-type {
+        display: none;
+    }
+
+    .dashboardpanels {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tournaments {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footertopleft a img {
+        max-height: 50px;
+    }
+
+    .footertopleft a h1 {
+        font-size: 18px;
+    }
+
+    .dashboardsearchwrapper .searchresult {
+        width: 800px;
+    }
+
+    .profilepanels {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .profilepanel h2 {
+        font-size: 18px;
+    }
+
+    .profilepanel h1 {
+        font-size: 22px;
+    }
+
+    .profilepanel {
+        min-height: auto;
+    }
+
+    .footertopright {
+        display: none;
+    }
+
+    .profilemodule {
+        grid-template-columns: 40% 60%;
+    }
+
+    .navsearchcontent {
+        width: 800px;
+        left: 0px;
+    }
+
+    .games {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tournamentswrapper .games {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .morenews {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .addpagemodule {
+        grid-template-columns: 40% 60%;
+    }
+
+    .gameheader {
+        grid-template-columns: 40% 60%;
+    }
+
+    .showcase iframe {
+        height: 400px;
+    }
+
+    .tournamentiframes iframe {
+        height: 400px;
+    }
+
+    .tournamentiframes {
+        grid-template-columns: 70% 30%;
+    }
+
+    .tournamentplayers a {
+        padding-right: 20px;
+    }
+
+    .loginc {
+        grid-template-columns: 20% 80%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .tournamentimg {
+        height: 150px;
+    }
+
+    .gamestats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .gameinfo:last-of-type {
+        align-items: flex-start;
+    }
+
+    .tournamentactions {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .tbutton button {
+        height: 40px;
+    }
+
+    .pcshow {
+        display: none;
+    }
+
+    .mobileshow {
+        display: block;
+    }
+
+    .mobileprofile {
+        background-color: #121212;
+        width: 70%;
+        height: auto;
+        position: fixed;
+        top: 0px;
+        right: -70%;
+    }
+
+    .mobileprofile {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        padding: 40px 0px;
+        z-index: 1;
+    }
+
+    .mobileprofile .profilepicture {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 10px;
+    }
+
+    .mobileprofile .pil {
+        margin-bottom: 10px;
+    }
+
+    .mobilenavin {
+        right: 0px;
+    }
+
+    .hamburger {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hamburger svg {
+        color: white;
+        font-size: 35px;
+    }
+
+    .mobileprofile .xpbar {
+        width: 50%;
+        height: 20px;
+        margin-bottom: 40px;
+    }
+
+    .mobileprofile .xppercentage {
+        font-size: 13px;
+    }
+
+    .mobileprofile .profilea {
+        border: 1px solid #444;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .closemobile {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        font-size: 25px;
+        color: white;
+    }
+
+    nav {
+        grid-template-columns: 15% 55% 30%;
+    }
+
+    .navsearchcontent {
+        width: 600px;
+    }
+
+    .games {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gamesheader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .gamesheader .gamesheaderright {
+        width: 100%;
+    }
+
+    .gamesheader .dashboardsearch {
+        justify-content: space-between;
+    }
+
+    .filteroptions {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .leaderboarditem {
+        grid-template-columns: 10% repeat(4, 1fr);
+    }
+
+    .dashboardsearchwrapper .searchresult {
+        width: 600px;
+    }
+
+    .dashboardpanels {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboardso {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .addpagemodule {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .news article h2 {
+        font-size: 16px;
+    }
+
+    .news article:first-of-type h2 {
+        font-size: 16px;
+    }
+
+    .popupwindow {
+        width: 500px;
+    }
+
+    :root {
+        --h1-size: 18px;
+    }
+
+    .popheader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .popupgames {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .gameheader {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .gameheaderwrapper {
+        margin-left: 0px;
+    }
+
+    .gameheader img {
+        margin: 0px auto;
+        width: 60%;
+    }
+
+    aside {
+        width: 100%;
+        height: 85px;
+        flex-direction: row;
+        bottom: 0px;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        overflow: hidden;
+        z-index: 2;
+    }
+
+    main {
+        margin-left: 0px;
+    }
+
+    aside hr {
+        display: none
+    }
+
+    footer {
+        margin-left: 0px;
+        margin-bottom: 85px;
+    }
+
+    .favoritegames {
+        display: none;
+    }
+
+    .addgame {
+        display: none;
+    }
+
+    .profilepanels {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .profileheader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .loginc {
+        grid-template-columns: 1fr;
+    }
+
+    .loginleft {
+        display: none;
+    }
+}

@@ -3710,14 +3710,6 @@ button:disabled:hover {
         grid-template-columns: 30% 35% 35%;
     }
 
-    aside {
-        overflow-y: scroll;
-    }
-
-    .favoritegames {
-        overflow-y: auto;
-    }
-
     .navsearchcontent {
         width: 1000px;
     }
@@ -3922,6 +3914,8 @@ button:disabled:hover {
 
     .mobilenavin {
         right: 0px;
+        border-bottom-left-radius: 20px;
+        height: 100%;
     }
 
     .hamburger {
@@ -3967,8 +3961,8 @@ button:disabled:hover {
         width: 600px;
     }
 
-    .games {
-        grid-template-columns: repeat(2, 1fr);
+    .games .gameitem img {
+        height: 280px;
     }
 
     .gamesheader {
@@ -4103,5 +4097,450 @@ button:disabled:hover {
 
     .loginleft {
         display: none;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    main {
+        padding: 20px;
+    }
+
+    .news {
+        grid-template-columns: 1fr;
+    }
+
+    .news article {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .tournaments {
+        grid-template-columns: 1fr;
+    }
+
+    .tournamentimg {
+        height: 200px;
+    }
+
+    .footerbottom {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footerbottomleft {
+        margin-top: 10px;
+    }
+
+    .navsearchcontent {
+        width: 170%;
+        left: -20%;
+    }
+
+    .navbox .nocontent h1 {
+        text-align: center;
+    }
+
+    .navboxcontent a {
+        font-size: 14px;
+    }
+
+    aside a,
+    .addgame {
+        max-height: 100%;
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .dashboardoptions {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    .specificmodule .allusers {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboardsearch {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .dashboardsearch svg {
+        display: none;
+    }
+
+    .games {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .games .gameitem img {
+        height: 230px;
+    }
+
+    .games .gameitem .gametags {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gameheader {
+        padding: 10px;
+    }
+
+    .gameheader img {
+        width: 100%;
+    }
+
+    .gamelinks a {
+        margin-bottom: 20px;
+    }
+
+    .showcase iframe {
+        height: 250px;
+    }
+
+    .tournamentlist a .aitem:nth-of-type(5) {
+        display: none;
+    }
+
+    .tournamentlist a .aitem:nth-of-type(2) {
+        display: none;
+    }
+
+    .tournamentlist a .aitem:nth-of-type(4) {
+        display: none;
+    }
+
+    .tournamentitemheader .aitem:nth-of-type(5) {
+        display: none;
+    }
+
+    .tournamentitemheader .aitem:nth-of-type(4) {
+        display: none;
+    }
+
+    .tournamentitemheader .aitem:nth-of-type(2) {
+        display: none;
+    }
+
+    .tournamentlist a,
+    .tournamentitemheader {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tournamentswrapper .games {
+        grid-template-columns: 1fr;
+    }
+
+    .tournamentdetails {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .descriptionitem {
+        grid-column: 1 span;
+    }
+
+    .tdetailtags {
+        margin-bottom: 10px;
+    }
+
+    .tournamentwrapper header .buttondiv {
+        padding: 10px;
+    }
+
+    .tournamentselector {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tournamentbracket {
+        gap: 100px;
+    }
+
+    .group {
+        min-width: 300px;
+    }
+
+    .tournamentiframes {
+        grid-template-columns: 1fr;
+    }
+
+    .tournamentiframes iframe {
+        height: 200px;
+    }
+
+    .tournamentiframes iframe:last-of-type {
+        display: none;
+    }
+
+    .tournamentplayers {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .statusmodule .notes {
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .typemodule select {
+        padding: 10px;
+    }
+
+    .searchmodule {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .searchmodule select {
+        padding: 10px;
+    }
+
+    .dashboardsearchwrapper .searchresult {
+        width: 130%;
+        left: 0px;
+    }
+
+    .leaderboarditem a img {
+        display: none;
+    }
+
+    .leaderboarditem a .badges {
+        display: none;
+    }
+
+    .leaderboarditem a {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .leaderboarditemsheader button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .leaderboarditemsheader p {
+        display: flex;
+        align-items: center;
+    }
+
+    .leaderboarditemsheader {
+        grid-template-columns: 10% 15% 20% 25% 30%;
+    }
+
+    .leaderboarditem {
+        grid-template-columns: 10% 15% 20% 25% 30%;
+    }
+
+    .morenews {
+        grid-template-columns: 1fr;
+    }
+
+    .navright {
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    nav hr {
+        display: none;
+    }
+
+    .adminaccess {
+        margin-left: 10px;
+    }
+
+    .hamburger svg {
+        font-size: 20px;
+    }
+
+    .adminaccess svg {
+        font-size: 20px;
+    }
+
+    .settings svg {
+        font-size: 20px;
+    }
+
+    .mobileprofile {
+        width: 90%;
+        right: -90%;
+    }
+
+    .mobilenavin {
+        right: 0px !important;
+    }
+
+    .mobileprofile .profilepicture {
+        width: 100px;
+        height: 100px;
+    }
+
+    .mobileprofile .xpbar {
+        height: 15px;
+        margin-top: 20px;
+    }
+
+    .profilepanels {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .ppicture img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .pname {
+        font-size: 20px;
+    }
+
+    .pbadges .badge {
+        font-size: 15px;
+    }
+
+    .plink button {
+        font-size: 12px;
+    }
+
+    .profileupdateheader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .profilemodule {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .pmodule2 {
+        flex-direction: column;
+    }
+
+    :root {
+        --nav-font-size: 15px;
+    }
+
+    .login {
+        margin-right: 20px;
+    }
+
+    .loginright {
+        padding: 0px 20px;
+    }
+
+    .loginright .loginwrap {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    main {
+        padding: 20px 15px;
+    }
+
+    aside a svg,
+    .addgame svg {
+        font-size: 12px;
+    }
+
+    .pview button {
+        font-size: 12px;
+    }
+
+    .games {
+        grid-template-columns: 1fr;
+    }
+
+    .games .gameitem img {
+        height: 350px;
+    }
+
+    .searchmodule select {
+        width: 100%;
+    }
+
+    .tournamentselector button {
+        font-size: 12px;
+    }
+
+    .settingswindow {
+        right: 15px;
+    }
+
+    .dashboardsearchwrapper .searchresult {
+        width: 115%;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    :root {
+        --nav-search: 13px;
+    }
+
+    nav {
+        grid-template-columns: 15% 50% 35%;
+    }
+
+    .mobileprofile {
+        width: 100%;
+        right: -100%;
+    }
+
+    aside {
+        gap: 15px;
+    }
+
+    .filteroptions input {
+        width: 200px;
+    }
+
+    .filterbuttons button {
+        font-size: 11px;
+    }
+
+    .leaderboarditemsheader button {
+        font-size: 11px;
+    }
+
+    .leaderboarditemsheader p {
+        font-size: 11px;
+    }
+
+    .leaderboarditem p {
+        font-size: 11px;
+    }
+
+    .navsearchcontent {
+        width: 180%;
+    }
+
+    .navbox .nocontent h1 {
+        font-size: 13px;
+    }
+
+    .navsearchboxes {
+        grid-template-columns: 1fr;
+    }
+
+    .navbox .nocontent {
+        height: 50px;
+    }
+
+    .dashboardsearchwrapper .searchresult {
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
+
+    .dashboardoptions button {
+        font-size: 9px;
+    }
+
+    .dashboardsearch input {
+        width: 250px;
     }
 }

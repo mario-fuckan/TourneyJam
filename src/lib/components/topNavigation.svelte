@@ -21,8 +21,6 @@
 	let loading: boolean = false
 	let mobilenav: boolean = false
 
-	$: console.log(mobilenav)
-
 	let users: NavigationUser[] = []
 	let games: Game[] = []
 	let tournaments: Tournament[] = []

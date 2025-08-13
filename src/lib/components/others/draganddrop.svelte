@@ -65,7 +65,7 @@
 
 							dispatch(
 								"profilePicture",
-								"https://wxwkfcytvmlhhfacebbu.supabase.co/storage/v1/object/public/profile_pictures/" +
+								"https://aspyjpxfbvhwbpseezob.supabase.co/storage/v1/object/public/profile_pictures/" +
 									data?.path
 							)
 
@@ -96,7 +96,7 @@
 
 							dispatch(
 								"gameBackground",
-								"https://wxwkfcytvmlhhfacebbu.supabase.co/storage/v1/object/public/game_backgrounds/" +
+								"https://aspyjpxfbvhwbpseezob.supabase.co/storage/v1/object/public/game_backgrounds/" +
 									data?.path
 							)
 
@@ -127,7 +127,7 @@
 
 							dispatch(
 								"gameCover",
-								"https://wxwkfcytvmlhhfacebbu.supabase.co/storage/v1/object/public/game_covers/" +
+								"https://aspyjpxfbvhwbpseezob.supabase.co/storage/v1/object/public/game_covers/" +
 									data?.path
 							)
 
@@ -158,7 +158,7 @@
 
 							dispatch(
 								"tournamentCover",
-								"https://wxwkfcytvmlhhfacebbu.supabase.co/storage/v1/object/public/tournament_covers/" +
+								"https://aspyjpxfbvhwbpseezob.supabase.co/storage/v1/object/public/tournament_covers/" +
 									data?.path
 							)
 

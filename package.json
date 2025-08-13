@@ -41,6 +41,7 @@
 		"lucia-auth": "^1.7.1",
 		"prisma": "^4.15.0",
 		"socket.io-client": "^4.7.2",
+		"tsx": "^4.20.4",
 		"uuid": "^9.0.0"
 	}
 }

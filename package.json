@@ -2,6 +2,9 @@
 	"name": "zavrsni",
 	"version": "0.0.1",
 	"private": true,
+	"engines": {
+		"node": "20.x"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -37,7 +40,6 @@
 		"@lucia-auth/adapter-prisma": "^2.0.0",
 		"@prisma/client": "^4.15.0",
 		"@supabase/supabase-js": "^2.26.0",
-		"D": "^1.0.0",
 		"lucia-auth": "^1.7.1",
 		"prisma": "^4.15.0",
 		"socket.io-client": "^4.7.2",

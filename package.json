@@ -2,9 +2,6 @@
 	"name": "zavrsni",
 	"version": "0.0.1",
 	"private": true,
-	"engines": {
-		"node": "20.x"
-	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -17,7 +14,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/adapter-vercel": "^6.3.3",
+		"@sveltejs/adapter-vercel": "^4.0.5",
 		"@sveltejs/kit": "^1.5.0",
 		"@types/uuid": "^9.0.2",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",

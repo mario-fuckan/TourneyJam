@@ -32,7 +32,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"-": "^0.0.1",
 		"@iconify/svelte": "^3.1.4",
 		"@lucia-auth/adapter-prisma": "^2.0.0",
 		"@prisma/client": "^4.15.0",
